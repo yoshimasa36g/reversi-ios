@@ -1,5 +1,5 @@
-import XCTest
 @testable import Reversi
+import XCTest
 
 class ReversiTests: XCTestCase {
 

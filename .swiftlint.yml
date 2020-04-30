@@ -1,0 +1,159 @@
+# swift 5.x
+# swiftlint ~> 0.39.2
+
+excluded:
+  - Pods
+  - Carthage
+  - Reversi/AppDelegate.swift
+  - Reversi/SceneDelegate.swift
+  - Reversi/BoardView.swift
+  - Reversi/CellView.swift
+  - Reversi/DiskView.swift
+  - Reversi/Disk.swift
+
+opt_in_rules:
+  - attributes # 関数や型に対するAttributeは直前の行に独立してあるべき
+  - closure_spacing # クロージャ内の式は括弧との間にスペースが1つあるべき
+  - empty_count # 要素が空であることを確認する際は`count == 0`よりも`isEmpty`を使うべき
+  - explicit_init # 明示的な.init()メソッドの呼び出しは避けるべき
+  - first_where # `.filter{}.first`よりも`.first(where:)`を使うべき
+  - force_unwrapping # 強制アンラップは禁止
+  - implicitly_unwrapped_optional # @IBOutlet属性のないプロパティの型に!を付けないこと
+  - number_separator # 大きな数値を書く場合はセパレータを書くべき
+  - object_literal # 画像や色の指定はオブジェクトリテラルを使用するべき
+  - operator_usage_whitespace # 演算子を使用する際は前後に1つスペースを入れるべき
+  - overridden_super_call # overrideされたメソッドは常にsuperを呼び出すべき
+  - private_outlet # @IBOutlet変数はprivateにするべき
+  - prohibited_super_call # 特定のメソッドではsuperを呼んではいけない(UIViewController.loadViewなど)
+  - redundant_nil_coalescing # ??の右側にnilは書かない
+  - sorted_imports # import文はソートしておくこと
+  - closure_end_indentation # クロージャの}のインデントは開始位置と揃えるべき
+  - literal_expression_end_indentation # 配列や辞書のリテラルのインデントは揃えるべき
+
+# 強制アンラップ警告ではなくエラーにする
+force_unwrapping:
+  severity: error
+
+# 関数内の行数
+function_body_length:
+  - 20 # 20行を超えたら警告
+  - 40 # 40行を超えたらエラー
+
+# 変数などの識別子
+identifier_name:
+  min_length:
+    - 1 # 1文字以上ならOK
+    - 0
+
+# 関数の引数
+function_parameter_count:
+  - 3 # 3個を超えたら警告
+  - 6 # 6個を超えたらエラー
+
+# ネスト
+nesting:
+  statement_level:
+    - 2 # ifなどの制御文は2階層を超えたら警告
+    - 3 # 3階層を超えたらエラー
+
+# elseやcatch等の位置
+statement_position:
+  statement_mode: default # `} else {` のように前の}に続けて書く
+  # statement_mode: uncuddled_else # }の後に改行を入れる（案件のコーディング規約によってはこっちを使うことも）
+
+# デフォルトで有効なルール
+# - class_delegate_protocol
+#     * Delegateなprotocolはclass-onlyであるべき
+# - closing_brace
+#     * )など括弧が続く場合に間にスペースはないこと
+# - closure_parameter_position
+#     * クロージャの引数リストはクロージャの始まり{と同じ行にあるべき
+# - colon
+#     * :は変数名の直後に書き、型名はその後に1スペース空けて書くべき
+#     * DictionaryではKeyの直後に:を書き、Valueはその後に1スペース空けて書くべき
+# - comma
+#     * ,の前にはスペースを入れず、,の後には1つスペースを入れる
+# - compiler_protocol_init
+#     * リテラルを直接書き並べて初期化するタイプのinitializerは直接呼び出してはいけない
+# - control_statement
+#     * ifなどの制御分の条件式は()で囲まないこと
+# - cyclomatic_complexity
+#     * 関数内の複雑度（ネストや条件文）は程々に（11以上で警告、21以上でエラー）
+# - discarded_notification_center_obserer
+#     * NotificationCenter.addObserver(forName:object:queue:using:)で追加されたobserverは
+#       後で除去できるように変数に入れること
+# - dynamic_inline
+#     * @inline指定とdynamicを同時に使ってはいけない
+# - empty_parentheses_with_trailing_closure
+#     * 末尾クロージャを使用するときはメソッド名の後に引数のない空の()は書かないこと
+# - file_length
+#     * 1ファイルは長くなりすぎないこと（401行以上で警告、1001行以上でエラー）
+# - force_cast
+#     * 強制キャスト(as!)は使ってはいけない
+# - force_try
+#     * 強制try(try!)は使ってはいけない
+# - generic_type_name
+#     * ジェネリクスの型名は英大文字で始まる1〜20文字であるべき
+# - implicit_getter
+#     * read-onlyなcomputed-propertyにはgetを書かないこと
+# - large_tuple
+#     * タプルのメンバーは２つまで
+# - leading_whitespace
+#     * ファイルの先頭に空行を置かないこと
+# - line_length
+#     * 1行は120文字まで
+# - mark
+#     * MARKコメントは正しく書くべき
+# - notification_center_detachment
+#     * NSNotificationCenterに登録したobserverはクラスのdeinitで除去するべき
+# - opening_brace
+#     * 関数等の開き{は直前に1つのスペースを置いて、宣言と同じ行に書くべき
+# - operator_whitespace
+#     * 演算子を定義する場合は演算子の前後に1つスペースを置くべき
+# - private_unit_test
+#     * privateなテストケースメソッドは書かないこと
+# - redundant_discardable_let
+#     * 関数の返り値を捨てる場合はletは不要
+# - redundant_optional_initialization
+#     * オプショナル変数の初期化時にnilを入れるのは冗長なので書かないこと
+# - redundant_string_enum_value
+#     * String型のenumで名前と値が同じ場合は値を省略すること
+# - redundant_void_return
+#     * 関数の宣言時に戻り値がない場合に`-> Void`は書かずに省略するべき
+# - return_arrow_whitespace
+#     * 関数の返り値の`->`は前後に1つスペースを入れるべき
+# - shorthand_operator
+#     * 複合代入演算子を使うこと
+# - sntactic_sugar
+#     * 糖衣構文を使うべき（`Array<Int>()`ではなく`[Int]()`など）
+# - todo
+#     * TODOコメントを残してはいけない
+# - trailing_comma
+#     * 末尾の,は禁止
+# - trailing_newline
+#     * ファイル末尾の空行は１つだけにするべき
+# - trailing_semicolon
+#     * 行末の;は禁止
+# - trailing_whitespace
+#     * 行末の空白は禁止
+# - type_body_length
+#     * 1クラスの行数は200行まで
+# - type_name
+#     * クラス名は3文字〜40文字
+# - unused_closure_parameter
+#     * クロージャの引数で使用されないものは`_`で置き換えること
+# - unused_enumerated
+#     * for文でindexも要素も使われないときは`.enumerated()`を書かないこと
+# - unesed_optional_bindign
+#     * `let _ = `によるOptional Bindingは禁止 (`!= nil`)で判定する
+# - valid_ibinspectable
+#     * @IBInspectable属性はサポートされた型を明示的に持っている変数にのみ使用すること
+# - valid_parameter_alignment
+#     * 引数を複数行に別けて書く場合はインデントを揃えること
+# - valid_whitespace
+#     * 空行を続けて2行以上書かないこと
+# - void_return
+#     * クロージャなどの型の宣言で、戻り値がない場合は`-> ()`を使わずに`-> Void`を使うこと
+# - weak_delegate
+#     * delegateは弱参照にすること
+#
