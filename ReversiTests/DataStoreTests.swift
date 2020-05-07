@@ -39,15 +39,30 @@ final class DataStoreTests: XCTestCase {
     }
 
     func testLoadGame() {
+        setupForLoadGameTest()
+        let vc = viewController
+        try? vc.loadGame()
+        XCTAssertEqual(.dark, vc.getTurn())
+        XCTAssertEqual(0, vc.segmentControlForDark()?.selectedSegmentIndex)
+        XCTAssertEqual(1, vc.segmentControlForLight()?.selectedSegmentIndex)
+        validateLine0OfBoardView(at: vc)
+        validateLine1OfBoardView(at: vc)
+        validateLine2OfBoardView(at: vc)
+        validateLine3OfBoardView(at: vc)
+        validateLine4OfBoardView(at: vc)
+        validateLine5OfBoardView(at: vc)
+    }
+
+    private func setupForLoadGameTest() {
+        try? fileContentsSample.write(toFile: path, atomically: true, encoding: .utf8)
     }
 
     private func setupForSaveGameTest() {
         let vc = viewController
         vc.newGame()
         vc.changeTurn(to: .dark)
-        let segmentedControls = searchSegmentedControls(parent: vc.view)
-        segmentedControls.first?.selectedSegmentIndex = 0
-        segmentedControls.last?.selectedSegmentIndex = 1
+        vc.segmentControlForDark()?.selectedSegmentIndex = 0
+        vc.segmentControlForLight()?.selectedSegmentIndex = 1
         setupLine0OfBoardViewForSaveGameTest(at: vc)
         setupLine1OfBoardViewForSaveGameTest(at: vc)
         setupLine2OfBoardViewForSaveGameTest(at: vc)
@@ -102,16 +117,49 @@ final class DataStoreTests: XCTestCase {
         vc.set(disk: .light, atX: 6, y: 5)
     }
 
-    private func searchSegmentedControls(
-        parent: UIView,
-        results: [UISegmentedControl] = []) -> [UISegmentedControl] {
-        var newResults = results
-        parent.subviews.forEach { v in
-            if let segmentedControl = v as? UISegmentedControl {
-                newResults.append(segmentedControl)
-            }
-            newResults += searchSegmentedControls(parent: v, results: newResults)
-        }
-        return newResults
+    private func validateLine0OfBoardView(at vc: ViewController) {
+        XCTAssertEqual(.dark, vc.diskAt(x: 0, y: 0))
+        XCTAssertEqual(.dark, vc.diskAt(x: 2, y: 0))
+        XCTAssertEqual(.light, vc.diskAt(x: 4, y: 0))
+    }
+
+    private func validateLine1OfBoardView(at vc: ViewController) {
+        XCTAssertEqual(.dark, vc.diskAt(x: 1, y: 1))
+        XCTAssertEqual(.light, vc.diskAt(x: 2, y: 1))
+        XCTAssertEqual(.light, vc.diskAt(x: 3, y: 1))
+        XCTAssertEqual(.light, vc.diskAt(x: 4, y: 1))
+        XCTAssertEqual(.light, vc.diskAt(x: 5, y: 1))
+    }
+
+    private func validateLine2OfBoardView(at vc: ViewController) {
+        XCTAssertEqual(.dark, vc.diskAt(x: 0, y: 2))
+        XCTAssertEqual(.dark, vc.diskAt(x: 1, y: 2))
+        XCTAssertEqual(.dark, vc.diskAt(x: 2, y: 2))
+        XCTAssertEqual(.dark, vc.diskAt(x: 3, y: 2))
+        XCTAssertEqual(.dark, vc.diskAt(x: 4, y: 2))
+    }
+
+    private func validateLine3OfBoardView(at vc: ViewController) {
+        XCTAssertEqual(.dark, vc.diskAt(x: 1, y: 3))
+        XCTAssertEqual(.dark, vc.diskAt(x: 2, y: 3))
+        XCTAssertEqual(.dark, vc.diskAt(x: 3, y: 3))
+        XCTAssertEqual(.dark, vc.diskAt(x: 4, y: 3))
+        XCTAssertEqual(.dark, vc.diskAt(x: 5, y: 3))
+        XCTAssertEqual(.light, vc.diskAt(x: 6, y: 3))
+    }
+
+    private func validateLine4OfBoardView(at vc: ViewController) {
+        XCTAssertEqual(.dark, vc.diskAt(x: 2, y: 4))
+        XCTAssertEqual(.light, vc.diskAt(x: 3, y: 4))
+        XCTAssertEqual(.dark, vc.diskAt(x: 4, y: 4))
+        XCTAssertEqual(.light, vc.diskAt(x: 5, y: 4))
+    }
+
+    private func validateLine5OfBoardView(at vc: ViewController) {
+        XCTAssertEqual(.dark, vc.diskAt(x: 2, y: 5))
+        XCTAssertEqual(.light, vc.diskAt(x: 3, y: 5))
+        XCTAssertEqual(.light, vc.diskAt(x: 4, y: 5))
+        XCTAssertEqual(.dark, vc.diskAt(x: 5, y: 5))
+        XCTAssertEqual(.light, vc.diskAt(x: 6, y: 5))
     }
 }

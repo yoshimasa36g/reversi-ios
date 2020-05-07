@@ -591,7 +591,23 @@ extension ViewController {
         turn = disk
     }
 
+    func getTurn() -> Disk? {
+        return turn
+    }
+
+    func segmentControlForDark() -> UISegmentedControl? {
+        return playerControls.first
+    }
+
+    func segmentControlForLight() -> UISegmentedControl? {
+        return playerControls.last
+    }
+
     func set(disk: Disk?, atX x: Int, y: Int) {
         boardView.setDisk(disk, atX: x, y: y, animated: false)
+    }
+
+    func diskAt(x: Int, y: Int) -> Disk? {
+        boardView.diskAt(x: x, y: y)
     }
 }
