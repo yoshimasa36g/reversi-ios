@@ -583,3 +583,15 @@ extension Optional where Wrapped == Disk {
         }
     }
 }
+
+// - MARK: テスト用 不要になったら削除
+
+extension ViewController {
+    func changeTurn(to disk: Disk) {
+        turn = disk
+    }
+
+    func set(disk: Disk?, atX x: Int, y: Int) {
+        boardView.setDisk(disk, atX: x, y: y, animated: false)
+    }
+}
