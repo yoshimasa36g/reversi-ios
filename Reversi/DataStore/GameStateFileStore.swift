@@ -53,21 +53,24 @@ final class GameStateFileStore: GameStateRepository {
             throw FileIOError.read(path: path, cause: nil)
         }
 
-        var turn: Disk?
-        do { // turn
-            guard
-                let diskSymbol = line.popFirst(),
-                let disk = Disk?(symbol: diskSymbol.description)
-                else {
-                    throw FileIOError.read(path: path, cause: nil)
-            }
-            turn = disk
-        }
+        let turn = try parseTurn(symbol: line.popFirst())
+        try parsePlayers(line: line, playerControls: playerControls)
+        try parseBoard(lines: lines, boardView: boardView)
 
-        // players
+        completion(turn)
+    }
+
+    private func parseTurn(symbol: Character?) throws -> Disk? {
+        guard let disk = Disk?(symbol: symbol?.description ?? "") else {
+            throw FileIOError.read(path: path, cause: nil)
+        }
+        return disk
+    }
+
+    private func parsePlayers(line: Substring, playerControls: [UISegmentedControl]) throws {
+        var mutableLine = line
         for side in Disk.sides {
-            guard
-                let playerSymbol = line.popFirst(),
+            guard let playerSymbol = mutableLine.popFirst(),
                 let playerNumber = Int(playerSymbol.description),
                 let player = Player(rawValue: playerNumber)
                 else {
@@ -75,31 +78,30 @@ final class GameStateFileStore: GameStateRepository {
             }
             playerControls[side.index].selectedSegmentIndex = player.rawValue
         }
+    }
 
-        do { // board
-            guard lines.count == boardView.height else {
-                throw FileIOError.read(path: path, cause: nil)
-            }
-
-            var y = 0
-            while let line = lines.popFirst() {
-                var x = 0
-                for character in line {
-                    let disk = Disk?(symbol: "\(character)").flatMap { $0 }
-                    boardView.setDisk(disk, atX: x, y: y, animated: false)
-                    x += 1
-                }
-                guard x == boardView.width else {
-                    throw FileIOError.read(path: path, cause: nil)
-                }
-                y += 1
-            }
-            guard y == boardView.height else {
-                throw FileIOError.read(path: path, cause: nil)
-            }
+    private func parseBoard(lines: ArraySlice<Substring>, boardView: BoardView) throws {
+        var mutableLines = lines
+        guard lines.count == boardView.height else {
+            throw FileIOError.read(path: path, cause: nil)
         }
 
-        completion(turn)
+        var y = 0
+        while let line = mutableLines.popFirst() {
+            var x = 0
+            for character in line {
+                let disk = Disk?(symbol: "\(character)").flatMap { $0 }
+                boardView.setDisk(disk, atX: x, y: y, animated: false)
+                x += 1
+            }
+            guard x == boardView.width else {
+                throw FileIOError.read(path: path, cause: nil)
+            }
+            y += 1
+        }
+        guard y == boardView.height else {
+            throw FileIOError.read(path: path, cause: nil)
+        }
     }
 
     enum FileIOError: Error {
