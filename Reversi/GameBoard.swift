@@ -1,5 +1,5 @@
 //
-//  GameState.swift
+//  GameBoard.swift
 //  Reversi
 //
 //  Created by yoshimasa36g on 2020/05/08.
@@ -8,8 +8,6 @@
 
 import Foundation
 
-struct GameState: Codable {
-    let turn: Disk
-    let players: [Player]
-    let board: GameBoard
+struct GameBoard: Codable {
+    let cells: [BoardCell]
 }
