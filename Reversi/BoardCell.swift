@@ -25,7 +25,7 @@ struct BoardCell: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
         position = try container.decode(Position.self, forKey: .position)
-        disk = try container.decodeIfPresent(Disk.self, forKey: .disk)
+        disk = try? container.decode(Disk.self, forKey: .disk)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -45,9 +45,9 @@ extension Disk: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: Key.self)
-        let rawValue = try container.decode(String.self, forKey: .rawValue)
-        switch rawValue {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        switch value {
         case "x":
             self = .dark
         case "o":
@@ -60,13 +60,13 @@ extension Disk: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: Key.self)
+        var container = encoder.singleValueContainer()
 
         switch self {
         case .dark:
-            try container.encode("x", forKey: .rawValue)
+            try container.encode("x")
         case .light:
-            try container.encode("o", forKey: .rawValue)
+            try container.encode("o")
         }
     }
 }
