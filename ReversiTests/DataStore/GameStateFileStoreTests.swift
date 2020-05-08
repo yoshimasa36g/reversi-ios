@@ -1,7 +1,7 @@
 @testable import Reversi
 import XCTest
 
-final class DataStoreTests: XCTestCase {
+final class GameStateFileStoreTest: XCTestCase {
 
     private var viewController: ViewController {
         guard let vc = UIApplication.shared.windows.first?.rootViewController as? ViewController else {
