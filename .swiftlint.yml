@@ -53,8 +53,8 @@ function_parameter_count:
 # ネスト
 nesting:
   statement_level:
-    - 2 # ifなどの制御文は2階層を超えたら警告
-    - 3 # 3階層を超えたらエラー
+    - 3 # ifなどの制御文は2階層を超えたら警告
+    - 4 # 3階層を超えたらエラー
 
 # elseやcatch等の位置
 statement_position:
