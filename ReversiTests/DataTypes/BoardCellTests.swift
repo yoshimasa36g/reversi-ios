@@ -16,20 +16,14 @@ final class BoardCellTests: XCTestCase {
     // MARK: - tests for encode
 
     func testEncodeWhenDarkDisk() {
-        let expected = "{\"disk\":\"x\",\"position\":{\"x\":3,\"y\":5}}"
-        let cell = BoardCell(position: Position(x: 3, y: 5), disk: .dark)
+        let expected = #"{"disk":"x","position":{"x":3,"y":5}}"#
+        let cell = BoardCell(x: 3, y: 5, disk: .dark)
         sharedExampleForEncode(target: cell, equalsTo: expected)
     }
 
     func testEncodeWhenLightDisk() {
-        let expected = "{\"disk\":\"o\",\"position\":{\"x\":4,\"y\":2}}"
-        let cell = BoardCell(position: Position(x: 4, y: 2), disk: .light)
-        sharedExampleForEncode(target: cell, equalsTo: expected)
-    }
-
-    func testEncodeWhenDiskIsNil() {
-        let expected = "{\"disk\":\"-\",\"position\":{\"x\":1,\"y\":3}}"
-        let cell = BoardCell(position: Position(x: 1, y: 3), disk: nil)
+        let expected = #"{"disk":"o","position":{"x":4,"y":2}}"#
+        let cell = BoardCell(x: 4, y: 2, disk: .light)
         sharedExampleForEncode(target: cell, equalsTo: expected)
     }
 
@@ -45,20 +39,14 @@ final class BoardCellTests: XCTestCase {
     // MARK: - tests for decode
 
     func testDecodeWhenDarkDisk() {
-        let source = "{\"disk\":\"x\",\"position\":{\"x\":3,\"y\":5}}".data(using: .utf8) ?? Data()
+        let source = #"{"disk":"x","position":{"x":3,"y":5}}"#.data(using: .utf8) ?? Data()
         let expected = BoardCell(position: Position(x: 3, y: 5), disk: .dark)
         sharedExampleForDecode(target: source, equalsTo: expected)
     }
 
     func testDecodeWhenLightDisk() {
-        let source = "{\"disk\":\"o\",\"position\":{\"x\":4,\"y\":2}}".data(using: .utf8) ?? Data()
+        let source = #"{"disk":"o","position":{"x":4,"y":2}}"#.data(using: .utf8) ?? Data()
         let expected = BoardCell(position: Position(x: 4, y: 2), disk: .light)
-        sharedExampleForDecode(target: source, equalsTo: expected)
-    }
-
-    func testDecodeWhenDiskIsNil() {
-        let source = "{\"disk\":\"-\",\"position\":{\"x\":1,\"y\":3}}".data(using: .utf8) ?? Data()
-        let expected = BoardCell(position: Position(x: 1, y: 3), disk: nil)
         sharedExampleForDecode(target: source, equalsTo: expected)
     }
 

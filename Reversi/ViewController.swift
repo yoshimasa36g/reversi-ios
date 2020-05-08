@@ -415,17 +415,44 @@ extension ViewController: BoardViewDelegate {
 // MARK: Save and Load
 
 extension ViewController {
-    func saveGame() throws {
-        try repository.save(turn: turn, playerControls: playerControls, boardView: boardView)
+    // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
+    private func createGameState() -> GameState {
+        let darkPlayer = Player(rawValue: playerControls.first?.selectedSegmentIndex ?? 0) ?? .manual
+        let lightPlayer = Player(rawValue: playerControls.last?.selectedSegmentIndex ?? 0) ?? .manual
+        let positions = boardView.xRange.flatMap { x in
+            boardView.yRange.map({ y in Position(x: x, y: y) })
+        }
+        let cells: [BoardCell] = positions.compactMap { p in
+            guard let disk = boardView.diskAt(x: p.x, y: p.y) else {
+                return nil
+            }
+            return BoardCell(position: p, disk: disk)
+        }
+        return GameState(turn: turn,
+                         darkPlayer: darkPlayer,
+                         lightPlayer: lightPlayer,
+                         board: GameBoard(cells: cells))
+    }
+
+    private func saveGame() throws {
+        try repository.save(createGameState())
     }
 
     /// ゲームの状態をファイルから読み込み、復元します。
-    func loadGame() throws {
-        try repository.load(playerControls: playerControls, boardView: boardView) { [weak self ] turn in
-            self?.turn = turn
-            self?.updateMessageViews()
-            self?.updateCountLabels()
+    private func loadGame() throws {
+        let state = try repository.load()
+        self.turn = state.turn
+        playerControls.first?.selectedSegmentIndex = state.darkPlayer.rawValue
+        playerControls.last?.selectedSegmentIndex = state.lightPlayer.rawValue
+        boardView.reset()
+        state.board.cells.forEach { cell in
+            boardView.setDisk(cell.disk,
+                              atX: cell.position.x,
+                              y: cell.position.y,
+                              animated: false)
         }
+        updateMessageViews()
+        updateCountLabels()
     }
 }
 

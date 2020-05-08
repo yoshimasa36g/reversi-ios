@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Position: Codable {
+struct Position: Codable, Equatable {
     let x: Int
     let y: Int
 }

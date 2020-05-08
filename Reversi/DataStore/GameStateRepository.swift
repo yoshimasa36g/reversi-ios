@@ -10,6 +10,6 @@ import Foundation
 import UIKit
 
 protocol GameStateRepository {
-    func save(turn: Disk?, playerControls: [UISegmentedControl], boardView: BoardView) throws
-    func load(playerControls: [UISegmentedControl], boardView: BoardView, completion: (Disk?) -> Void) throws
+    func save(_ state: GameState) throws
+    func load() throws -> GameState
 }

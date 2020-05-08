@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct GameBoard: Codable {
+struct GameBoard: Codable, Equatable {
     let cells: [BoardCell]
 }

@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct GameState: Codable {
-    let turn: Disk
-    let players: [Player]
+struct GameState: Codable, Equatable {
+    let turn: Disk?
+    let darkPlayer: Player
+    let lightPlayer: Player
     let board: GameBoard
 }

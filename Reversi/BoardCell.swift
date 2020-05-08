@@ -10,32 +10,16 @@ import Foundation
 
 struct BoardCell: Codable {
     let position: Position
-    let disk: Disk?
+    let disk: Disk
 
-    init(position: Position, disk: Disk?) {
+    init(position: Position, disk: Disk) {
         self.position = position
         self.disk = disk
     }
 
-    private enum Key: CodingKey {
-        case position
-        case disk
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: Key.self)
-        position = try container.decode(Position.self, forKey: .position)
-        disk = try? container.decode(Disk.self, forKey: .disk)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: Key.self)
-        try container.encode(position, forKey: .position)
-        if let disk = self.disk {
-            try container.encode(disk, forKey: .disk)
-            return
-        }
-        try container.encode("-", forKey: .disk)
+    init(x: Int, y: Int, disk: Disk) {
+        self.position = Position(x: x, y: y)
+        self.disk = disk
     }
 }
 
@@ -68,5 +52,11 @@ extension Disk: Codable {
         case .light:
             try container.encode("o")
         }
+    }
+}
+
+extension BoardCell: Equatable {
+    static func == (lhs: BoardCell, rhs: BoardCell) -> Bool {
+        return lhs.position == rhs.position && lhs.disk == rhs.disk
     }
 }
