@@ -415,6 +415,15 @@ extension ViewController: BoardViewDelegate {
 // MARK: Save and Load
 
 extension ViewController {
+    private func saveGame() throws {
+        try repository.save(createGameState())
+    }
+
+    private func loadGame() throws {
+        let state = try repository.load()
+        updateView(with: state)
+    }
+
     // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
     private func createGameState() -> GameState {
         let darkPlayer = Player(rawValue: playerControls.first?.selectedSegmentIndex ?? 0) ?? .manual
@@ -434,13 +443,8 @@ extension ViewController {
                          board: GameBoard(cells: cells))
     }
 
-    private func saveGame() throws {
-        try repository.save(createGameState())
-    }
-
-    /// ゲームの状態をファイルから読み込み、復元します。
-    private func loadGame() throws {
-        let state = try repository.load()
+    // GameStateをViewに反映する（GameStateで管理するようになったら削除する）
+    private func updateView(with state: GameState) {
         self.turn = state.turn
         playerControls.first?.selectedSegmentIndex = state.darkPlayer.rawValue
         playerControls.last?.selectedSegmentIndex = state.lightPlayer.rawValue
