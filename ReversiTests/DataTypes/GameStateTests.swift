@@ -14,14 +14,14 @@ final class GameStateTests: XCTestCase {
     // MARK: - tests for message
 
     func testMessageWhenDarksTurn() {
-        let state = createGameState(turn: .dark)
+        let state = GameState(turn: .dark)
         let message = state.message
         XCTAssertEqual(message.disk, .dark)
         XCTAssertEqual(message.label, "'s turn")
     }
 
     func testMessageWhenLightsTurn() {
-        let state = createGameState(turn: .light)
+        let state = GameState(turn: .light)
         let message = state.message
         XCTAssertEqual(message.disk, .light)
         XCTAssertEqual(message.label, "'s turn")
@@ -29,7 +29,7 @@ final class GameStateTests: XCTestCase {
 
     func testMessageWhenDarkWins() {
         let cells = [BoardCell(x: 0, y: 0, disk: .dark)]
-        let state = createGameState(turn: nil, board: GameBoard(cells: cells))
+        let state = GameState(turn: nil, board: GameBoard(cells: cells))
         let message = state.message
         XCTAssertEqual(message.disk, .dark)
         XCTAssertEqual(message.label, " won")
@@ -37,31 +37,17 @@ final class GameStateTests: XCTestCase {
 
     func testMessageWhenLightWins() {
         let cells = [BoardCell(x: 0, y: 0, disk: .light)]
-        let state = createGameState(turn: nil, board: GameBoard(cells: cells))
+        let state = GameState(turn: nil, board: GameBoard(cells: cells))
         let message = state.message
         XCTAssertEqual(message.disk, .light)
         XCTAssertEqual(message.label, " won")
     }
 
     func testMessageWhenTied() {
-        let state = createGameState(turn: nil)
+        let state = GameState(turn: nil)
         let message = state.message
         XCTAssertNil(message.disk)
         XCTAssertEqual(message.label, "Tied")
-    }
-
-    // MARK: - helper methods
-
-    private func createGameState(
-        turn: Disk? = nil,
-        darkPlayer: Player = .manual,
-        lightPlayer: Player = .manual,
-        board: GameBoard = GameBoard(cells: [])
-    ) -> GameState {
-        return GameState(turn: turn,
-                         darkPlayer: darkPlayer,
-                         lightPlayer: lightPlayer,
-                         board: board)
     }
 
     // MARK: - ViewControllerのリファクタリング対象メソッドのテスト 不要になったら消す

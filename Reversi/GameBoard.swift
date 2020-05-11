@@ -29,4 +29,14 @@ struct GameBoard: Codable, Equatable {
         }
         return darkCount > lightCount ? .dark : .light
     }
+
+    /// 初期状態のセル
+    static var initialCells: [BoardCell] {
+        return [
+            BoardCell(x: 3, y: 3, disk: .light),
+            BoardCell(x: 3, y: 4, disk: .dark),
+            BoardCell(x: 4, y: 3, disk: .dark),
+            BoardCell(x: 4, y: 4, disk: .light)
+        ]
+    }
 }
