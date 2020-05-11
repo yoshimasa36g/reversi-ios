@@ -28,6 +28,50 @@ class ViewController: UIViewController {
 
     private let repository: GameStateRepository = GameStateFileStore()
 
+    private var gameState: GameState {
+        get {
+            createGameState()
+        }
+        set {
+            updateView(with: newValue)
+        }
+    }
+
+    // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
+    private func createGameState() -> GameState {
+        let darkPlayer = Player(rawValue: playerControls.first?.selectedSegmentIndex ?? 0) ?? .manual
+        let lightPlayer = Player(rawValue: playerControls.last?.selectedSegmentIndex ?? 0) ?? .manual
+        let positions = boardView.xRange.flatMap { x in
+            boardView.yRange.map({ y in Position(x: x, y: y) })
+        }
+        let cells: [BoardCell] = positions.compactMap { p in
+            guard let disk = boardView.diskAt(x: p.x, y: p.y) else {
+                return nil
+            }
+            return BoardCell(position: p, disk: disk)
+        }
+        return GameState(turn: turn,
+                         darkPlayer: darkPlayer,
+                         lightPlayer: lightPlayer,
+                         board: GameBoard(cells: cells))
+    }
+
+    // GameStateをViewに反映する（GameStateで管理するようになったら削除する）
+    private func updateView(with state: GameState) {
+        self.turn = state.turn
+        playerControls.first?.selectedSegmentIndex = state.darkPlayer.rawValue
+        playerControls.last?.selectedSegmentIndex = state.lightPlayer.rawValue
+        boardView.reset()
+        state.board.cells.forEach { cell in
+            boardView.setDisk(cell.disk,
+                              atX: cell.position.x,
+                              y: cell.position.y,
+                              animated: false)
+        }
+        updateMessageViews()
+        updateCountLabels()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -416,47 +460,11 @@ extension ViewController: BoardViewDelegate {
 
 extension ViewController {
     private func saveGame() throws {
-        try repository.save(createGameState())
+        try repository.save(gameState)
     }
 
     private func loadGame() throws {
-        let state = try repository.load()
-        updateView(with: state)
-    }
-
-    // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
-    private func createGameState() -> GameState {
-        let darkPlayer = Player(rawValue: playerControls.first?.selectedSegmentIndex ?? 0) ?? .manual
-        let lightPlayer = Player(rawValue: playerControls.last?.selectedSegmentIndex ?? 0) ?? .manual
-        let positions = boardView.xRange.flatMap { x in
-            boardView.yRange.map({ y in Position(x: x, y: y) })
-        }
-        let cells: [BoardCell] = positions.compactMap { p in
-            guard let disk = boardView.diskAt(x: p.x, y: p.y) else {
-                return nil
-            }
-            return BoardCell(position: p, disk: disk)
-        }
-        return GameState(turn: turn,
-                         darkPlayer: darkPlayer,
-                         lightPlayer: lightPlayer,
-                         board: GameBoard(cells: cells))
-    }
-
-    // GameStateをViewに反映する（GameStateで管理するようになったら削除する）
-    private func updateView(with state: GameState) {
-        self.turn = state.turn
-        playerControls.first?.selectedSegmentIndex = state.darkPlayer.rawValue
-        playerControls.last?.selectedSegmentIndex = state.lightPlayer.rawValue
-        boardView.reset()
-        state.board.cells.forEach { cell in
-            boardView.setDisk(cell.disk,
-                              atX: cell.position.x,
-                              y: cell.position.y,
-                              animated: false)
-        }
-        updateMessageViews()
-        updateCountLabels()
+        gameState = try repository.load()
     }
 }
 

@@ -2,14 +2,6 @@
 import XCTest
 
 final class GameStateFileStoreTests: XCTestCase {
-
-    private var viewController: ViewController {
-        guard let vc = UIApplication.shared.windows.first?.rootViewController as? ViewController else {
-            fatalError("Could not get ViewController")
-        }
-        return vc
-    }
-
     private static let fileName = "GameStateForTest"
 
     private let subject = GameStateFileStore(fileName: fileName)
