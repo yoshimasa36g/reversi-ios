@@ -488,10 +488,10 @@ extension Disk {
     }
 }
 
-// - MARK: テスト用 不要になったら削除
+// - MARK: テスト用 privateな要素へのアクセス 不要になったら削除
 
 extension ViewController {
-    func changeTurn(to disk: Disk) {
+    func changeTurn(to disk: Disk?) {
         turn = disk
     }
 
@@ -517,5 +517,21 @@ extension ViewController {
 
     func getGameState() -> GameState {
         return gameState
+    }
+
+    func getCountLabels() -> [UILabel] {
+        return countLabels
+    }
+
+    func getMessageDiskView() -> DiskView {
+        return messageDiskView
+    }
+
+    func getMessageLabel() -> UILabel {
+        return messageLabel
+    }
+
+    func getMessageDiskSizeConstraint() -> NSLayoutConstraint {
+        return messageDiskSizeConstraint
     }
 }

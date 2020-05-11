@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8F09196C2468DCD3006723B7 /* GameBoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09196B2468DCD3006723B7 /* GameBoardTests.swift */; };
 		8F09196E2468DF0E006723B7 /* ViewControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09196D2468DF0E006723B7 /* ViewControllerHelper.swift */; };
+		8F09197024691901006723B7 /* GameStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09196F24691901006723B7 /* GameStateTests.swift */; };
 		8F8D627F2464E84A007E7E0B /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */; };
 		8F8D62812464E913007E7E0B /* GameStateFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62802464E913007E7E0B /* GameStateFileStore.swift */; };
 		8F8D62832464F470007E7E0B /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62822464F470007E7E0B /* BoardCell.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		8F09196B2468DCD3006723B7 /* GameBoardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardTests.swift; sourceTree = "<group>"; };
 		8F09196D2468DF0E006723B7 /* ViewControllerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerHelper.swift; sourceTree = "<group>"; };
+		8F09196F24691901006723B7 /* GameStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateTests.swift; sourceTree = "<group>"; };
 		8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
 		8F8D62802464E913007E7E0B /* GameStateFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateFileStore.swift; sourceTree = "<group>"; };
 		8F8D62822464F470007E7E0B /* BoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCell.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				8F8D628A2464FF56007E7E0B /* BoardCellTests.swift */,
 				8F09196B2468DCD3006723B7 /* GameBoardTests.swift */,
+				8F09196F24691901006723B7 /* GameStateTests.swift */,
 			);
 			path = DataTypes;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			files = (
 				8F09196E2468DF0E006723B7 /* ViewControllerHelper.swift in Sources */,
 				8F8D628B2464FF56007E7E0B /* BoardCellTests.swift in Sources */,
+				8F09197024691901006723B7 /* GameStateTests.swift in Sources */,
 				D642BDCB23A9FE4700396732 /* GameStateFileStoreTests.swift in Sources */,
 				8F09196C2468DCD3006723B7 /* GameBoardTests.swift in Sources */,
 			);

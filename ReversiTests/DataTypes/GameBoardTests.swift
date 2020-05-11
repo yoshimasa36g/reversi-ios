@@ -11,8 +11,6 @@ import XCTest
 
 final class GameBoardTests: XCTestCase {
 
-    private let helper = ViewControllerHelper()
-
     // MARK: - tests for count(of:)
 
     func testCountOf() {
