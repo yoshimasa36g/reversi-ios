@@ -13,4 +13,14 @@ struct GameState: Codable, Equatable {
     let darkPlayer: Player
     let lightPlayer: Player
     let board: GameBoard
+
+    var message: (disk: Disk?, label: String) {
+        if let side = turn {
+            return (disk: side, label: "'s turn")
+        }
+        if let winner = board.winner() {
+            return (disk: winner, label: " won")
+        }
+        return (disk: nil, label: "Tied")
+    }
 }
