@@ -8,7 +8,11 @@
 
 import Foundation
 
+/// 位置情報
 struct Position: Codable, Equatable {
+    /// X座標
     let x: Int
+
+    /// Y座標
     let y: Int
 }
