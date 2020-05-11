@@ -333,28 +333,22 @@ extension ViewController {
     /// 各プレイヤーの獲得したディスクの枚数を表示します。
     func updateCountLabels() {
         let state = gameState
-        for side in Disk.sides {
-            countLabels[side.index].text = "\(state.board.count(of: side))"
+        Disk.sides.forEach {
+            countLabels[$0.index].text = state.board.count(of: $0).description
         }
     }
 
     /// 現在の状況に応じてメッセージを表示します。
     func updateMessageViews() {
-        switch turn {
-        case .some(let side):
-            messageDiskSizeConstraint.constant = messageDiskSize
-            messageDiskView.disk = side
-            messageLabel.text = "'s turn"
-        case .none:
-            if let winner = gameState.board.winner() {
-                messageDiskSizeConstraint.constant = messageDiskSize
-                messageDiskView.disk = winner
-                messageLabel.text = " won"
-            } else {
-                messageDiskSizeConstraint.constant = 0
-                messageLabel.text = "Tied"
-            }
+        let message = gameState.message
+        messageLabel.text = message.label
+        guard let side = message.disk else {
+            messageDiskSizeConstraint.constant = 0
+            return
         }
+
+        messageDiskView.disk = side
+        messageDiskSizeConstraint.constant = messageDiskSize
     }
 }
 

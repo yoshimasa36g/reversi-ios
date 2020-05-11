@@ -8,12 +8,21 @@
 
 import Foundation
 
+/// ゲームの状態
 struct GameState: Codable, Equatable {
+    /// ターン
     let turn: Disk?
+
+    /// 黒のプレイヤー操作区分
     let darkPlayer: Player
+
+    /// 白のプレイヤーの操作区分
     let lightPlayer: Player
+
+    /// ゲーム盤
     let board: GameBoard
 
+    /// ターン表示や勝敗表示用のメッセージ
     var message: (disk: Disk?, label: String) {
         if let side = turn {
             return (disk: side, label: "'s turn")
