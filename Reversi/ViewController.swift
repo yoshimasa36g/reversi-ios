@@ -98,27 +98,6 @@ class ViewController: UIViewController {
 // MARK: Reversi logics
 
 extension ViewController {
-    func flippedDiskCoordinatesByPlacingDisk(_ disk: Disk, atX x: Int, y: Int) -> [(Int, Int)] {
-        gameState.board
-            .positionsOfDisksToBeAcquired(by: disk, at: Position(x: x, y: y))
-            .map { ($0.x, $0.y) }
-    }
-
-    /// `x`, `y` で指定されたセルに、 `disk` が置けるかを調べます。
-    /// ディスクを置くためには、少なくとも 1 枚のディスクをひっくり返せる必要があります。
-    /// - Parameter x: セルの列です。
-    /// - Parameter y: セルの行です。
-    /// - Returns: 指定されたセルに `disk` を置ける場合は `true` を、置けない場合は `false` を返します。
-    func canPlaceDisk(_ disk: Disk, atX x: Int, y: Int) -> Bool {
-        gameState.board.isSettable(disk: disk, at: Position(x: x, y: y))
-    }
-
-    /// `side` で指定された色のディスクを置ける盤上のセルの座標をすべて返します。
-    /// - Returns: `side` で指定された色のディスクを置ける盤上のすべてのセルの座標の配列です。
-    func validMoves(for side: Disk) -> [(x: Int, y: Int)] {
-        gameState.board.settablePositions(disk: side).map { ($0.x, $0.y) }
-    }
-
     /// `x`, `y` で指定されたセルに `disk` を置きます。
     /// - Parameter x: セルの列です。
     /// - Parameter y: セルの行です。
@@ -128,7 +107,9 @@ extension ViewController {
     ///     もし `animated` が `false` の場合、このクロージャは次の run loop サイクルの初めに実行されます。
     /// - Throws: もし `disk` を `x`, `y` で指定されるセルに置けない場合、 `DiskPlacementError` を `throw` します。
     func placeDisk(_ disk: Disk, atX x: Int, y: Int, animated isAnimated: Bool, completion: ((Bool) -> Void)? = nil) throws {
-        let diskCoordinates = flippedDiskCoordinatesByPlacingDisk(disk, atX: x, y: y)
+        let diskCoordinates = gameState.board
+            .positionsOfDisksToBeAcquired(by: disk, at: Position(x: x, y: y))
+            .map { ($0.x, $0.y) }
         if diskCoordinates.isEmpty {
             throw DiskPlacementError(disk: disk, x: x, y: y)
         }
@@ -229,8 +210,9 @@ extension ViewController {
 
         turn.flip()
 
-        if validMoves(for: turn).isEmpty {
-            if validMoves(for: turn.flipped).isEmpty {
+        let state = gameState
+        if state.board.settablePositions(disk: turn).isEmpty {
+            if state.board.settablePositions(disk: turn.flipped).isEmpty {
                 self.turn = nil
                 updateMessageViews()
             } else {
@@ -257,7 +239,8 @@ extension ViewController {
     /// "Computer" が選択されている場合のプレイヤーの行動を決定します。
     func playTurnOfComputer() {
         guard let turn = self.turn,
-            let (x, y) = validMoves(for: turn).randomElement() else { preconditionFailure() }
+            let (x, y) = gameState.board.settablePositions(disk: turn)
+                .map({ ($0.x, $0.y) }).randomElement() else { preconditionFailure() }
 
         playerActivityIndicators[turn.index].startAnimating()
 
