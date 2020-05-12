@@ -62,7 +62,7 @@ class ViewController: UIViewController {
         playerControls.first?.selectedSegmentIndex = state.darkPlayer.rawValue
         playerControls.last?.selectedSegmentIndex = state.lightPlayer.rawValue
         boardView.reset()
-        state.board.cells.forEach { cell in
+        state.board.forEach { cell in
             boardView.setDisk(cell.disk,
                               atX: cell.position.x,
                               y: cell.position.y,
@@ -98,46 +98,10 @@ class ViewController: UIViewController {
 // MARK: Reversi logics
 
 extension ViewController {
-    private func flippedDiskCoordinatesByPlacingDisk(_ disk: Disk, atX x: Int, y: Int) -> [(Int, Int)] {
-        let directions = [
-            (x: -1, y: -1),
-            (x:  0, y: -1),
-            (x:  1, y: -1),
-            (x:  1, y:  0),
-            (x:  1, y:  1),
-            (x:  0, y:  1),
-            (x: -1, y:  0),
-            (x: -1, y:  1)
-        ]
-
-        guard boardView.diskAt(x: x, y: y) == nil else {
-            return []
-        }
-
-        var diskCoordinates: [(Int, Int)] = []
-
-        for direction in directions {
-            var x = x
-            var y = y
-
-            var diskCoordinatesInLine: [(Int, Int)] = []
-            flipping: while true {
-                x += direction.x
-                y += direction.y
-
-                switch (disk, boardView.diskAt(x: x, y: y)) { // Uses tuples to make patterns exhaustive
-                case (.dark, .some(.dark)), (.light, .some(.light)):
-                    diskCoordinates.append(contentsOf: diskCoordinatesInLine)
-                    break flipping
-                case (.dark, .some(.light)), (.light, .some(.dark)):
-                    diskCoordinatesInLine.append((x, y))
-                case (_, .none):
-                    break flipping
-                }
-            }
-        }
-
-        return diskCoordinates
+    func flippedDiskCoordinatesByPlacingDisk(_ disk: Disk, atX x: Int, y: Int) -> [(Int, Int)] {
+        gameState.board
+            .positionsOfDisksToBeAcquired(by: disk, at: Position(x: x, y: y))
+            .map { ($0.x, $0.y) }
     }
 
     /// `x`, `y` で指定されたセルに、 `disk` が置けるかを調べます。
@@ -146,23 +110,13 @@ extension ViewController {
     /// - Parameter y: セルの行です。
     /// - Returns: 指定されたセルに `disk` を置ける場合は `true` を、置けない場合は `false` を返します。
     func canPlaceDisk(_ disk: Disk, atX x: Int, y: Int) -> Bool {
-        !flippedDiskCoordinatesByPlacingDisk(disk, atX: x, y: y).isEmpty
+        gameState.board.isSettable(disk: disk, at: Position(x: x, y: y))
     }
 
     /// `side` で指定された色のディスクを置ける盤上のセルの座標をすべて返します。
     /// - Returns: `side` で指定された色のディスクを置ける盤上のすべてのセルの座標の配列です。
     func validMoves(for side: Disk) -> [(x: Int, y: Int)] {
-        var coordinates: [(Int, Int)] = []
-
-        for y in boardView.yRange {
-            for x in boardView.xRange {
-                if canPlaceDisk(side, atX: x, y: y) {
-                    coordinates.append((x, y))
-                }
-            }
-        }
-
-        return coordinates
+        gameState.board.settablePositions(disk: side).map { ($0.x, $0.y) }
     }
 
     /// `x`, `y` で指定されたセルに `disk` を置きます。
