@@ -324,7 +324,7 @@ extension ViewController {
         guard let index = playerControls.firstIndex(of: sender) else {
             return
         }
-        let side: Disk = Disk(index: index)
+        let side = Disk.from(index: index)
 
         try? saveGame()
 
@@ -401,14 +401,12 @@ struct DiskPlacementError: Error {
 // MARK: File-private extensions
 
 extension Disk {
-    fileprivate init(index: Int) {
-        for side in Disk.sides {
-            if index == side.index {
-                self = side
-                return
-            }
+    fileprivate static func from(index: Int) -> Disk {
+        switch index {
+        case 0: return .dark
+        case 1: return .light
+        default: preconditionFailure("Illegal index: \(index)")
         }
-        preconditionFailure("Illegal index: \(index)")
     }
 
     fileprivate var index: Int {
