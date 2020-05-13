@@ -58,8 +58,8 @@ final class GameStateTests: XCTestCase {
         helper.runGame(advantage: .dark)
         let vc = helper.viewController
         vc.updateCountLabels()
-        XCTAssertEqual(vc.getCountLabels()[Disk.dark.index].text, "7")
-        XCTAssertEqual(vc.getCountLabels()[Disk.light.index].text, "5")
+        XCTAssertEqual(vc.countLabelForDark()?.text, "7")
+        XCTAssertEqual(vc.countLabelForLight()?.text, "5")
     }
 
     func testUpdateMessageViewsWhenDarksTurn() {

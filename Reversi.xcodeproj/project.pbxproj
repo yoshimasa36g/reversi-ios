@@ -16,6 +16,7 @@
 		8F8D62852464F620007E7E0B /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62842464F620007E7E0B /* GameState.swift */; };
 		8F8D62872464F68F007E7E0B /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62862464F68F007E7E0B /* Position.swift */; };
 		8F8D628B2464FF56007E7E0B /* BoardCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D628A2464FF56007E7E0B /* BoardCellTests.swift */; };
+		8FBB0D80246BBBE8001A548F /* DiskExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */; };
 		D636B39F23D35043007F370F /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D636B39E23D35043007F370F /* DiskView.swift */; };
 		D642BDB423A9FE4500396732 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642BDB323A9FE4500396732 /* AppDelegate.swift */; };
 		D642BDB623A9FE4500396732 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642BDB523A9FE4500396732 /* SceneDelegate.swift */; };
@@ -50,6 +51,7 @@
 		8F8D62842464F620007E7E0B /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		8F8D62862464F68F007E7E0B /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		8F8D628A2464FF56007E7E0B /* BoardCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCellTests.swift; sourceTree = "<group>"; };
+		8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskExtensions.swift; sourceTree = "<group>"; };
 		D636B39E23D35043007F370F /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
 		D642BDB023A9FE4500396732 /* Reversi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reversi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D642BDB323A9FE4500396732 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				8F8D62822464F470007E7E0B /* BoardCell.swift */,
+				8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */,
 				D6CAD3D52465237500F5A153 /* GameBoard.swift */,
 				8F8D62842464F620007E7E0B /* GameState.swift */,
 				8F8D62862464F68F007E7E0B /* Position.swift */,
@@ -314,6 +317,7 @@
 			files = (
 				8F8D62832464F470007E7E0B /* BoardCell.swift in Sources */,
 				D636B39F23D35043007F370F /* DiskView.swift in Sources */,
+				8FBB0D80246BBBE8001A548F /* DiskExtensions.swift in Sources */,
 				D642BDD623AA0B3900396732 /* CellView.swift in Sources */,
 				D6CAD3D62465237500F5A153 /* GameBoard.swift in Sources */,
 				D642BDD823AA0B5700396732 /* Disk.swift in Sources */,

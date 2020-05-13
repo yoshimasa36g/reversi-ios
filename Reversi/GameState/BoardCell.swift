@@ -42,37 +42,3 @@ extension BoardCell: Equatable {
         return lhs.position == rhs.position && lhs.disk == rhs.disk
     }
 }
-
-// MARK: - Codable
-
-extension Disk: Codable {
-    private enum Key: CodingKey {
-        case rawValue
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let value = try container.decode(String.self)
-        switch value {
-        case "x":
-            self = .dark
-        case "o":
-            self = .light
-        default:
-            throw DecodingError.dataCorrupted(
-                .init(codingPath: [Key.rawValue],
-                      debugDescription: "Does not match any CodingKey."))
-        }
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-
-        switch self {
-        case .dark:
-            try container.encode("x")
-        case .light:
-            try container.encode("o")
-        }
-    }
-}

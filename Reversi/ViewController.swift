@@ -401,7 +401,7 @@ struct DiskPlacementError: Error {
 // MARK: File-private extensions
 
 extension Disk {
-    init(index: Int) {
+    fileprivate init(index: Int) {
         for side in Disk.sides {
             if index == side.index {
                 self = side
@@ -411,7 +411,7 @@ extension Disk {
         preconditionFailure("Illegal index: \(index)")
     }
 
-    var index: Int {
+    fileprivate var index: Int {
         switch self {
         case .dark: return 0
         case .light: return 1
@@ -450,8 +450,12 @@ extension ViewController {
         return gameState
     }
 
-    func getCountLabels() -> [UILabel] {
-        return countLabels
+    func countLabelForDark() -> UILabel? {
+        return countLabels.first
+    }
+
+    func countLabelForLight() -> UILabel? {
+        return countLabels.last
     }
 
     func getMessageDiskView() -> DiskView {
