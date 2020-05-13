@@ -238,9 +238,14 @@ extension ViewController {
 
     /// "Computer" が選択されている場合のプレイヤーの行動を決定します。
     func playTurnOfComputer() {
-        guard let turn = self.turn,
-            let (x, y) = gameState.board.settablePositions(disk: turn)
-                .map({ ($0.x, $0.y) }).randomElement() else { preconditionFailure() }
+        guard let turn = self.turn else {
+            preconditionFailure()
+        }
+        guard let (x, y) = gameState.board.settablePositions(disk: turn)
+            .map({ ($0.x, $0.y) }).randomElement() else {
+                nextTurn()
+                return
+        }
 
         playerActivityIndicators[turn.index].startAnimating()
 
