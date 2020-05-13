@@ -103,14 +103,25 @@
 			path = DataStore;
 			sourceTree = "<group>";
 		};
-		8F8D62892464FF34007E7E0B /* DataTypes */ = {
+		8F8D62892464FF34007E7E0B /* GameState */ = {
 			isa = PBXGroup;
 			children = (
 				8F8D628A2464FF56007E7E0B /* BoardCellTests.swift */,
 				8F09196B2468DCD3006723B7 /* GameBoardTests.swift */,
 				8F09196F24691901006723B7 /* GameStateTests.swift */,
 			);
-			path = DataTypes;
+			path = GameState;
+			sourceTree = "<group>";
+		};
+		8FBB0D7E246BB2BF001A548F /* GameState */ = {
+			isa = PBXGroup;
+			children = (
+				8F8D62822464F470007E7E0B /* BoardCell.swift */,
+				D6CAD3D52465237500F5A153 /* GameBoard.swift */,
+				8F8D62842464F620007E7E0B /* GameState.swift */,
+				8F8D62862464F68F007E7E0B /* Position.swift */,
+			);
+			path = GameState;
 			sourceTree = "<group>";
 		};
 		D636B3A123D43203007F370F /* Views */ = {
@@ -127,10 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				D642BDD723AA0B5700396732 /* Disk.swift */,
-				8F8D62822464F470007E7E0B /* BoardCell.swift */,
-				D6CAD3D52465237500F5A153 /* GameBoard.swift */,
-				8F8D62842464F620007E7E0B /* GameState.swift */,
-				8F8D62862464F68F007E7E0B /* Position.swift */,
 			);
 			name = DataTypes;
 			sourceTree = "<group>";
@@ -163,9 +170,10 @@
 				D642BDBC23A9FE4700396732 /* Assets.xcassets */,
 				D642BDBE23A9FE4700396732 /* LaunchScreen.storyboard */,
 				D642BDC123A9FE4700396732 /* Info.plist */,
-				D636B3A123D43203007F370F /* Views */,
 				8F8D627D2464E7FF007E7E0B /* DataStore */,
 				D636B3A423D432D3007F370F /* DataTypes */,
+				8FBB0D7E246BB2BF001A548F /* GameState */,
+				D636B3A123D43203007F370F /* Views */,
 			);
 			path = Reversi;
 			sourceTree = "<group>";
@@ -174,7 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				8F8D62882464FE83007E7E0B /* DataStore */,
-				8F8D62892464FF34007E7E0B /* DataTypes */,
+				8F8D62892464FF34007E7E0B /* GameState */,
 				D642BDCC23A9FE4700396732 /* Info.plist */,
 				8F09196D2468DF0E006723B7 /* ViewControllerHelper.swift */,
 			);
