@@ -88,6 +88,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F114E27246D088100E00E72 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8F8D627D2464E7FF007E7E0B /* DataStore */,
+				D636B3A423D432D3007F370F /* DataTypes */,
+				8FBB0D7E246BB2BF001A548F /* GameState */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8F114E28246D089B00E00E72 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8F8D62882464FE83007E7E0B /* DataStore */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		8F8D627D2464E7FF007E7E0B /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +161,7 @@
 				D642BDD723AA0B5700396732 /* Disk.swift */,
 			);
 			name = DataTypes;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		D642BDA723A9FE4500396732 = {
@@ -173,9 +192,7 @@
 				D642BDBC23A9FE4700396732 /* Assets.xcassets */,
 				D642BDBE23A9FE4700396732 /* LaunchScreen.storyboard */,
 				D642BDC123A9FE4700396732 /* Info.plist */,
-				8F8D627D2464E7FF007E7E0B /* DataStore */,
-				D636B3A423D432D3007F370F /* DataTypes */,
-				8FBB0D7E246BB2BF001A548F /* GameState */,
+				8F114E27246D088100E00E72 /* Models */,
 				D636B3A123D43203007F370F /* Views */,
 			);
 			path = Reversi;
@@ -184,7 +201,7 @@
 		D642BDC923A9FE4700396732 /* ReversiTests */ = {
 			isa = PBXGroup;
 			children = (
-				8F8D62882464FE83007E7E0B /* DataStore */,
+				8F114E28246D089B00E00E72 /* Models */,
 				8F8D62892464FF34007E7E0B /* GameState */,
 				D642BDCC23A9FE4700396732 /* Info.plist */,
 				8F09196D2468DF0E006723B7 /* ViewControllerHelper.swift */,

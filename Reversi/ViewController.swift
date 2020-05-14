@@ -56,7 +56,7 @@ class ViewController: UIViewController {
                          board: GameBoard(cells: cells))
     }
 
-    // GameStateをViewに反映する（GameStateで管理するようになったら削除する）
+    // GameStateをViewに反映する
     private func updateView(with state: GameState) {
         self.turn = state.turn
         playerControls.first?.selectedSegmentIndex = state.darkPlayer.rawValue
@@ -252,7 +252,7 @@ extension ViewController {
         let cleanUp: () -> Void = { [weak self] in
             guard let self = self else { return }
             self.playerActivityIndicators[turn.index].stopAnimating()
-            self.playerCancellers[turn] = nil
+            self.playerCancellers.removeValue(forKey: turn)
         }
         let canceller = Canceller(cleanUp)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
