@@ -24,8 +24,10 @@ class ViewController: UIViewController {
     private var animationCanceller: Canceller?
     private var isAnimating: Bool { animationCanceller != nil }
 
-    private var playerCancellers: [Disk: Canceller] = [:]
+    /// Computerの思考処理のインスタンスを保存している。マニュアルに切り替えてキャンセルする場合などに使う
+    private var operations = [Disk: ComputerOperation]()
 
+    /// ゲームの状態を保存するリポジトリ
     private let repository: GameStateRepository = GameStateFileStore()
 
     private var gameState: GameState {
@@ -39,8 +41,8 @@ class ViewController: UIViewController {
 
     // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
     private func createGameState() -> GameState {
-        let darkPlayer = Player(rawValue: playerControls.first?.selectedSegmentIndex ?? 0) ?? .manual
-        let lightPlayer = Player(rawValue: playerControls.last?.selectedSegmentIndex ?? 0) ?? .manual
+        let darkPlayer = Player.from(index: playerControls.first?.selectedSegmentIndex ?? 0)
+        let lightPlayer = Player.from(index: playerControls.last?.selectedSegmentIndex ?? 0)
         let positions = boardView.xRange.flatMap { x in
             boardView.yRange.map({ y in Position(x: x, y: y) })
         }
@@ -192,14 +194,11 @@ extension ViewController {
 
     /// プレイヤーの行動を待ちます。
     func waitForPlayer() {
-        guard let turn = self.turn,
-            let player = Player(rawValue: playerControls[turn.index].selectedSegmentIndex) else { return }
-        switch player {
-        case .manual:
-            break
-        case .computer:
-            playTurnOfComputer()
-        }
+        guard let turn = self.turn else { return }
+        let player = Player.from(index: playerControls[turn.index].selectedSegmentIndex)
+        operations[turn] = player.operation(with: gameState)
+
+        playTurnOfComputer()
     }
 
     /// プレイヤーの行動後、そのプレイヤーのターンを終了して次のターンを開始します。
@@ -241,31 +240,44 @@ extension ViewController {
         guard let turn = self.turn else {
             preconditionFailure()
         }
-        guard let (x, y) = gameState.board.settablePositions(disk: turn)
-            .map({ ($0.x, $0.y) }).randomElement() else {
-                nextTurn()
-                return
-        }
 
-        playerActivityIndicators[turn.index].startAnimating()
+        operations[turn]?.start(
+            onStart: { [weak self] in self?.showIndicator(of: turn) },
+            onComplete: { [weak self] result in
+                DispatchQueue.main.async { [weak self] in
+                    self?.hideIndicator(of: turn)
+                    self?.apply(result, for: turn)
+                }
+            })
+    }
 
-        let cleanUp: () -> Void = { [weak self] in
-            guard let self = self else { return }
-            self.playerActivityIndicators[turn.index].stopAnimating()
-            self.playerCancellers.removeValue(forKey: turn)
-        }
-        let canceller = Canceller(cleanUp)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-            guard let self = self else { return }
-            if canceller.isCancelled { return }
-            cleanUp()
+    /// インジケータを表示する
+    /// - Parameter side: 対象のプレイヤー
+    private func showIndicator(of side: Disk) {
+        playerActivityIndicators[side.index].startAnimating()
+    }
 
-            try? self.placeDisk(turn, atX: x, y: y, animated: true) { [weak self] _ in
+    /// インジケータを隠す
+    /// - Parameter side: 対象のプレイヤー
+    private func hideIndicator(of side: Disk) {
+        playerActivityIndicators[side.index].stopAnimating()
+    }
+
+    /// Computerの思考結果を適用する
+    /// - Parameters:
+    ///   - operationResult: Computerの思考結果
+    ///   - side: 適用するプレイヤー
+    private func apply(_ operationResult: OperationResult, for side: Disk) {
+        switch operationResult {
+        case .position(let position):
+            try? placeDisk(side, atX: position.x, y: position.y, animated: true) { [weak self] _ in
                 self?.nextTurn()
             }
+        case .noPosition:
+            nextTurn()
+        case .cancel:
+            operations.removeValue(forKey: side)
         }
-
-        playerCancellers[turn] = canceller
     }
 }
 
@@ -313,10 +325,8 @@ extension ViewController {
             self.animationCanceller?.cancel()
             self.animationCanceller = nil
 
-            for side in Disk.sides {
-                self.playerCancellers[side]?.cancel()
-                self.playerCancellers.removeValue(forKey: side)
-            }
+            self.operations.values.forEach { $0.cancel() }
+            self.operations.removeAll()
 
             self.newGame()
             self.waitForPlayer()
@@ -333,14 +343,12 @@ extension ViewController {
 
         try? saveGame()
 
-        if let canceller = playerCancellers[side] {
-            canceller.cancel()
-        }
+        operations[side]?.cancel()
+        operations.removeValue(forKey: side)
 
-        guard let player = Player(rawValue: sender.selectedSegmentIndex) else {
-            return
-        }
-        if !isAnimating, side == turn, case .computer = player {
+        let player = Player.from(index: sender.selectedSegmentIndex)
+        operations[side] = player.operation(with: gameState)
+        if !isAnimating, side == turn {
             playTurnOfComputer()
         }
     }
@@ -352,8 +360,8 @@ extension ViewController: BoardViewDelegate {
     /// - Parameter x: セルの列です。
     /// - Parameter y: セルの行です。
     func boardView(_ boardView: BoardView, didSelectCellAtX x: Int, y: Int) {
-        guard let turn = turn,
-            let player = Player(rawValue: playerControls[turn.index].selectedSegmentIndex) else { return }
+        guard let turn = turn else { return }
+        let player = Player.from(index: playerControls[turn.index].selectedSegmentIndex)
         if isAnimating { return }
         guard case .manual = player else { return }
         // try? because doing nothing when an error occurs
@@ -376,11 +384,6 @@ extension ViewController {
 }
 
 // MARK: Additional types
-
-enum Player: Int, Codable {
-    case manual = 0
-    case computer = 1
-}
 
 final class Canceller {
     private(set) var isCancelled: Bool = false
