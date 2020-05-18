@@ -8,8 +8,8 @@
 
 import Foundation
 
-/// Computer
-final class Computer {
+/// Computerのプレイヤー
+struct Computer: Player {
     private let operation: ComputerOperation?
     private let queue = OperationQueue()
 
@@ -19,12 +19,12 @@ final class Computer {
         self.operation = operation
     }
 
-    /// Computerの思考処理を開始する
-    /// - Parameters:
-    ///   - onStart: 開始時に行う処理
-    ///   - onComplete: 終了時に行う処理
+    var type: PlayerType {
+        .computer
+    }
+
     func startOperation(onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
-        guard let operation = self.operation else {
+        guard let operation = self.operation, !operation.isFinished else {
             return
         }
 
@@ -44,18 +44,7 @@ final class Computer {
         }
     }
 
-    /// 思考処理をキャンセルする
     func cancelOperation() {
         operation?.cancel()
     }
-}
-
-/// Computerの思考処理結果
-enum OperationResult {
-    /// 位置を選択した
-    case position(Position)
-    /// 選択できる位置がなかった
-    case noPosition
-    /// キャンセルされた
-    case cancel
 }

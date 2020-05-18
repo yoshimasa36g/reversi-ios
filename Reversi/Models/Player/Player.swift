@@ -2,33 +2,33 @@
 //  Player.swift
 //  Reversi
 //
-//  Created by yoshimasa36g on 2020/05/14.
+//  Created by yoshimasa36g on 2020/05/18.
 //  Copyright © 2020 yoshimasa36g. All rights reserved.
 //
 
 import Foundation
 
-/// プレイヤーの区分
-enum Player: Int, Codable {
-    case manual = 0
-    case computer = 1
+/// プレイヤーのプロトコル
+protocol Player {
+    /// プレイヤー区分
+    var type: PlayerType { get }
 
-    /// Computerのインスタンスを取得する
-    /// - Parameter gameState: ゲームの状態
-    /// - Returns: Computerの思考処理 / manualに対して呼んだ場合はnil
-    func computer(with gameState: GameState) -> Computer? {
-        switch self {
-        case .manual:
-            return nil
-        case .computer:
-            return Computer(operation: RandomPositionOperation(gameState: gameState))
-        }
-    }
+    /// 操作を開始する
+    /// - Parameters:
+    ///   - onStart: 開始時に行う処理
+    ///   - onComplete: 終了時に行う処理
+    func startOperation(onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void)
 
-    /// Intの値からプレイヤーの区分を取得する
-    /// - Parameter index: プレイヤーの区分に対応するInt値
-    /// - Returns: プレイヤーの区分 / 該当する値がない場合は .manual
-    static func from(index: Int) -> Player {
-        Player(rawValue: index) ?? .manual
-    }
+    /// 操作を中断する
+    func cancelOperation()
+}
+
+/// 操作結果
+enum OperationResult {
+    /// 位置を選択した
+    case position(Position)
+    /// 選択できる位置がなかった
+    case noPosition
+    /// キャンセルされた
+    case cancel
 }

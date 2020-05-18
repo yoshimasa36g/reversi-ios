@@ -24,8 +24,8 @@ class ViewController: UIViewController {
     private var animationCanceller: Canceller?
     private var isAnimating: Bool { animationCanceller != nil }
 
-    /// Computerのインスタンスを保存している。マニュアルに切り替えてキャンセルする場合などに使う
-    private var computers = [Disk: Computer]()
+    /// プレイヤー
+    private var players = Players(darkPlayer: Human(), lightPlayer: Human())
 
     /// ゲームの状態を保存するリポジトリ
     private let repository: GameStateRepository = GameStateFileStore()
@@ -41,8 +41,8 @@ class ViewController: UIViewController {
 
     // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
     private func createGameState() -> GameState {
-        let darkPlayer = Player.from(index: playerControls.first?.selectedSegmentIndex ?? 0)
-        let lightPlayer = Player.from(index: playerControls.last?.selectedSegmentIndex ?? 0)
+        let darkPlayer = PlayerType.from(index: playerControls.first?.selectedSegmentIndex ?? 0)
+        let lightPlayer = PlayerType.from(index: playerControls.last?.selectedSegmentIndex ?? 0)
         let positions = boardView.xRange.flatMap { x in
             boardView.yRange.map({ y in Position(x: x, y: y) })
         }
@@ -183,7 +183,7 @@ extension ViewController {
         turn = .dark
 
         for playerControl in playerControls {
-            playerControl.selectedSegmentIndex = Player.manual.rawValue
+            playerControl.selectedSegmentIndex = PlayerType.manual.rawValue
         }
 
         updateMessageViews()
@@ -194,11 +194,11 @@ extension ViewController {
 
     /// プレイヤーの行動を待ちます。
     func waitForPlayer() {
-        guard let turn = self.turn else { return }
-        let player = Player.from(index: playerControls[turn.index].selectedSegmentIndex)
-        computers[turn] = player.computer(with: gameState)
+        guard let side = self.turn else { return }
+        let playerType = PlayerType.from(index: playerControls[side.index].selectedSegmentIndex)
+        players = players.changePlayer(of: side, to: playerType.player(with: gameState))
 
-        playTurnOfComputer()
+        playTurn()
     }
 
     /// プレイヤーの行動後、そのプレイヤーのターンを終了して次のターンを開始します。
@@ -235,18 +235,18 @@ extension ViewController {
         }
     }
 
-    /// "Computer" が選択されている場合のプレイヤーの行動を決定します。
-    func playTurnOfComputer() {
-        guard let turn = self.turn else {
+    /// プレイヤーの行動を決定します。
+    func playTurn() {
+        guard let side = self.turn else {
             preconditionFailure()
         }
 
-        computers[turn]?.startOperation(
-            onStart: { [weak self] in self?.showIndicator(of: turn) },
+        players.startOperation(of: side,
+            onStart: { [weak self] in self?.showIndicator(of: side) },
             onComplete: { [weak self] result in
                 DispatchQueue.main.async { [weak self] in
-                    self?.hideIndicator(of: turn)
-                    self?.apply(result, for: turn)
+                    self?.hideIndicator(of: side)
+                    self?.apply(result, for: side)
                 }
             })
     }
@@ -276,7 +276,7 @@ extension ViewController {
         case .noPosition:
             nextTurn()
         case .cancel:
-            computers.removeValue(forKey: side)
+            break
         }
     }
 }
@@ -325,8 +325,7 @@ extension ViewController {
             self.animationCanceller?.cancel()
             self.animationCanceller = nil
 
-            self.computers.values.forEach { $0.cancelOperation() }
-            self.computers.removeAll()
+            self.players.cancelAll()
 
             self.newGame()
             self.waitForPlayer()
@@ -343,13 +342,12 @@ extension ViewController {
 
         try? saveGame()
 
-        computers[side]?.cancelOperation()
-        computers.removeValue(forKey: side)
+        players.cancelOperation(of: side)
 
-        let player = Player.from(index: sender.selectedSegmentIndex)
-        computers[side] = player.computer(with: gameState)
+        let playerType = PlayerType.from(index: sender.selectedSegmentIndex)
+        players = players.changePlayer(of: side, to: playerType.player(with: gameState))
         if !isAnimating, side == turn {
-            playTurnOfComputer()
+            playTurn()
         }
     }
 }
@@ -361,7 +359,7 @@ extension ViewController: BoardViewDelegate {
     /// - Parameter y: セルの行です。
     func boardView(_ boardView: BoardView, didSelectCellAtX x: Int, y: Int) {
         guard let turn = turn else { return }
-        let player = Player.from(index: playerControls[turn.index].selectedSegmentIndex)
+        let player = PlayerType.from(index: playerControls[turn.index].selectedSegmentIndex)
         if isAnimating { return }
         guard case .manual = player else { return }
         // try? because doing nothing when an error occurs

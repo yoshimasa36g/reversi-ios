@@ -14,17 +14,17 @@ final class GameState: Codable {
     let turn: Disk?
 
     /// 黒のプレイヤーの操作区分
-    let darkPlayer: Player
+    let darkPlayer: PlayerType
 
     /// 白のプレイヤーの操作区分
-    let lightPlayer: Player
+    let lightPlayer: PlayerType
 
     /// ゲーム盤
     let board: GameBoard
 
     init(turn: Disk? = nil,
-         darkPlayer: Player = .manual,
-         lightPlayer: Player = .manual,
+         darkPlayer: PlayerType = .manual,
+         lightPlayer: PlayerType = .manual,
          board: GameBoard = GameBoard(cells: GameBoard.initialCells)
     ) {
         self.turn = turn
