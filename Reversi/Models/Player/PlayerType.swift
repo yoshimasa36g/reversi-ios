@@ -13,15 +13,14 @@ enum PlayerType: Int, Codable {
     case manual = 0
     case computer = 1
 
-    /// プレイヤーのインスタンスを取得する
-    /// - Parameter gameState: ゲームの状態
-    /// - Returns: プレイヤー
-    func player(with gameState: GameState) -> Player {
+    /// プレイヤーのインスタンスに変換する
+    /// - Returns: プレイヤーのインスタンス
+    func toPlayer() -> Player {
         switch self {
         case .manual:
             return Human()
         case .computer:
-            return Computer(operation: RandomPositionOperation(gameState: gameState))
+            return Computer()
         }
     }
 

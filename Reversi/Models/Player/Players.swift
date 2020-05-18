@@ -41,13 +41,14 @@ struct Players {
 
     /// 指定した側のプレイヤーの操作を実行する
     /// - Parameters:
-    ///   - side: 操作を実行する側
+    ///   - gameState: ゲームの状態
     ///   - onStart: 操作開始時の処理
     ///   - onComplete: 操作完了時の処理
-    func startOperation(of side: Disk,
+    func startOperation(gameState: GameState,
                         onStart: @escaping () -> Void,
                         onComplete: @escaping (OperationResult) -> Void) {
-        players[side]?.startOperation(onStart: onStart, onComplete: onComplete)
+        guard let side = gameState.turn else { return }
+        players[side]?.startOperation(gameState: gameState, onStart: onStart, onComplete: onComplete)
     }
 
     /// 指定した側のプレイヤーの操作をキャンセルする
@@ -59,5 +60,21 @@ struct Players {
     /// すべてのプレイヤーの操作をキャンセルする
     func cancelAll() {
         players.values.forEach { $0.cancelOperation() }
+    }
+
+    /// 指定したがわのプレイヤー区分を返す
+    /// - Parameter side: プレイヤーを取得したい側
+    /// - Returns: プレイヤー区分
+    func type(of side: Disk) -> PlayerType {
+        players[side]?.type ?? .manual
+    }
+}
+
+// MARK: - Equatable
+
+extension Players: Equatable {
+    static func == (lhs: Players, rhs: Players) -> Bool {
+        return lhs.players[.dark]?.type == rhs.players[.dark]?.type
+            && lhs.players[.light]?.type == rhs.players[.light]?.type
     }
 }

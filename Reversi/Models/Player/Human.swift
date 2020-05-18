@@ -14,7 +14,7 @@ struct Human: Player {
         return .manual
     }
 
-    func startOperation(onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
+    func startOperation(gameState: GameState, onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
         // 何もしない（コールバックも呼ばない）
     }
 

@@ -15,9 +15,10 @@ protocol Player {
 
     /// 操作を開始する
     /// - Parameters:
+    ///   - gameState: ゲームの状態
     ///   - onStart: 開始時に行う処理
     ///   - onComplete: 終了時に行う処理
-    func startOperation(onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void)
+    func startOperation(gameState: GameState, onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void)
 
     /// 操作を中断する
     func cancelOperation()

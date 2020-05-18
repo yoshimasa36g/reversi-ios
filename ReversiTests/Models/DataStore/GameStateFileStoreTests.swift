@@ -37,7 +37,7 @@ final class GameStateFileStoreTests: XCTestCase {
             BoardCell(x: 4, y: 1, disk: .light),
             BoardCell(x: 5, y: 1, disk: .light)
         ])
-        return GameState(turn: turn, darkPlayer: .manual, lightPlayer: .computer, board: board)
+        return GameState(turn: turn, players: Players(darkPlayer: Human(), lightPlayer: Computer()), board: board)
     }
 
     func testSave() {

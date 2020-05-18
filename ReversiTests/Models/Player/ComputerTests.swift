@@ -13,7 +13,7 @@ final class ComputerTests: XCTestCase {
     // 選択できる位置がある場合は選択された結果が返ること
     func testStartWhenExistsAvailablePositions() {
         let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
-        let computer = Computer(operation: RandomPositionOperation(gameState: gameState, duration: 0))
+        let computer = Computer()
         let expected = [
             Position(x: 5, y: 1), Position(x: 4, y: 2), Position(x: 2, y: 5), Position(x: 2, y: 6),
             Position(x: 3, y: 6), Position(x: 4, y: 6), Position(x: 5, y: 6)
@@ -23,6 +23,7 @@ final class ComputerTests: XCTestCase {
         let completed = expectation(description: "onComplete")
 
         computer.startOperation(
+            gameState: gameState,
             onStart: { started.fulfill() },
             onComplete: { result in
                 switch result {
@@ -40,12 +41,13 @@ final class ComputerTests: XCTestCase {
     // 選択できる位置がない場合は選択されなかった結果が返ること
     func testStartWhenNoAvailablePositions() {
         let gameState = GameState(turn: .dark, board: GameBoard(cells: []))
-        let computer = Computer(operation: RandomPositionOperation(gameState: gameState, duration: 0))
+        let computer = Computer()
 
         let started = expectation(description: "onStart")
         let completed = expectation(description: "onComplete")
 
         computer.startOperation(
+            gameState: gameState,
             onStart: { started.fulfill() },
             onComplete: { result in
                 switch result {
@@ -63,12 +65,13 @@ final class ComputerTests: XCTestCase {
     // キャンセルされた場合はキャンセルされた結果が返ること
     func testStartWhenCancel() {
         let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
-        let computer = Computer(operation: RandomPositionOperation(gameState: gameState, duration: 0))
+        let computer = Computer()
 
         let started = expectation(description: "onStart")
         let completed = expectation(description: "onComplete")
 
         computer.startOperation(
+            gameState: gameState,
             onStart: { started.fulfill() },
             onComplete: { result in
                 switch result {

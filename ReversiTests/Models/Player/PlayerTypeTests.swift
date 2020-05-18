@@ -10,17 +10,15 @@
 import XCTest
 
 final class PlayerTypeTests: XCTestCase {
-    // MARK: - test for player
+    // MARK: - test for toPlayer
 
-    func testPlayerWhenManual() {
-        let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
-        let actual = PlayerType.manual.player(with: gameState)
+    func testToPlayerWhenManual() {
+        let actual = PlayerType.manual.toPlayer()
         XCTAssertTrue(actual is Human)
     }
 
-    func testPlayerWhenComputer() {
-        let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
-        let actual = PlayerType.computer.player(with: gameState)
+    func testToPlayerWhenComputer() {
+        let actual = PlayerType.computer.toPlayer()
         XCTAssertTrue(actual is Computer)
     }
 

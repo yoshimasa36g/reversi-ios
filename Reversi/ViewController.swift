@@ -41,8 +41,8 @@ class ViewController: UIViewController {
 
     // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
     private func createGameState() -> GameState {
-        let darkPlayer = PlayerType.from(index: playerControls.first?.selectedSegmentIndex ?? 0)
-        let lightPlayer = PlayerType.from(index: playerControls.last?.selectedSegmentIndex ?? 0)
+        let darkPlayer = PlayerType.from(index: playerControls.first?.selectedSegmentIndex ?? 0).toPlayer()
+        let lightPlayer = PlayerType.from(index: playerControls.last?.selectedSegmentIndex ?? 0).toPlayer()
         let positions = boardView.xRange.flatMap { x in
             boardView.yRange.map({ y in Position(x: x, y: y) })
         }
@@ -53,16 +53,15 @@ class ViewController: UIViewController {
             return BoardCell(position: p, disk: disk)
         }
         return GameState(turn: turn,
-                         darkPlayer: darkPlayer,
-                         lightPlayer: lightPlayer,
+                         players: Players(darkPlayer: darkPlayer, lightPlayer: lightPlayer),
                          board: GameBoard(cells: cells))
     }
 
     // GameStateをViewに反映する
     private func updateView(with state: GameState) {
         self.turn = state.turn
-        playerControls.first?.selectedSegmentIndex = state.darkPlayer.rawValue
-        playerControls.last?.selectedSegmentIndex = state.lightPlayer.rawValue
+        playerControls.first?.selectedSegmentIndex = state.players.type(of: .dark).rawValue
+        playerControls.last?.selectedSegmentIndex = state.players.type(of: .light).rawValue
         boardView.reset()
         state.board.forEach { cell in
             boardView.setDisk(cell.disk,
@@ -195,8 +194,8 @@ extension ViewController {
     /// プレイヤーの行動を待ちます。
     func waitForPlayer() {
         guard let side = self.turn else { return }
-        let playerType = PlayerType.from(index: playerControls[side.index].selectedSegmentIndex)
-        players = players.changePlayer(of: side, to: playerType.player(with: gameState))
+        let player = PlayerType.from(index: playerControls[side.index].selectedSegmentIndex).toPlayer()
+        players = players.changePlayer(of: side, to: player)
 
         playTurn()
     }
@@ -241,7 +240,8 @@ extension ViewController {
             preconditionFailure()
         }
 
-        players.startOperation(of: side,
+        players.startOperation(
+            gameState: gameState,
             onStart: { [weak self] in self?.showIndicator(of: side) },
             onComplete: { [weak self] result in
                 DispatchQueue.main.async { [weak self] in
@@ -344,8 +344,8 @@ extension ViewController {
 
         players.cancelOperation(of: side)
 
-        let playerType = PlayerType.from(index: sender.selectedSegmentIndex)
-        players = players.changePlayer(of: side, to: playerType.player(with: gameState))
+        let player = PlayerType.from(index: sender.selectedSegmentIndex).toPlayer()
+        players = players.changePlayer(of: side, to: player)
         if !isAnimating, side == turn {
             playTurn()
         }

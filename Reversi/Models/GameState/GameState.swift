@@ -13,23 +13,18 @@ final class GameState: Codable {
     /// ターン
     let turn: Disk?
 
-    /// 黒のプレイヤーの操作区分
-    let darkPlayer: PlayerType
-
-    /// 白のプレイヤーの操作区分
-    let lightPlayer: PlayerType
+    /// プレイヤー情報
+    let players: Players
 
     /// ゲーム盤
     let board: GameBoard
 
     init(turn: Disk? = nil,
-         darkPlayer: PlayerType = .manual,
-         lightPlayer: PlayerType = .manual,
+         players: Players = Players(darkPlayer: Human(), lightPlayer: Human()),
          board: GameBoard = GameBoard(cells: GameBoard.initialCells)
     ) {
         self.turn = turn
-        self.darkPlayer = darkPlayer
-        self.lightPlayer = lightPlayer
+        self.players = players
         self.board = board
     }
 
@@ -43,6 +38,32 @@ final class GameState: Codable {
         }
         return (disk: nil, label: "Tied")
     }
+
+    // MARK: - Codable
+
+    enum Key: CodingKey {
+        case turn
+        case darkPlayer
+        case lightPlayer
+        case board
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        turn = try container.decodeIfPresent(Disk.self, forKey: .turn)
+        board = try container.decode(GameBoard.self, forKey: .board)
+        let dark = try container.decode(PlayerType.self, forKey: .darkPlayer).toPlayer()
+        let light = try container.decode(PlayerType.self, forKey: .lightPlayer).toPlayer()
+        players = Players(darkPlayer: dark, lightPlayer: light)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: Key.self)
+        try container.encodeIfPresent(turn, forKey: .turn)
+        try container.encode(players.type(of: .dark), forKey: .darkPlayer)
+        try container.encode(players.type(of: .light), forKey: .lightPlayer)
+        try container.encode(board, forKey: .board)
+    }
 }
 
 // MARK: - Equatable
@@ -50,8 +71,7 @@ final class GameState: Codable {
 extension GameState: Equatable {
     static func == (lhs: GameState, rhs: GameState) -> Bool {
         return lhs.turn == rhs.turn
-            && lhs.darkPlayer == rhs.darkPlayer
-            && lhs.lightPlayer == rhs.lightPlayer
+            && lhs.players == rhs.players
             && lhs.board == rhs.board
     }
 }

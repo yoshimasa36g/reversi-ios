@@ -20,6 +20,7 @@
 		8F331C9E246E596E00308F50 /* RandomPositionOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F331C9D246E596E00308F50 /* RandomPositionOperationTests.swift */; };
 		8F331CA0246E603B00308F50 /* ComputerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F331C9F246E603B00308F50 /* ComputerTests.swift */; };
 		8F839F532472337000F821E7 /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F839F522472337000F821E7 /* Players.swift */; };
+		8F839F5524725F0200F821E7 /* PlayersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F839F5424725F0200F821E7 /* PlayersTests.swift */; };
 		8F889111246D1B3000F27D54 /* Computer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F889110246D1B3000F27D54 /* Computer.swift */; };
 		8F8D627F2464E84A007E7E0B /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */; };
 		8F8D62812464E913007E7E0B /* GameStateFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62802464E913007E7E0B /* GameStateFileStore.swift */; };
@@ -66,6 +67,7 @@
 		8F331C9D246E596E00308F50 /* RandomPositionOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPositionOperationTests.swift; sourceTree = "<group>"; };
 		8F331C9F246E603B00308F50 /* ComputerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerTests.swift; sourceTree = "<group>"; };
 		8F839F522472337000F821E7 /* Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
+		8F839F5424725F0200F821E7 /* PlayersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersTests.swift; sourceTree = "<group>"; };
 		8F889110246D1B3000F27D54 /* Computer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Computer.swift; sourceTree = "<group>"; };
 		8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
 		8F8D62802464E913007E7E0B /* GameStateFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateFileStore.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				8F331C99246E570600308F50 /* PlayerTypeTests.swift */,
 				8F331C9D246E596E00308F50 /* RandomPositionOperationTests.swift */,
 				8F331C9F246E603B00308F50 /* ComputerTests.swift */,
+				8F839F5424725F0200F821E7 /* PlayersTests.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				D642BDCB23A9FE4700396732 /* GameStateFileStoreTests.swift in Sources */,
 				8F331C9A246E570600308F50 /* PlayerTypeTests.swift in Sources */,
 				8F331C9C246E57B300308F50 /* ModelsHelper.swift in Sources */,
+				8F839F5524725F0200F821E7 /* PlayersTests.swift in Sources */,
 				8F09196C2468DCD3006723B7 /* GameBoardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

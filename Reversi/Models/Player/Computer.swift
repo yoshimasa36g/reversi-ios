@@ -9,24 +9,17 @@
 import Foundation
 
 /// Computerのプレイヤー
-struct Computer: Player {
-    private let operation: ComputerOperation?
+final class Computer: Player {
+    private var operation: ComputerOperation?
     private let queue = OperationQueue()
-
-    /// Operationを指定してインスタンスを生成する
-    /// - Parameter operation: 思考処理のOperation
-    init(operation: ComputerOperation?) {
-        self.operation = operation
-    }
 
     var type: PlayerType {
         .computer
     }
 
-    func startOperation(onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
-        guard let operation = self.operation, !operation.isFinished else {
-            return
-        }
+    func startOperation(gameState: GameState, onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
+        let operation = RandomPositionOperation(gameState: gameState)
+        self.operation = operation
 
         onStart()
 
