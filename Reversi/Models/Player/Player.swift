@@ -13,15 +13,15 @@ enum Player: Int, Codable {
     case manual = 0
     case computer = 1
 
-    /// Computerの思考処理を取得する
+    /// Computerのインスタンスを取得する
     /// - Parameter gameState: ゲームの状態
     /// - Returns: Computerの思考処理 / manualに対して呼んだ場合はnil
-    func operation(with gameState: GameState) -> ComputerOperation? {
+    func computer(with gameState: GameState) -> Computer? {
         switch self {
         case .manual:
             return nil
         case .computer:
-            return ComputerOperation(operation: RandomPositionOperation(gameState: gameState))
+            return Computer(operation: RandomPositionOperation(gameState: gameState))
         }
     }
 

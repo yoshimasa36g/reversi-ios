@@ -24,8 +24,8 @@ class ViewController: UIViewController {
     private var animationCanceller: Canceller?
     private var isAnimating: Bool { animationCanceller != nil }
 
-    /// Computerの思考処理のインスタンスを保存している。マニュアルに切り替えてキャンセルする場合などに使う
-    private var operations = [Disk: ComputerOperation]()
+    /// Computerのインスタンスを保存している。マニュアルに切り替えてキャンセルする場合などに使う
+    private var computers = [Disk: Computer]()
 
     /// ゲームの状態を保存するリポジトリ
     private let repository: GameStateRepository = GameStateFileStore()
@@ -196,7 +196,7 @@ extension ViewController {
     func waitForPlayer() {
         guard let turn = self.turn else { return }
         let player = Player.from(index: playerControls[turn.index].selectedSegmentIndex)
-        operations[turn] = player.operation(with: gameState)
+        computers[turn] = player.computer(with: gameState)
 
         playTurnOfComputer()
     }
@@ -241,7 +241,7 @@ extension ViewController {
             preconditionFailure()
         }
 
-        operations[turn]?.start(
+        computers[turn]?.startOperation(
             onStart: { [weak self] in self?.showIndicator(of: turn) },
             onComplete: { [weak self] result in
                 DispatchQueue.main.async { [weak self] in
@@ -276,7 +276,7 @@ extension ViewController {
         case .noPosition:
             nextTurn()
         case .cancel:
-            operations.removeValue(forKey: side)
+            computers.removeValue(forKey: side)
         }
     }
 }
@@ -325,8 +325,8 @@ extension ViewController {
             self.animationCanceller?.cancel()
             self.animationCanceller = nil
 
-            self.operations.values.forEach { $0.cancel() }
-            self.operations.removeAll()
+            self.computers.values.forEach { $0.cancelOperation() }
+            self.computers.removeAll()
 
             self.newGame()
             self.waitForPlayer()
@@ -343,11 +343,11 @@ extension ViewController {
 
         try? saveGame()
 
-        operations[side]?.cancel()
-        operations.removeValue(forKey: side)
+        computers[side]?.cancelOperation()
+        computers.removeValue(forKey: side)
 
         let player = Player.from(index: sender.selectedSegmentIndex)
-        operations[side] = player.operation(with: gameState)
+        computers[side] = player.computer(with: gameState)
         if !isAnimating, side == turn {
             playTurnOfComputer()
         }

@@ -12,11 +12,12 @@
 		8F09197024691901006723B7 /* GameStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09196F24691901006723B7 /* GameStateTests.swift */; };
 		8F114E2B246D0C7000E00E72 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114E2A246D0C7000E00E72 /* Player.swift */; };
 		8F114E31246D0E1A00E00E72 /* RandomPositionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114E30246D0E1A00E00E72 /* RandomPositionOperation.swift */; };
+		8F1B2E85247222B300470280 /* ComputerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1B2E84247222B300470280 /* ComputerOperation.swift */; };
 		8F331C9A246E570600308F50 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F331C99246E570600308F50 /* PlayerTests.swift */; };
 		8F331C9C246E57B300308F50 /* ModelsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F331C9B246E57B300308F50 /* ModelsHelper.swift */; };
 		8F331C9E246E596E00308F50 /* RandomPositionOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F331C9D246E596E00308F50 /* RandomPositionOperationTests.swift */; };
-		8F331CA0246E603B00308F50 /* ComputerOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F331C9F246E603B00308F50 /* ComputerOperationTests.swift */; };
-		8F889111246D1B3000F27D54 /* ComputerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F889110246D1B3000F27D54 /* ComputerOperation.swift */; };
+		8F331CA0246E603B00308F50 /* ComputerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F331C9F246E603B00308F50 /* ComputerTests.swift */; };
+		8F889111246D1B3000F27D54 /* Computer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F889110246D1B3000F27D54 /* Computer.swift */; };
 		8F8D627F2464E84A007E7E0B /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */; };
 		8F8D62812464E913007E7E0B /* GameStateFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62802464E913007E7E0B /* GameStateFileStore.swift */; };
 		8F8D62832464F470007E7E0B /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62822464F470007E7E0B /* BoardCell.swift */; };
@@ -54,11 +55,12 @@
 		8F09196F24691901006723B7 /* GameStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateTests.swift; sourceTree = "<group>"; };
 		8F114E2A246D0C7000E00E72 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		8F114E30246D0E1A00E00E72 /* RandomPositionOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPositionOperation.swift; sourceTree = "<group>"; };
+		8F1B2E84247222B300470280 /* ComputerOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerOperation.swift; sourceTree = "<group>"; };
 		8F331C99246E570600308F50 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
 		8F331C9B246E57B300308F50 /* ModelsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsHelper.swift; sourceTree = "<group>"; };
 		8F331C9D246E596E00308F50 /* RandomPositionOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPositionOperationTests.swift; sourceTree = "<group>"; };
-		8F331C9F246E603B00308F50 /* ComputerOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerOperationTests.swift; sourceTree = "<group>"; };
-		8F889110246D1B3000F27D54 /* ComputerOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerOperation.swift; sourceTree = "<group>"; };
+		8F331C9F246E603B00308F50 /* ComputerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerTests.swift; sourceTree = "<group>"; };
+		8F889110246D1B3000F27D54 /* Computer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Computer.swift; sourceTree = "<group>"; };
 		8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
 		8F8D62802464E913007E7E0B /* GameStateFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateFileStore.swift; sourceTree = "<group>"; };
 		8F8D62822464F470007E7E0B /* BoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCell.swift; sourceTree = "<group>"; };
@@ -128,8 +130,9 @@
 			isa = PBXGroup;
 			children = (
 				8F114E2A246D0C7000E00E72 /* Player.swift */,
+				8F889110246D1B3000F27D54 /* Computer.swift */,
+				8F1B2E84247222B300470280 /* ComputerOperation.swift */,
 				8F114E30246D0E1A00E00E72 /* RandomPositionOperation.swift */,
-				8F889110246D1B3000F27D54 /* ComputerOperation.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -139,7 +142,7 @@
 			children = (
 				8F331C99246E570600308F50 /* PlayerTests.swift */,
 				8F331C9D246E596E00308F50 /* RandomPositionOperationTests.swift */,
-				8F331C9F246E603B00308F50 /* ComputerOperationTests.swift */,
+				8F331C9F246E603B00308F50 /* ComputerTests.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -373,10 +376,11 @@
 				D636B39F23D35043007F370F /* DiskView.swift in Sources */,
 				8FBB0D80246BBBE8001A548F /* DiskExtensions.swift in Sources */,
 				D642BDD623AA0B3900396732 /* CellView.swift in Sources */,
+				8F1B2E85247222B300470280 /* ComputerOperation.swift in Sources */,
 				D6CAD3D62465237500F5A153 /* GameBoard.swift in Sources */,
 				D642BDD823AA0B5700396732 /* Disk.swift in Sources */,
 				D642BDB823A9FE4500396732 /* ViewController.swift in Sources */,
-				8F889111246D1B3000F27D54 /* ComputerOperation.swift in Sources */,
+				8F889111246D1B3000F27D54 /* Computer.swift in Sources */,
 				8F8D62812464E913007E7E0B /* GameStateFileStore.swift in Sources */,
 				D642BDDC23AA137C00396732 /* BoardView.swift in Sources */,
 				8F114E31246D0E1A00E00E72 /* RandomPositionOperation.swift in Sources */,
@@ -397,7 +401,7 @@
 				8F8D628B2464FF56007E7E0B /* BoardCellTests.swift in Sources */,
 				8F09197024691901006723B7 /* GameStateTests.swift in Sources */,
 				8F331C9E246E596E00308F50 /* RandomPositionOperationTests.swift in Sources */,
-				8F331CA0246E603B00308F50 /* ComputerOperationTests.swift in Sources */,
+				8F331CA0246E603B00308F50 /* ComputerTests.swift in Sources */,
 				D642BDCB23A9FE4700396732 /* GameStateFileStoreTests.swift in Sources */,
 				8F331C9A246E570600308F50 /* PlayerTests.swift in Sources */,
 				8F331C9C246E57B300308F50 /* ModelsHelper.swift in Sources */,

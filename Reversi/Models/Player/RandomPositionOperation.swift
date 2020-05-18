@@ -9,7 +9,7 @@
 import Foundation
 
 /// ディスクを置ける場所からランダムに選択するOperation
-final class RandomPositionOperation: Operation {
+final class RandomPositionOperation: Operation, ComputerOperation {
     private let gameState: GameState
     private let duration: UInt32
 

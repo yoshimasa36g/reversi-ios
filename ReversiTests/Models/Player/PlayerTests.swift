@@ -10,17 +10,17 @@
 import XCTest
 
 final class PlayerTests: XCTestCase {
-    // MARK: - test for operation
+    // MARK: - test for computer
 
-    func testOperationWhenManual() {
+    func testComputerWhenManual() {
         let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
-        let actual = Player.manual.operation(with: gameState)
+        let actual = Player.manual.computer(with: gameState)
         XCTAssertNil(actual)
     }
 
-    func testOperationWhenComputer() {
+    func testComputerWhenComputer() {
         let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
-        let actual = Player.computer.operation(with: gameState)
+        let actual = Player.computer.computer(with: gameState)
         XCTAssertNotNil(actual)
     }
 
