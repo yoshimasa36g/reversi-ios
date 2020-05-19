@@ -114,5 +114,63 @@ final class GameBoardTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
-    // MARK: - helper methods
+    // MARK: - test for set(disk:at:)
+
+    // 何もない位置に置いたらBoardCellのデータが追加されること
+    func testSetDiskAtEmptyPosition() {
+        let board = gameBoardWithFewDisks()
+        let position = Position(x: (3..<8).randomElement() ?? 0, y: (3..<8).randomElement() ?? 0)
+        let result = board.set(disk: .light, at: position)
+        XCTAssertEqual(result.disk(at: position), .light)
+        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
+        XCTAssertEqual(result.disk(at: Position(x: 2, y: 2)), .dark)
+        XCTAssertEqual(result.count(of: .dark), 2)
+        XCTAssertEqual(result.count(of: .light), 2)
+    }
+
+    // ディスクがある位置に置いたらBoardCellのデータが置き換わること
+    func testSetDiskAtExistsDiskPosition() {
+        let board = gameBoardWithFewDisks()
+        let position = Position(x: 2, y: 2)
+        let result = board.set(disk: .light, at: position)
+        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
+        XCTAssertEqual(result.disk(at: Position(x: 2, y: 2)), .light)
+        XCTAssertEqual(result.count(of: .dark), 1)
+        XCTAssertEqual(result.count(of: .light), 2)
+    }
+
+    // MARK: - test for removeDisk(at:)
+
+    // ディスクがある位置を指定したらそのデータが削除されること
+    func testRemoveDiskAtExistsDiskPosition() {
+        let board = gameBoardWithFewDisks()
+        let position = Position(x: 2, y: 2)
+        let result = board.removeDisk(at: position)
+        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
+        XCTAssertEqual(result.count(of: .dark), 1)
+        XCTAssertEqual(result.count(of: .light), 1)
+    }
+
+    // 何もない位置を指定したら何も変更されないこと
+    func testRemoveDiskAtEmptyPosition() {
+        let board = gameBoardWithFewDisks()
+        let position = Position(x: (3..<8).randomElement() ?? 0, y: (3..<8).randomElement() ?? 0)
+        let result = board.removeDisk(at: position)
+        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
+        XCTAssertEqual(result.disk(at: Position(x: 2, y: 2)), .dark)
+        XCTAssertEqual(result.count(of: .dark), 2)
+        XCTAssertEqual(result.count(of: .light), 1)
+    }
+
+    private func gameBoardWithFewDisks() -> GameBoard {
+        GameBoard(cells: [
+            BoardCell(x: 0, y: 0, disk: .dark),
+            BoardCell(x: 1, y: 1, disk: .light),
+            BoardCell(x: 2, y: 2, disk: .dark)
+        ])
+    }
 }

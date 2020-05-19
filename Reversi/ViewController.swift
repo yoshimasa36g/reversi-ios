@@ -18,52 +18,25 @@ class ViewController: UIViewController {
     @IBOutlet private var countLabels: [UILabel]!
     @IBOutlet private var playerActivityIndicators: [UIActivityIndicatorView]!
 
-    /// どちらの色のプレイヤーのターンかを表します。ゲーム終了時は `nil` です。
-    private var turn: Disk? = .dark
-
     private var animationCanceller: Canceller?
     private var isAnimating: Bool { animationCanceller != nil }
-
-    /// プレイヤー
-    private var players = Players(darkPlayer: Human(), lightPlayer: Human())
 
     /// ゲームの状態を保存するリポジトリ
     private let repository: GameStateRepository = GameStateFileStore()
 
-    private var gameState: GameState {
-        get {
-            createGameState()
+    private var gameState = GameState() {
+        didSet {
+            updateView()
         }
-        set {
-            updateView(with: newValue)
-        }
-    }
-
-    // Viewの情報からGameStateを作る（GameStateで管理するようになったら消す）
-    private func createGameState() -> GameState {
-        let darkPlayer = PlayerType.from(index: playerControls.first?.selectedSegmentIndex ?? 0).toPlayer()
-        let lightPlayer = PlayerType.from(index: playerControls.last?.selectedSegmentIndex ?? 0).toPlayer()
-        let positions = boardView.xRange.flatMap { x in
-            boardView.yRange.map({ y in Position(x: x, y: y) })
-        }
-        let cells: [BoardCell] = positions.compactMap { p in
-            guard let disk = boardView.diskAt(x: p.x, y: p.y) else {
-                return nil
-            }
-            return BoardCell(position: p, disk: disk)
-        }
-        return GameState(turn: turn,
-                         players: Players(darkPlayer: darkPlayer, lightPlayer: lightPlayer),
-                         board: GameBoard(cells: cells))
     }
 
     // GameStateをViewに反映する
-    private func updateView(with state: GameState) {
-        self.turn = state.turn
-        playerControls.first?.selectedSegmentIndex = state.players.type(of: .dark).rawValue
-        playerControls.last?.selectedSegmentIndex = state.players.type(of: .light).rawValue
+    private func updateView() {
+        if isAnimating { return }
+        playerControls.first?.selectedSegmentIndex = gameState.players.type(of: .dark).rawValue
+        playerControls.last?.selectedSegmentIndex = gameState.players.type(of: .light).rawValue
         boardView.reset()
-        state.board.forEach { cell in
+        gameState.board.forEach { cell in
             boardView.setDisk(cell.disk,
                               atX: cell.position.x,
                               y: cell.position.y,
@@ -133,9 +106,9 @@ extension ViewController {
         } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.boardView.setDisk(disk, atX: x, y: y, animated: false)
+                self.place(disk: disk, atX: x, y: y, animated: false)
                 for (x, y) in diskCoordinates {
-                    self.boardView.setDisk(disk, atX: x, y: y, animated: false)
+                    self.place(disk: disk, atX: x, y: y, animated: false)
                 }
                 completion?(true)
                 try? self.saveGame()
@@ -158,18 +131,28 @@ extension ViewController {
         guard let animationCanceller = self.animationCanceller else {
             return
         }
-        boardView.setDisk(disk, atX: x, y: y, animated: true) { [weak self] isFinished in
+        place(disk: disk, atX: x, y: y, animated: true) { [weak self] isFinished in
             guard let self = self else { return }
             if animationCanceller.isCancelled { return }
             if isFinished {
                 self.animateSettingDisks(at: coordinates.dropFirst(), to: disk, completion: completion)
             } else {
                 for (x, y) in coordinates {
-                    self.boardView.setDisk(disk, atX: x, y: y, animated: false)
+                    self.place(disk: disk, atX: x, y: y, animated: false)
                 }
                 completion(false)
             }
         }
+    }
+
+    private func place(disk: Disk?, atX x: Int, y: Int, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        boardView.setDisk(disk, atX: x, y: y, animated: animated, completion: completion)
+        let position = Position(x: x, y: y)
+        if let disk = disk {
+            gameState = gameState.place(disk: disk, at: position)
+            return
+        }
+        gameState = gameState.removeDisk(at: position)
     }
 }
 
@@ -179,7 +162,7 @@ extension ViewController {
     /// ゲームの状態を初期化し、新しいゲームを開始します。
     func newGame() {
         boardView.reset()
-        turn = .dark
+        gameState = GameState(turn: .dark)
 
         for playerControl in playerControls {
             playerControl.selectedSegmentIndex = PlayerType.manual.rawValue
@@ -193,9 +176,9 @@ extension ViewController {
 
     /// プレイヤーの行動を待ちます。
     func waitForPlayer() {
-        guard let side = self.turn else { return }
+        guard let side = gameState.turn else { return }
         let player = PlayerType.from(index: playerControls[side.index].selectedSegmentIndex).toPlayer()
-        players = players.changePlayer(of: side, to: player)
+        gameState = gameState.changePlayer(of: side, to: player)
 
         playTurn()
     }
@@ -204,17 +187,17 @@ extension ViewController {
     /// もし、次のプレイヤーに有効な手が存在しない場合、パスとなります。
     /// 両プレイヤーに有効な手がない場合、ゲームの勝敗を表示します。
     func nextTurn() {
-        guard var turn = self.turn else { return }
+        guard var turn = gameState.turn else { return }
 
         turn.flip()
 
         let state = gameState
         if state.board.settablePositions(disk: turn).isEmpty {
             if state.board.settablePositions(disk: turn.flipped).isEmpty {
-                self.turn = nil
+                gameState = gameState.changeTurn(to: nil)
                 updateMessageViews()
             } else {
-                self.turn = turn
+                gameState = gameState.changeTurn(to: turn)
                 updateMessageViews()
 
                 let alertController = UIAlertController(
@@ -228,7 +211,7 @@ extension ViewController {
                 present(alertController, animated: true)
             }
         } else {
-            self.turn = turn
+            gameState = gameState.changeTurn(to: turn)
             updateMessageViews()
             waitForPlayer()
         }
@@ -236,11 +219,11 @@ extension ViewController {
 
     /// プレイヤーの行動を決定します。
     func playTurn() {
-        guard let side = self.turn else {
+        guard let side = gameState.turn else {
             preconditionFailure()
         }
 
-        players.startOperation(
+        gameState.players.startOperation(
             gameState: gameState,
             onStart: { [weak self] in self?.showIndicator(of: side) },
             onComplete: { [weak self] result in
@@ -286,9 +269,8 @@ extension ViewController {
 extension ViewController {
     /// 各プレイヤーの獲得したディスクの枚数を表示します。
     func updateCountLabels() {
-        let state = gameState
         Disk.sides.forEach {
-            countLabels[$0.index].text = state.board.count(of: $0).description
+            countLabels[$0.index].text = gameState.board.count(of: $0).description
         }
     }
 
@@ -325,7 +307,7 @@ extension ViewController {
             self.animationCanceller?.cancel()
             self.animationCanceller = nil
 
-            self.players.cancelAll()
+            self.gameState.players.cancelAll()
 
             self.newGame()
             self.waitForPlayer()
@@ -340,13 +322,14 @@ extension ViewController {
         }
         let side = Disk.from(index: index)
 
-        try? saveGame()
-
-        players.cancelOperation(of: side)
+        gameState.players.cancelOperation(of: side)
 
         let player = PlayerType.from(index: sender.selectedSegmentIndex).toPlayer()
-        players = players.changePlayer(of: side, to: player)
-        if !isAnimating, side == turn {
+        gameState = gameState.changePlayer(of: side, to: player)
+
+        try? saveGame()
+
+        if !isAnimating, side == gameState.turn {
             playTurn()
         }
     }
@@ -358,7 +341,7 @@ extension ViewController: BoardViewDelegate {
     /// - Parameter x: セルの列です。
     /// - Parameter y: セルの行です。
     func boardView(_ boardView: BoardView, didSelectCellAtX x: Int, y: Int) {
-        guard let turn = turn else { return }
+        guard let turn = gameState.turn else { return }
         let player = PlayerType.from(index: playerControls[turn.index].selectedSegmentIndex)
         if isAnimating { return }
         guard case .manual = player else { return }
@@ -427,11 +410,11 @@ extension Disk {
 
 extension ViewController {
     func changeTurn(to disk: Disk?) {
-        turn = disk
+        gameState = gameState.changeTurn(to: disk)
     }
 
     func getTurn() -> Disk? {
-        return turn
+        return gameState.turn
     }
 
     func segmentControlForDark() -> UISegmentedControl? {
@@ -443,7 +426,7 @@ extension ViewController {
     }
 
     func set(disk: Disk?, atX x: Int, y: Int) {
-        boardView.setDisk(disk, atX: x, y: y, animated: false)
+        place(disk: disk, atX: x, y: y, animated: false)
     }
 
     func diskAt(x: Int, y: Int) -> Disk? {

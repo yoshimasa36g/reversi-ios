@@ -47,6 +47,27 @@ struct GameBoard: Codable, Equatable {
         cells.first { $0.position == position }?.disk
     }
 
+    /// 指定した位置にディスクを置いたインスタンスを返す。
+    /// 既に置いてある場合は上書きする。
+    /// - Parameters:
+    ///   - disk: 置くディスク
+    ///   - position: 置く位置
+    /// - Returns: ディスクを置いたGameBoardのインスタンス
+    func set(disk: Disk, at position: Position) -> GameBoard {
+        let newCells = cells.filter { $0.position != position }
+            + [BoardCell(position: position, disk: disk)]
+        return GameBoard(cells: newCells)
+    }
+
+    /// 指定した位置のディスクを取り除いたインスタンスを返す。
+    /// - Parameters:
+    ///   - position: 取り除く位置
+    /// - Returns: ディスクを取り除いたGameBoardのインスタンス
+    func removeDisk(at position: Position) -> GameBoard {
+        let newCells = cells.filter { $0.position != position }
+        return GameBoard(cells: newCells)
+    }
+
     /// 指定したセルのディスクを置いたら獲得できるディスクの位置を返す
     /// - Parameters:
     ///   - disk: 置くディスク

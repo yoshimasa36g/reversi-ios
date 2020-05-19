@@ -9,7 +9,7 @@
 import Foundation
 
 /// ゲームの状態
-final class GameState: Codable {
+struct GameState: Codable {
     /// ターン
     let turn: Disk?
 
@@ -26,17 +26,6 @@ final class GameState: Codable {
         self.turn = turn
         self.players = players
         self.board = board
-    }
-
-    /// ターン表示や勝敗表示用のメッセージ
-    var message: (disk: Disk?, label: String) {
-        if let side = turn {
-            return (disk: side, label: "'s turn")
-        }
-        if let winner = board.winner() {
-            return (disk: winner, label: " won")
-        }
-        return (disk: nil, label: "Tied")
     }
 
     // MARK: - Codable
@@ -63,6 +52,56 @@ final class GameState: Codable {
         try container.encode(players.type(of: .dark), forKey: .darkPlayer)
         try container.encode(players.type(of: .light), forKey: .lightPlayer)
         try container.encode(board, forKey: .board)
+    }
+}
+
+// MARK: - Properties
+
+extension GameState {
+    /// ターン表示や勝敗表示用のメッセージ
+    var message: (disk: Disk?, label: String) {
+        if let side = turn {
+            return (disk: side, label: "'s turn")
+        }
+        if let winner = board.winner() {
+            return (disk: winner, label: " won")
+        }
+        return (disk: nil, label: "Tied")
+    }
+}
+
+// MARK: - Update methods
+
+extension GameState {
+    /// ターンを変更したインスタンスを返す
+    /// - Parameter newTurn: 変更後のターン
+    func changeTurn(to newTurn: Disk?) -> GameState {
+        GameState(turn: newTurn, players: players, board: board)
+    }
+
+    /// 指定した側のプレイヤーを変更したインスタンスを返す
+    /// - Parameters:
+    ///   - side: 変更する側
+    ///   - newPlayer: 変更後のプレイヤー
+    func changePlayer(of side: Disk, to newPlayer: Player) -> GameState {
+        let newPlayers = players.changePlayer(of: side, to: newPlayer)
+        return GameState(turn: turn, players: newPlayers, board: board)
+    }
+
+    /// 指定した位置にディスクを置いたインスタンスを返す
+    /// - Parameters:
+    ///   - disk: 置くディスク
+    ///   - position: 置く位置
+    func place(disk: Disk, at position: Position) -> GameState {
+        let newBoard = board.set(disk: disk, at: position)
+        return GameState(turn: turn, players: players, board: newBoard)
+    }
+
+    /// 指定した位置からディスクを取り除いたインスタンスを返す
+    /// - Parameter position: 取り除く位置
+    func removeDisk(at position: Position) -> GameState {
+        let newBoard = board.removeDisk(at: position)
+        return GameState(turn: turn, players: players, board: newBoard)
     }
 }
 
