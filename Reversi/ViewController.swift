@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         messageDiskSize = messageDiskSizeConstraint.constant
 
         do {
-            try loadGame()
+            gameState = try GameState.load(from: repository)
         } catch _ {
             newGame()
         }
@@ -96,7 +96,7 @@ extension ViewController {
             cleanUp()
 
             completion?(isFinished)
-            try? self.saveGame()
+            try? self.gameState.save(to: self.repository)
         }
     }
 
@@ -146,8 +146,8 @@ extension ViewController {
 extension ViewController {
     /// ゲームの状態を初期化し、新しいゲームを開始します。
     func newGame() {
-        gameState = GameState(turn: .dark)
-        try? saveGame()
+        gameState = gameState.reset()
+        try? gameState.save(to: repository)
     }
 
     /// プレイヤーの行動を待ちます。
@@ -301,7 +301,7 @@ extension ViewController {
         let player = PlayerType.from(index: sender.selectedSegmentIndex).toPlayer()
         gameState = gameState.changePlayer(of: side, to: player)
 
-        try? saveGame()
+        try? gameState.save(to: repository)
 
         if !isAnimating, side == gameState.turn {
             playTurn()
@@ -323,18 +323,6 @@ extension ViewController: BoardViewDelegate {
         try? placeDisk(turn, at: Coordinate(x: x, y: y)) { [weak self] _ in
             self?.nextTurn()
         }
-    }
-}
-
-// MARK: Save and Load
-
-extension ViewController {
-    private func saveGame() throws {
-        try repository.save(gameState)
-    }
-
-    private func loadGame() throws {
-        gameState = try repository.load()
     }
 }
 

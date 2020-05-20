@@ -75,9 +75,14 @@ extension GameState {
     }
 }
 
-// MARK: - Manage turn
+// MARK: - Manage game
 
 extension GameState {
+    /// リセットしたインスタンスを返す
+    func reset() -> GameState {
+        GameState(turn: .dark)
+    }
+
     /// ターンを変更したインスタンスを返す
     /// - Parameter newTurn: 変更後のターン
     func changeTurn(to newTurn: Disk?) -> GameState {
@@ -145,6 +150,22 @@ extension GameState {
     /// - Returns: 置ける位置があるならtrue
     func isSettable(disk: Disk) -> Bool {
         !board.settableCoordinates(disk: disk).isEmpty
+    }
+}
+
+// MARK: - Persistence
+
+extension GameState {
+    /// ゲームの状態をリポジトリに保存する
+    /// - Parameter repository: リポジトリ
+    func save(to repository: GameStateRepository) throws {
+        try repository.save(self)
+    }
+
+    /// リポジトリからゲーム状態を読み込む
+    /// - Parameter repository: リポジトリ
+    static func load(from repository: GameStateRepository) throws -> GameState {
+        try repository.load()
     }
 }
 

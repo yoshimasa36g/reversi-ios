@@ -50,6 +50,20 @@ final class GameStateTests: XCTestCase {
         XCTAssertEqual(message.label, "Tied")
     }
 
+    // MARK: - test for isGameOver
+
+    func testIsGameOverWhenGameIsOver() {
+        let range = 0..<8
+        let cells = range.flatMap { x in range.map { y in BoardCell(coordinate: Coordinate(x: x, y: y), disk: .dark) } }
+        let state = GameState(board: GameBoard(cells: cells))
+        XCTAssertTrue(state.isGameOver)
+    }
+
+    func testIsGameOverWhenGameIsNotOver() {
+        let state = GameState(board: ModelsHelper.createGameBoard(advantage: .dark))
+        XCTAssertFalse(state.isGameOver)
+    }
+
     // MARK: - test for changeTurn(to:)
 
     // - 戻り地のGameStateのturnが変更されること
@@ -119,62 +133,38 @@ final class GameStateTests: XCTestCase {
         XCTAssertEqual(result.players, state.players)
     }
 
-    // MARK: - ViewControllerのリファクタリング対象メソッドのテスト 不要になったら消す
+    // MARK: - test for persistence methods
 
-    private let helper = ViewControllerHelper()
-
-    func testUpdateCountLabelsOnViewController() {
-        helper.runGame(advantage: .dark)
-        let vc = helper.viewController
-        vc.updateCountLabels()
-        XCTAssertEqual(vc.countLabelForDark()?.text, "7")
-        XCTAssertEqual(vc.countLabelForLight()?.text, "5")
+    // リポジトリのsaveメソッドが呼ばれること
+    func testSave() {
+        let repository = MockRepository()
+        let state = GameState(turn: .light, board: ModelsHelper.createGameBoard(advantage: .dark))
+        try? state.save(to: repository)
+        XCTAssertEqual(repository.state, state)
     }
 
-    func testUpdateMessageViewsWhenDarksTurn() {
-        let vc = helper.viewController
-        vc.changeTurn(to: .dark)
-        vc.updateMessageViews()
-        XCTAssertEqual(vc.getMessageDiskSizeConstraint().constant, 24)
-        XCTAssertEqual(vc.getMessageDiskView().disk, .dark)
-        XCTAssertEqual(vc.getMessageLabel().text, "'s turn")
-    }
-
-    func testUpdateMessageViewsWhenLightsTurn() {
-        let vc = helper.viewController
-        vc.changeTurn(to: .light)
-        vc.updateMessageViews()
-        XCTAssertEqual(vc.getMessageDiskSizeConstraint().constant, 24)
-        XCTAssertEqual(vc.getMessageDiskView().disk, .light)
-        XCTAssertEqual(vc.getMessageLabel().text, "'s turn")
-    }
-
-    func testUpdateMessageViewsWhenDarkWins() {
-        helper.runGame(advantage: .dark)
-        let vc = helper.viewController
-        vc.changeTurn(to: nil)
-        vc.updateMessageViews()
-        XCTAssertEqual(vc.getMessageDiskSizeConstraint().constant, 24)
-        XCTAssertEqual(vc.getMessageDiskView().disk, .dark)
-        XCTAssertEqual(vc.getMessageLabel().text, " won")
-    }
-
-    func testUpdateMessageViewsWhenLightsWins() {
-        helper.runGame(advantage: .light)
-        let vc = helper.viewController
-        vc.changeTurn(to: nil)
-        vc.updateMessageViews()
-        XCTAssertEqual(vc.getMessageDiskSizeConstraint().constant, 24)
-        XCTAssertEqual(vc.getMessageDiskView().disk, .light)
-        XCTAssertEqual(vc.getMessageLabel().text, " won")
-    }
-
-    func testUpdateMessageViewsWhenTied() {
-        let vc = helper.viewController
-        vc.newGame()
-        vc.changeTurn(to: nil)
-        vc.updateMessageViews()
-        XCTAssertEqual(vc.getMessageDiskSizeConstraint().constant, 0)
-        XCTAssertEqual(vc.getMessageLabel().text, "Tied")
+    // リポジトリのloadメソッドが呼ばれること
+    func testLoad() {
+        let repository = MockRepository()
+        repository.state = GameState(turn: .light, board: ModelsHelper.createGameBoard(advantage: .dark))
+        let result = try? GameState.load(from: repository)
+        XCTAssertEqual(result, repository.state)
     }
 }
+
+private final class MockRepository: GameStateRepository {
+    var state: GameState?
+
+    func save(_ state: GameState) throws {
+        self.state = state
+    }
+
+    func load() throws -> GameState {
+        if let state = self.state {
+            return state
+        }
+        throw RepositoryError()
+    }
+}
+
+private struct RepositoryError: Error { }

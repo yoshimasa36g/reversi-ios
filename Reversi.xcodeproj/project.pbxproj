@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8F09196C2468DCD3006723B7 /* GameBoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09196B2468DCD3006723B7 /* GameBoardTests.swift */; };
-		8F09196E2468DF0E006723B7 /* ViewControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09196D2468DF0E006723B7 /* ViewControllerHelper.swift */; };
 		8F09197024691901006723B7 /* GameStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09196F24691901006723B7 /* GameStateTests.swift */; };
 		8F114E2B246D0C7000E00E72 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114E2A246D0C7000E00E72 /* PlayerType.swift */; };
 		8F114E31246D0E1A00E00E72 /* RandomCoordinateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F114E30246D0E1A00E00E72 /* RandomCoordinateOperation.swift */; };
@@ -55,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		8F09196B2468DCD3006723B7 /* GameBoardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardTests.swift; sourceTree = "<group>"; };
-		8F09196D2468DF0E006723B7 /* ViewControllerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerHelper.swift; sourceTree = "<group>"; };
 		8F09196F24691901006723B7 /* GameStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateTests.swift; sourceTree = "<group>"; };
 		8F114E2A246D0C7000E00E72 /* PlayerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerType.swift; sourceTree = "<group>"; };
 		8F114E30246D0E1A00E00E72 /* RandomCoordinateOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomCoordinateOperation.swift; sourceTree = "<group>"; };
@@ -256,7 +254,6 @@
 			children = (
 				8F114E28246D089B00E00E72 /* Models */,
 				D642BDCC23A9FE4700396732 /* Info.plist */,
-				8F09196D2468DF0E006723B7 /* ViewControllerHelper.swift */,
 			);
 			path = ReversiTests;
 			sourceTree = "<group>";
@@ -412,7 +409,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F09196E2468DF0E006723B7 /* ViewControllerHelper.swift in Sources */,
 				8F8D628B2464FF56007E7E0B /* BoardCellTests.swift in Sources */,
 				8F09197024691901006723B7 /* GameStateTests.swift in Sources */,
 				8F331C9E246E596E00308F50 /* RandomCoordinateOperationTests.swift in Sources */,
