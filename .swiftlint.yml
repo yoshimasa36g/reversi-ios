@@ -6,10 +6,10 @@ excluded:
   - Carthage
   - Reversi/AppDelegate.swift
   - Reversi/SceneDelegate.swift
-  - Reversi/BoardView.swift
-  - Reversi/CellView.swift
-  - Reversi/DiskView.swift
-  - Reversi/Disk.swift
+  - Reversi/Screen/Views/BoardView.swift
+  - Reversi/Screen/Views/CellView.swift
+  - Reversi/Screen/Views/DiskView.swift
+  - Reversi/Models/DataTypes/Disk.swift
 
 opt_in_rules:
   - attributes # 関数や型に対するAttributeは直前の行に独立してあるべき

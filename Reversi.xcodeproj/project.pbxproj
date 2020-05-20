@@ -184,6 +184,15 @@
 			path = GameState;
 			sourceTree = "<group>";
 		};
+		8F9A80C62475038600F84A40 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				D642BDB723A9FE4500396732 /* ViewController.swift */,
+				D636B3A123D43203007F370F /* Views */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
 		8FBB0D7E246BB2BF001A548F /* GameState */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,7 +212,7 @@
 				D642BDD523AA0B3900396732 /* CellView.swift */,
 				D636B39E23D35043007F370F /* DiskView.swift */,
 			);
-			name = Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D636B3A423D432D3007F370F /* DataTypes */ = {
@@ -211,8 +220,7 @@
 			children = (
 				D642BDD723AA0B5700396732 /* Disk.swift */,
 			);
-			name = DataTypes;
-			path = ..;
+			path = DataTypes;
 			sourceTree = "<group>";
 		};
 		D642BDA723A9FE4500396732 = {
@@ -238,13 +246,12 @@
 			children = (
 				D642BDB323A9FE4500396732 /* AppDelegate.swift */,
 				D642BDB523A9FE4500396732 /* SceneDelegate.swift */,
-				D642BDB723A9FE4500396732 /* ViewController.swift */,
 				D642BDB923A9FE4500396732 /* Main.storyboard */,
 				D642BDBC23A9FE4700396732 /* Assets.xcassets */,
 				D642BDBE23A9FE4700396732 /* LaunchScreen.storyboard */,
 				D642BDC123A9FE4700396732 /* Info.plist */,
+				8F9A80C62475038600F84A40 /* Screen */,
 				8F114E27246D088100E00E72 /* Models */,
-				D636B3A123D43203007F370F /* Views */,
 			);
 			path = Reversi;
 			sourceTree = "<group>";
