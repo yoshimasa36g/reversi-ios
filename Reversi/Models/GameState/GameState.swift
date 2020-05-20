@@ -75,7 +75,7 @@ extension GameState {
     }
 }
 
-// MARK: - Update methods
+// MARK: - Manage turn
 
 extension GameState {
     /// ターンを変更したインスタンスを返す
@@ -83,7 +83,11 @@ extension GameState {
     func changeTurn(to newTurn: Disk?) -> GameState {
         GameState(turn: newTurn, players: players, board: board)
     }
+}
 
+// MARK: - Manage Players
+
+extension GameState {
     /// 指定した側のプレイヤーを変更したインスタンスを返す
     /// - Parameters:
     ///   - side: 変更する側
@@ -92,7 +96,11 @@ extension GameState {
         let newPlayers = players.changePlayer(of: side, to: newPlayer)
         return GameState(turn: turn, players: newPlayers, board: board)
     }
+}
 
+// MARK: - Manage GameBoard
+
+extension GameState {
     /// 指定した位置にディスクを置いたインスタンスを返す
     /// - Parameters:
     ///   - disk: 置くディスク
@@ -108,11 +116,7 @@ extension GameState {
         let newBoard = board.removeDisk(at: coordinate)
         return GameState(turn: turn, players: players, board: newBoard)
     }
-}
 
-// MARK: - Manage GameBoard
-
-extension GameState {
     func eachCells(_ body: (BoardCell) throws -> Void) rethrows {
         try board.forEach(body)
     }

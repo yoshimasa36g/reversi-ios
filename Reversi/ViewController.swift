@@ -73,19 +73,16 @@ class ViewController: UIViewController {
 
 extension ViewController {
     /// `x`, `y` で指定されたセルに `disk` を置きます。
-    /// - Parameter x: セルの列です。
-    /// - Parameter y: セルの行です。
+    /// - Parameter coordinate: セルの座標です。
     /// - Parameter isAnimated: ディスクを置いたりひっくり返したりするアニメーションを表示するかどうかを指定します。
     /// - Parameter completion: アニメーション完了時に実行されるクロージャです。
     ///     このクロージャは値を返さず、アニメーションが完了したかを示す真偽値を受け取ります。
     ///     もし `animated` が `false` の場合、このクロージャは次の run loop サイクルの初めに実行されます。
-    /// - Throws: もし `disk` を `x`, `y` で指定されるセルに置けない場合、 `DiskPlacementError` を `throw` します。
-    func placeDisk(_ disk: Disk, atX x: Int, y: Int, animated isAnimated: Bool, completion: ((Bool) -> Void)? = nil) throws {
-        let diskCoordinates = gameState
-            .coordinatesOfDisksToBeAcquired(by: disk, at: Coordinate(x: x, y: y))
-            .map { ($0.x, $0.y) }
+    /// - Throws: もし `disk` を `coordinate` で指定されるセルに置けない場合、 `DiskPlacementError` を `throw` します。
+    func placeDisk(_ disk: Disk, at coordinate: Coordinate, animated isAnimated: Bool, completion: ((Bool) -> Void)? = nil) throws {
+        let diskCoordinates = gameState.coordinatesOfDisksToBeAcquired(by: disk, at: coordinate)
         if diskCoordinates.isEmpty {
-            throw DiskPlacementError(disk: disk, x: x, y: y)
+            throw DiskPlacementError(disk: disk, coordinate: coordinate)
         }
 
         if isAnimated {
@@ -93,7 +90,7 @@ extension ViewController {
                 self?.animationCanceller = nil
             }
             animationCanceller = Canceller(cleanUp)
-            animateSettingDisks(at: [(x, y)] + diskCoordinates, to: disk) { [weak self] isFinished in
+            animateSettingDisks(at: [coordinate] + diskCoordinates, to: disk) { [weak self] isFinished in
                 guard let self = self else { return }
                 guard let canceller = self.animationCanceller else { return }
                 if canceller.isCancelled { return }
@@ -101,18 +98,16 @@ extension ViewController {
 
                 completion?(isFinished)
                 try? self.saveGame()
-                self.updateCountLabels()
             }
         } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.place(disk: disk, atX: x, y: y, animated: false)
-                for (x, y) in diskCoordinates {
-                    self.place(disk: disk, atX: x, y: y, animated: false)
+                self.place(disk: disk, at: coordinate, animated: false)
+                for coordinate in diskCoordinates {
+                    self.place(disk: disk, at: coordinate, animated: false)
                 }
                 completion?(true)
                 try? self.saveGame()
-                self.updateCountLabels()
             }
         }
     }
@@ -122,8 +117,8 @@ extension ViewController {
     /// 残りの座標についてこのメソッドを再帰呼び出しすることで処理が行われる。
     /// すべてのセルに `disk` が置けたら `completion` ハンドラーが呼び出される。
     private func animateSettingDisks<C: Collection>(at coordinates: C, to disk: Disk, completion: @escaping (Bool) -> Void)
-        where C.Element == (Int, Int) {
-        guard let (x, y) = coordinates.first else {
+        where C.Element == Coordinate {
+        guard let coordinate = coordinates.first else {
             completion(true)
             return
         }
@@ -131,23 +126,22 @@ extension ViewController {
         guard let animationCanceller = self.animationCanceller else {
             return
         }
-        place(disk: disk, atX: x, y: y, animated: true) { [weak self] isFinished in
+        place(disk: disk, at: coordinate, animated: true) { [weak self] isFinished in
             guard let self = self else { return }
             if animationCanceller.isCancelled { return }
             if isFinished {
                 self.animateSettingDisks(at: coordinates.dropFirst(), to: disk, completion: completion)
             } else {
-                for (x, y) in coordinates {
-                    self.place(disk: disk, atX: x, y: y, animated: false)
+                for coordinate in coordinates {
+                    self.place(disk: disk, at: coordinate, animated: false)
                 }
                 completion(false)
             }
         }
     }
 
-    private func place(disk: Disk?, atX x: Int, y: Int, animated: Bool, completion: ((Bool) -> Void)? = nil) {
-        boardView.setDisk(disk, atX: x, y: y, animated: animated, completion: completion)
-        let coordinate = Coordinate(x: x, y: y)
+    private func place(disk: Disk?, at coordinate: Coordinate, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        boardView.setDisk(disk, atX: coordinate.x, y: coordinate.y, animated: animated, completion: completion)
         if let disk = disk {
             gameState = gameState.place(disk: disk, at: coordinate)
             return
@@ -242,7 +236,7 @@ extension ViewController {
     private func apply(_ operationResult: OperationResult, for side: Disk) {
         switch operationResult {
         case .coordinate(let coordinate):
-            try? placeDisk(side, atX: coordinate.x, y: coordinate.y, animated: true) { [weak self] _ in
+            try? placeDisk(side, at: coordinate, animated: true) { [weak self] _ in
                 self?.nextTurn()
             }
         case .pass:
@@ -335,7 +329,7 @@ extension ViewController: BoardViewDelegate {
         if isAnimating { return }
         guard case .manual = player else { return }
         // try? because doing nothing when an error occurs
-        try? placeDisk(turn, atX: x, y: y, animated: true) { [weak self] _ in
+        try? placeDisk(turn, at: Coordinate(x: x, y: y), animated: true) { [weak self] _ in
             self?.nextTurn()
         }
     }
@@ -372,8 +366,7 @@ final class Canceller {
 
 struct DiskPlacementError: Error {
     let disk: Disk
-    let x: Int
-    let y: Int
+    let coordinate: Coordinate
 }
 
 // MARK: File-private extensions
@@ -414,8 +407,8 @@ extension ViewController {
         return playerControls.last
     }
 
-    func set(disk: Disk?, atX x: Int, y: Int) {
-        place(disk: disk, atX: x, y: y, animated: false)
+    func set(disk: Disk?, at coordinate: Coordinate) {
+        place(disk: disk, at: coordinate, animated: false)
     }
 
     func diskAt(x: Int, y: Int) -> Disk? {
