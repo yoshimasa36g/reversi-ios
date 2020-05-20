@@ -30,7 +30,7 @@ final class RandomCoordinateOperation: Operation, ComputerOperation {
     /// - 選択した値を設定する前にdurationの秒数待機する
     override func main() {
         guard let turn = gameState.turn else { return }
-        guard let coordinate = gameState.board.settableCoordinates(disk: turn).randomElement() else {
+        guard let coordinate = gameState.settableCoordinates(disk: turn).randomElement() else {
             return
         }
 

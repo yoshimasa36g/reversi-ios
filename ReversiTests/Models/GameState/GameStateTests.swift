@@ -62,7 +62,7 @@ final class GameStateTests: XCTestCase {
             XCTAssertEqual(result.turn, newTurn)
             XCTAssertEqual(state.turn, oldTurn)
             XCTAssertEqual(result.players, state.players)
-            XCTAssertEqual(result.board, state.board)
+            XCTAssertTrue(result.isSameBoard(as: state))
         }
         example(nil, .dark)
         example(.dark, .light)
@@ -81,7 +81,7 @@ final class GameStateTests: XCTestCase {
             XCTAssertEqual(result.players, expected)
             XCTAssertEqual(state.players, Players(darkPlayer: Human(), lightPlayer: Human()))
             XCTAssertEqual(result.turn, state.turn)
-            XCTAssertEqual(result.board, state.board)
+            XCTAssertTrue(result.isSameBoard(as: state))
         }
         example(.dark, Players(darkPlayer: Computer(), lightPlayer: Human()))
         example(.light, Players(darkPlayer: Human(), lightPlayer: Computer()))
@@ -97,8 +97,8 @@ final class GameStateTests: XCTestCase {
         let state = GameState(turn: .dark)
         let coordinate = Coordinate(x: 1, y: 6)
         let result = state.place(disk: .dark, at: coordinate)
-        XCTAssertEqual(result.board.disk(at: coordinate), .dark)
-        XCTAssertEqual(state.board, GameBoard(cells: GameBoard.initialCells))
+        XCTAssertEqual(result.disk(at: coordinate), .dark)
+        XCTAssertTrue(state.isSameBoard(as: GameBoard(cells: GameBoard.initialCells)))
         XCTAssertEqual(result.turn, state.turn)
         XCTAssertEqual(result.players, state.players)
     }
@@ -113,8 +113,8 @@ final class GameStateTests: XCTestCase {
         let state = GameState(turn: .dark)
         let coordinate = Coordinate(x: 4, y: 3)
         let result = state.removeDisk(at: coordinate)
-        XCTAssertNil(result.board.disk(at: coordinate))
-        XCTAssertEqual(state.board, GameBoard(cells: GameBoard.initialCells))
+        XCTAssertNil(result.disk(at: coordinate))
+        XCTAssertTrue(state.isSameBoard(as: GameBoard(cells: GameBoard.initialCells)))
         XCTAssertEqual(result.turn, state.turn)
         XCTAssertEqual(result.players, state.players)
     }

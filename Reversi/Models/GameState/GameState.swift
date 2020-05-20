@@ -17,7 +17,7 @@ struct GameState: Codable {
     let players: Players
 
     /// ゲーム盤
-    let board: GameBoard
+    private let board: GameBoard
 
     init(turn: Disk? = nil,
          players: Players = Players(darkPlayer: Human(), lightPlayer: Human()),
@@ -68,6 +68,11 @@ extension GameState {
         }
         return (disk: nil, label: "Tied")
     }
+
+    var isGameOver: Bool {
+        board.settableCoordinates(disk: .dark).isEmpty
+            && board.settableCoordinates(disk: .light).isEmpty
+    }
 }
 
 // MARK: - Update methods
@@ -105,6 +110,40 @@ extension GameState {
     }
 }
 
+// MARK: - Manage GameBoard
+
+extension GameState {
+    func eachCells(_ body: (BoardCell) throws -> Void) rethrows {
+        try board.forEach(body)
+    }
+
+    func count(of disk: Disk) -> Int {
+        board.count(of: disk)
+    }
+
+    /// 指定したセルのディスクを置いたら獲得できるディスクの位置を返す
+    /// - Parameters:
+    ///   - disk: 置くディスク
+    ///   - coordinate: 置く位置
+    /// - Returns: 獲得できるディスクの位置一覧
+    func coordinatesOfDisksToBeAcquired(by disk: Disk, at coordinate: Coordinate) -> [Coordinate] {
+        board.coordinatesOfDisksToBeAcquired(by: disk, at: coordinate)
+    }
+
+    /// 指定したディスクを置ける位置を返す
+    /// - Parameter disk: 置くディスク
+    func settableCoordinates(disk: Disk) -> [Coordinate] {
+        board.settableCoordinates(disk: disk)
+    }
+
+    /// 指定したディスクを置ける位置があるかどうか判定する
+    /// - Parameter disk: 置きたいディスク
+    /// - Returns: 置ける位置があるならtrue
+    func isSettable(disk: Disk) -> Bool {
+        !board.settableCoordinates(disk: disk).isEmpty
+    }
+}
+
 // MARK: - Equatable
 
 extension GameState: Equatable {
@@ -112,5 +151,21 @@ extension GameState: Equatable {
         return lhs.turn == rhs.turn
             && lhs.players == rhs.players
             && lhs.board == rhs.board
+    }
+}
+
+// MARK: - for test
+
+extension GameState {
+    func isSameBoard(as other: GameState) -> Bool {
+        board == other.board
+    }
+
+    func isSameBoard(as otherBoard: GameBoard) -> Bool {
+        board == otherBoard
+    }
+
+    func disk(at coordinate: Coordinate) -> Disk? {
+        board.disk(at: coordinate)
     }
 }

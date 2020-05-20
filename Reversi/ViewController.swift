@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         playerControls.first?.selectedSegmentIndex = gameState.players.type(of: .dark).rawValue
         playerControls.last?.selectedSegmentIndex = gameState.players.type(of: .light).rawValue
         boardView.reset()
-        gameState.board.forEach { cell in
+        gameState.eachCells { cell in
             boardView.setDisk(cell.disk,
                               atX: cell.coordinate.x,
                               y: cell.coordinate.y,
@@ -81,7 +81,7 @@ extension ViewController {
     ///     もし `animated` が `false` の場合、このクロージャは次の run loop サイクルの初めに実行されます。
     /// - Throws: もし `disk` を `x`, `y` で指定されるセルに置けない場合、 `DiskPlacementError` を `throw` します。
     func placeDisk(_ disk: Disk, atX x: Int, y: Int, animated isAnimated: Bool, completion: ((Bool) -> Void)? = nil) throws {
-        let diskCoordinates = gameState.board
+        let diskCoordinates = gameState
             .coordinatesOfDisksToBeAcquired(by: disk, at: Coordinate(x: x, y: y))
             .map { ($0.x, $0.y) }
         if diskCoordinates.isEmpty {
@@ -161,16 +161,7 @@ extension ViewController {
 extension ViewController {
     /// ゲームの状態を初期化し、新しいゲームを開始します。
     func newGame() {
-        boardView.reset()
         gameState = GameState(turn: .dark)
-
-        for playerControl in playerControls {
-            playerControl.selectedSegmentIndex = PlayerType.manual.rawValue
-        }
-
-        updateMessageViews()
-        updateCountLabels()
-
         try? saveGame()
     }
 
@@ -191,30 +182,28 @@ extension ViewController {
 
         turn.flip()
 
-        let state = gameState
-        if state.board.settableCoordinates(disk: turn).isEmpty {
-            if state.board.settableCoordinates(disk: turn.flipped).isEmpty {
-                gameState = gameState.changeTurn(to: nil)
-                updateMessageViews()
-            } else {
-                gameState = gameState.changeTurn(to: turn)
-                updateMessageViews()
-
-                let alertController = UIAlertController(
-                    title: "Pass",
-                    message: "Cannot place a disk.",
-                    preferredStyle: .alert
-                )
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: .default) { [weak self] _ in
-                    self?.nextTurn()
-                })
-                present(alertController, animated: true)
-            }
-        } else {
-            gameState = gameState.changeTurn(to: turn)
-            updateMessageViews()
-            waitForPlayer()
+        if gameState.isGameOver {
+            gameState = gameState.changeTurn(to: nil)
+            return
         }
+
+        if gameState.isSettable(disk: turn) {
+            gameState = gameState.changeTurn(to: turn)
+            waitForPlayer()
+            return
+        }
+
+        gameState = gameState.changeTurn(to: turn)
+
+        let alertController = UIAlertController(
+            title: "Pass",
+            message: "Cannot place a disk.",
+            preferredStyle: .alert
+        )
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default) { [weak self] _ in
+            self?.nextTurn()
+        })
+        present(alertController, animated: true)
     }
 
     /// プレイヤーの行動を決定します。
@@ -270,7 +259,7 @@ extension ViewController {
     /// 各プレイヤーの獲得したディスクの枚数を表示します。
     func updateCountLabels() {
         Disk.sides.forEach {
-            countLabels[$0.index].text = gameState.board.count(of: $0).description
+            countLabels[$0.index].text = gameState.count(of: $0).description
         }
     }
 
