@@ -27,6 +27,7 @@
 		8F8D62852464F620007E7E0B /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62842464F620007E7E0B /* GameState.swift */; };
 		8F8D62872464F68F007E7E0B /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62862464F68F007E7E0B /* Coordinate.swift */; };
 		8F8D628B2464FF56007E7E0B /* BoardCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D628A2464FF56007E7E0B /* BoardCellTests.swift */; };
+		8F9A80C92475097900F84A40 /* GameControllerInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9A80C82475097900F84A40 /* GameControllerInput.swift */; };
 		8FBB0D80246BBBE8001A548F /* DiskExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */; };
 		D636B39F23D35043007F370F /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D636B39E23D35043007F370F /* DiskView.swift */; };
 		D642BDB423A9FE4500396732 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642BDB323A9FE4500396732 /* AppDelegate.swift */; };
@@ -73,6 +74,7 @@
 		8F8D62842464F620007E7E0B /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		8F8D62862464F68F007E7E0B /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		8F8D628A2464FF56007E7E0B /* BoardCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCellTests.swift; sourceTree = "<group>"; };
+		8F9A80C82475097900F84A40 /* GameControllerInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControllerInput.swift; sourceTree = "<group>"; };
 		8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskExtensions.swift; sourceTree = "<group>"; };
 		D636B39E23D35043007F370F /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
 		D642BDB023A9FE4500396732 /* Reversi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reversi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,18 +112,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8F114E27246D088100E00E72 /* Models */ = {
+		8F114E27246D088100E00E72 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
 				8F8D627D2464E7FF007E7E0B /* DataStore */,
-				D636B3A423D432D3007F370F /* DataTypes */,
 				8FBB0D7E246BB2BF001A548F /* GameState */,
 				8F114E29246D0C2C00E00E72 /* Player */,
 			);
-			path = Models;
+			path = Entity;
 			sourceTree = "<group>";
 		};
-		8F114E28246D089B00E00E72 /* Models */ = {
+		8F114E28246D089B00E00E72 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
 				8F331C9B246E57B300308F50 /* ModelsHelper.swift */,
@@ -129,7 +130,7 @@
 				8F8D62892464FF34007E7E0B /* GameState */,
 				8F331C98246E56EC00308F50 /* Player */,
 			);
-			path = Models;
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		8F114E29246D0C2C00E00E72 /* Player */ = {
@@ -189,8 +190,17 @@
 			children = (
 				D642BDB723A9FE4500396732 /* ViewController.swift */,
 				D636B3A123D43203007F370F /* Views */,
+				D636B3A423D432D3007F370F /* DataTypes */,
 			);
 			path = Screen;
+			sourceTree = "<group>";
+		};
+		8F9A80C72475093A00F84A40 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8F9A80C82475097900F84A40 /* GameControllerInput.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		8FBB0D7E246BB2BF001A548F /* GameState */ = {
@@ -251,7 +261,8 @@
 				D642BDBE23A9FE4700396732 /* LaunchScreen.storyboard */,
 				D642BDC123A9FE4700396732 /* Info.plist */,
 				8F9A80C62475038600F84A40 /* Screen */,
-				8F114E27246D088100E00E72 /* Models */,
+				8F9A80C72475093A00F84A40 /* Controller */,
+				8F114E27246D088100E00E72 /* Entity */,
 			);
 			path = Reversi;
 			sourceTree = "<group>";
@@ -259,7 +270,7 @@
 		D642BDC923A9FE4700396732 /* ReversiTests */ = {
 			isa = PBXGroup;
 			children = (
-				8F114E28246D089B00E00E72 /* Models */,
+				8F114E28246D089B00E00E72 /* Entity */,
 				D642BDCC23A9FE4700396732 /* Info.plist */,
 			);
 			path = ReversiTests;
@@ -407,6 +418,7 @@
 				D642BDB623A9FE4500396732 /* SceneDelegate.swift in Sources */,
 				8F8D627F2464E84A007E7E0B /* GameStateRepository.swift in Sources */,
 				8F1B2E892472284E00470280 /* Player.swift in Sources */,
+				8F9A80C92475097900F84A40 /* GameControllerInput.swift in Sources */,
 				8F114E2B246D0C7000E00E72 /* PlayerType.swift in Sources */,
 				8F8D62852464F620007E7E0B /* GameState.swift in Sources */,
 			);

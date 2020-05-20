@@ -9,7 +9,7 @@ excluded:
   - Reversi/Screen/Views/BoardView.swift
   - Reversi/Screen/Views/CellView.swift
   - Reversi/Screen/Views/DiskView.swift
-  - Reversi/Models/DataTypes/Disk.swift
+  - Reversi/Screen/DataTypes/Disk.swift
 
 opt_in_rules:
   - attributes # 関数や型に対するAttributeは直前の行に独立してあるべき
