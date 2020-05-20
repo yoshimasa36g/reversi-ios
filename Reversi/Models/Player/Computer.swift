@@ -18,7 +18,7 @@ final class Computer: Player {
     }
 
     func startOperation(gameState: GameState, onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
-        let operation = RandomPositionOperation(gameState: gameState)
+        let operation = RandomCoordinateOperation(gameState: gameState)
         self.operation = operation
 
         onStart()
@@ -26,13 +26,13 @@ final class Computer: Player {
         queue.addOperation(operation)
 
         operation.completionBlock = {
-            switch (operation.position, operation.isCancelled) {
+            switch (operation.coordinate, operation.isCancelled) {
             case (_, true):
                 onComplete(.cancel)
             case (.none, false):
-                onComplete(.noPosition)
-            case (.some(let position), false):
-                onComplete(.position(position))
+                onComplete(.pass)
+            case (.some(let coordinate), false):
+                onComplete(.coordinate(coordinate))
             }
         }
     }

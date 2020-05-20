@@ -10,5 +10,5 @@ import Foundation
 
 /// Computerの思考処理プロトコル
 protocol ComputerOperation: Operation {
-    var position: Position? { get }
+    var coordinate: Coordinate? { get }
 }

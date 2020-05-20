@@ -1,5 +1,5 @@
 //
-//  RandomPositionOperation.swift
+//  RandomCoordinateOperation.swift
 //  Reversi
 //
 //  Created by yoshimasa36g on 2020/05/14.
@@ -9,12 +9,12 @@
 import Foundation
 
 /// ディスクを置ける場所からランダムに選択するOperation
-final class RandomPositionOperation: Operation, ComputerOperation {
+final class RandomCoordinateOperation: Operation, ComputerOperation {
     private let gameState: GameState
     private let duration: UInt32
 
     /// 選択した位置
-    var position: Position?
+    var coordinate: Coordinate?
 
     /// ゲームの状態を指定してインスタンスを生成する
     /// - Parameters:
@@ -30,7 +30,7 @@ final class RandomPositionOperation: Operation, ComputerOperation {
     /// - 選択した値を設定する前にdurationの秒数待機する
     override func main() {
         guard let turn = gameState.turn else { return }
-        guard let position = gameState.board.settablePositions(disk: turn).randomElement() else {
+        guard let coordinate = gameState.board.settableCoordinates(disk: turn).randomElement() else {
             return
         }
 
@@ -38,6 +38,6 @@ final class RandomPositionOperation: Operation, ComputerOperation {
 
         if isCancelled { return }
 
-        self.position = position
+        self.coordinate = coordinate
     }
 }

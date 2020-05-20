@@ -27,9 +27,9 @@ protocol Player {
 /// 操作結果
 enum OperationResult {
     /// 位置を選択した
-    case position(Position)
-    /// 選択できる位置がなかった
-    case noPosition
+    case coordinate(Coordinate)
+    /// 選択できる位置がなかったのでパスした
+    case pass
     /// キャンセルされた
     case cancel
 }

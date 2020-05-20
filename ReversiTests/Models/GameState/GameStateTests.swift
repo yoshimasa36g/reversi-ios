@@ -95,9 +95,9 @@ final class GameStateTests: XCTestCase {
     // - GameBoardのメソッドを呼び出しているだけなので細かいパターンのテストはここでは実施しない
     func testPlaceDisk() {
         let state = GameState(turn: .dark)
-        let position = Position(x: 1, y: 6)
-        let result = state.place(disk: .dark, at: position)
-        XCTAssertEqual(result.board.disk(at: position), .dark)
+        let coordinate = Coordinate(x: 1, y: 6)
+        let result = state.place(disk: .dark, at: coordinate)
+        XCTAssertEqual(result.board.disk(at: coordinate), .dark)
         XCTAssertEqual(state.board, GameBoard(cells: GameBoard.initialCells))
         XCTAssertEqual(result.turn, state.turn)
         XCTAssertEqual(result.players, state.players)
@@ -111,9 +111,9 @@ final class GameStateTests: XCTestCase {
     // - GameBoardのメソッドを呼び出しているだけなので細かいパターンのテストはここでは実施しない
     func testRemoveDisk() {
         let state = GameState(turn: .dark)
-        let position = Position(x: 4, y: 3)
-        let result = state.removeDisk(at: position)
-        XCTAssertNil(result.board.disk(at: position))
+        let coordinate = Coordinate(x: 4, y: 3)
+        let result = state.removeDisk(at: coordinate)
+        XCTAssertNil(result.board.disk(at: coordinate))
         XCTAssertEqual(state.board, GameBoard(cells: GameBoard.initialCells))
         XCTAssertEqual(result.turn, state.turn)
         XCTAssertEqual(result.players, state.players)

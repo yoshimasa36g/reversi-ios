@@ -41,94 +41,94 @@ struct GameBoard: Codable, Equatable {
     }
 
     /// 指定した位置のディスクを返す
-    /// - Parameter position: ディスクを取得する位置
+    /// - Parameter coordinate: ディスクを取得する位置
     /// - Returns: 指定位置のディスク/ない場合はnil
-    func disk(at position: Position) -> Disk? {
-        cells.first { $0.position == position }?.disk
+    func disk(at coordinate: Coordinate) -> Disk? {
+        cells.first { $0.coordinate == coordinate }?.disk
     }
 
     /// 指定した位置にディスクを置いたインスタンスを返す。
     /// 既に置いてある場合は上書きする。
     /// - Parameters:
     ///   - disk: 置くディスク
-    ///   - position: 置く位置
+    ///   - coordinate: 置く位置
     /// - Returns: ディスクを置いたGameBoardのインスタンス
-    func set(disk: Disk, at position: Position) -> GameBoard {
-        let newCells = cells.filter { $0.position != position }
-            + [BoardCell(position: position, disk: disk)]
+    func set(disk: Disk, at coordinate: Coordinate) -> GameBoard {
+        let newCells = cells.filter { $0.coordinate != coordinate }
+            + [BoardCell(coordinate: coordinate, disk: disk)]
         return GameBoard(cells: newCells)
     }
 
     /// 指定した位置のディスクを取り除いたインスタンスを返す。
     /// - Parameters:
-    ///   - position: 取り除く位置
+    ///   - coordinate: 取り除く位置
     /// - Returns: ディスクを取り除いたGameBoardのインスタンス
-    func removeDisk(at position: Position) -> GameBoard {
-        let newCells = cells.filter { $0.position != position }
+    func removeDisk(at coordinate: Coordinate) -> GameBoard {
+        let newCells = cells.filter { $0.coordinate != coordinate }
         return GameBoard(cells: newCells)
     }
 
     /// 指定したセルのディスクを置いたら獲得できるディスクの位置を返す
     /// - Parameters:
     ///   - disk: 置くディスク
-    ///   - position: 置く位置
+    ///   - coordinate: 置く位置
     /// - Returns: 獲得できるディスクの位置一覧
-    func positionsOfDisksToBeAcquired(by disk: Disk, at position: Position) -> [Position] {
+    func coordinatesOfDisksToBeAcquired(by disk: Disk, at coordinate: Coordinate) -> [Coordinate] {
         let directions = [
-            Position(x: -1, y: -1),
-            Position(x: 0, y: -1),
-            Position(x: 1, y: -1),
-            Position(x: 1, y: 0),
-            Position(x: 1, y: 1),
-            Position(x: 0, y: 1),
-            Position(x: -1, y: 0),
-            Position(x: -1, y: 1)
+            Coordinate(x: -1, y: -1),
+            Coordinate(x: 0, y: -1),
+            Coordinate(x: 1, y: -1),
+            Coordinate(x: 1, y: 0),
+            Coordinate(x: 1, y: 1),
+            Coordinate(x: 0, y: 1),
+            Coordinate(x: -1, y: 0),
+            Coordinate(x: -1, y: 1)
         ]
 
-        guard self.disk(at: position) == nil else {
+        guard self.disk(at: coordinate) == nil else {
             return []
         }
 
         return directions.flatMap {
-            reducePositionsOfDisksToBeAcquired(
+            reduceCoordinatesOfDisksToBeAcquired(
                 [],
-                by: BoardCell(position: position, disk: disk),
+                by: BoardCell(coordinate: coordinate, disk: disk),
                 to: $0)
         }
     }
 
-    private func reducePositionsOfDisksToBeAcquired(_ positions: [Position],
-                                                    by cell: BoardCell,
-                                                    to direction: Position) -> [Position] {
-        let currentPosition = cell.position + direction
-        let currentDisk = self.disk(at: currentPosition)
+    private func reduceCoordinatesOfDisksToBeAcquired(_ coordinates: [Coordinate],
+                                                      by cell: BoardCell,
+                                                      to direction: Coordinate) -> [Coordinate] {
+        let currentCoordinate = cell.coordinate + direction
+        let currentDisk = self.disk(at: currentCoordinate)
         if currentDisk == nil { return [] }
-        if currentDisk == cell.disk { return positions }
+        if currentDisk == cell.disk { return coordinates }
 
-        return reducePositionsOfDisksToBeAcquired(
-            positions + [currentPosition],
-            by: BoardCell(position: currentPosition, disk: cell.disk),
+        return reduceCoordinatesOfDisksToBeAcquired(
+            coordinates + [currentCoordinate],
+            by: BoardCell(coordinate: currentCoordinate, disk: cell.disk),
             to: direction)
     }
 
     /// 指定した位置にディスクを置けるか判定する
     /// - Parameters:
     ///   - disk: 置くディスク
-    ///   - position: 置く位置
+    ///   - coordinate: 置く位置
     /// - Returns: 置ける場合は true
-    func isSettable(disk: Disk, at position: Position) -> Bool {
-        !positionsOfDisksToBeAcquired(by: disk, at: position).isEmpty
+    func isSettable(disk: Disk, at coordinate: Coordinate) -> Bool {
+        !coordinatesOfDisksToBeAcquired(by: disk, at: coordinate).isEmpty
     }
 
-    private var allPositions: [Position] {
+    private var allCoordinates: [Coordinate] {
         let range = 0..<GameBoard.size
-        return range.flatMap { y in range.map { x in Position(x: x, y: y) } }
+        return range.flatMap { y in range.map { x in Coordinate(x: x, y: y) } }
     }
 
     /// 指定したディスクを置ける位置を返す
     /// - Parameter disk: 置くディスク
-    func settablePositions(disk: Disk) -> [Position] {
-        allPositions.filter { isSettable(disk: disk, at: $0) }
+    func settableCoordinates(disk: Disk) -> [Coordinate] {
+        allCoordinates.filter { isSettable(disk: disk, at: $0) }
     }
 
     /// 初期状態のセル

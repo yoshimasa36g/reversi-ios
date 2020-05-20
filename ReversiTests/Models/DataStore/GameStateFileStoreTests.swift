@@ -15,14 +15,14 @@ final class GameStateFileStoreTests: XCTestCase {
 
     private let validFileContents =
         #"{"darkPlayer":0,"lightPlayer":1,"board":{"cells":["#
-            + #"{"disk":"x","position":{"x":0,"y":0}},"#
-            + #"{"disk":"x","position":{"x":2,"y":0}},"#
-            + #"{"disk":"o","position":{"x":4,"y":0}},"#
-            + #"{"disk":"x","position":{"x":1,"y":1}},"#
-            + #"{"disk":"o","position":{"x":2,"y":1}},"#
-            + #"{"disk":"o","position":{"x":3,"y":1}},"#
-            + #"{"disk":"o","position":{"x":4,"y":1}},"#
-            + #"{"disk":"o","position":{"x":5,"y":1}}"#
+            + #"{"disk":"x","coordinate":{"x":0,"y":0}},"#
+            + #"{"disk":"x","coordinate":{"x":2,"y":0}},"#
+            + #"{"disk":"o","coordinate":{"x":4,"y":0}},"#
+            + #"{"disk":"x","coordinate":{"x":1,"y":1}},"#
+            + #"{"disk":"o","coordinate":{"x":2,"y":1}},"#
+            + #"{"disk":"o","coordinate":{"x":3,"y":1}},"#
+            + #"{"disk":"o","coordinate":{"x":4,"y":1}},"#
+            + #"{"disk":"o","coordinate":{"x":5,"y":1}}"#
             + #"]},"turn":"x"}"#
 
     private var validGameState: GameState {

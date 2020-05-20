@@ -51,65 +51,65 @@ final class GameBoardTests: XCTestCase {
         BoardCell(x: 1, y: 6, disk: .dark)
     ]
 
-    let flipTestExpecteds: [[Position]] = [
-        [Position(x: 3, y: 5), Position(x: 4, y: 5)],
-        [Position(x: 3, y: 5)],
-        [Position(x: 2, y: 3), Position(x: 3, y: 3), Position(x: 2, y: 4)],
-        [Position(x: 4, y: 3)],
-        [Position(x: 5, y: 3), Position(x: 4, y: 4)],
-        [Position(x: 5, y: 3), Position(x: 4, y: 4)],
+    let flipTestExpecteds: [[Coordinate]] = [
+        [Coordinate(x: 3, y: 5), Coordinate(x: 4, y: 5)],
+        [Coordinate(x: 3, y: 5)],
+        [Coordinate(x: 2, y: 3), Coordinate(x: 3, y: 3), Coordinate(x: 2, y: 4)],
+        [Coordinate(x: 4, y: 3)],
+        [Coordinate(x: 5, y: 3), Coordinate(x: 4, y: 4)],
+        [Coordinate(x: 5, y: 3), Coordinate(x: 4, y: 4)],
         [],
         []
     ]
 
-    func testPositionsOfDisksToBeAcquired() {
+    func testCoordinatesOfDisksToBeAcquired() {
         zip(flipTestInputs, flipTestExpecteds).forEach { input, expected in
             let board = ModelsHelper.createGameBoard(advantage: .dark)
-            let result = board.positionsOfDisksToBeAcquired(by: input.disk,
-                                                            at: input.position)
+            let result = board.coordinatesOfDisksToBeAcquired(by: input.disk,
+                                                              at: input.coordinate)
             XCTAssertEqual(result, expected)
         }
     }
 
     func testIsSettableWhenSettable() {
         let board = ModelsHelper.createGameBoard(advantage: .dark)
-        let result = board.isSettable(disk: .dark, at: Position(x: 4, y: 6))
+        let result = board.isSettable(disk: .dark, at: Coordinate(x: 4, y: 6))
         XCTAssertTrue(result)
     }
 
     func testIsSettableWhenUnsettable() {
         let board = ModelsHelper.createGameBoard(advantage: .dark)
-        let result = board.isSettable(disk: .dark, at: Position(x: 1, y: 6))
+        let result = board.isSettable(disk: .dark, at: Coordinate(x: 1, y: 6))
         XCTAssertFalse(result)
     }
 
-    func testSettablePositionsWhenDarkTurn() {
+    func testSettableCoordinatesWhenDarkTurn() {
         let board = ModelsHelper.createGameBoard(advantage: .dark)
-        let result = board.settablePositions(disk: .dark)
+        let result = board.settableCoordinates(disk: .dark)
         let expected = [
-            Position(x: 5, y: 1),
-            Position(x: 4, y: 2),
-            Position(x: 2, y: 5),
-            Position(x: 2, y: 6),
-            Position(x: 3, y: 6),
-            Position(x: 4, y: 6),
-            Position(x: 5, y: 6)
+            Coordinate(x: 5, y: 1),
+            Coordinate(x: 4, y: 2),
+            Coordinate(x: 2, y: 5),
+            Coordinate(x: 2, y: 6),
+            Coordinate(x: 3, y: 6),
+            Coordinate(x: 4, y: 6),
+            Coordinate(x: 5, y: 6)
         ]
         XCTAssertEqual(result, expected)
     }
 
-    func testSettablePositionsWhenLightTurn() {
+    func testSettableCoordinatesWhenLightTurn() {
         let board = ModelsHelper.createGameBoard(advantage: .dark)
-        let result = board.settablePositions(disk: .light)
+        let result = board.settableCoordinates(disk: .light)
         let expected = [
-            Position(x: 1, y: 2),
-            Position(x: 3, y: 2),
-            Position(x: 6, y: 2),
-            Position(x: 1, y: 3),
-            Position(x: 6, y: 3),
-            Position(x: 1, y: 4),
-            Position(x: 5, y: 4),
-            Position(x: 6, y: 5)
+            Coordinate(x: 1, y: 2),
+            Coordinate(x: 3, y: 2),
+            Coordinate(x: 6, y: 2),
+            Coordinate(x: 1, y: 3),
+            Coordinate(x: 6, y: 3),
+            Coordinate(x: 1, y: 4),
+            Coordinate(x: 5, y: 4),
+            Coordinate(x: 6, y: 5)
         ]
         XCTAssertEqual(result, expected)
     }
@@ -117,26 +117,26 @@ final class GameBoardTests: XCTestCase {
     // MARK: - test for set(disk:at:)
 
     // 何もない位置に置いたらBoardCellのデータが追加されること
-    func testSetDiskAtEmptyPosition() {
+    func testSetDiskAtEmptyCoordinate() {
         let board = gameBoardWithFewDisks()
-        let position = Position(x: (3..<8).randomElement() ?? 0, y: (3..<8).randomElement() ?? 0)
-        let result = board.set(disk: .light, at: position)
-        XCTAssertEqual(result.disk(at: position), .light)
-        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
-        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
-        XCTAssertEqual(result.disk(at: Position(x: 2, y: 2)), .dark)
+        let coordinate = Coordinate(x: (3..<8).randomElement() ?? 0, y: (3..<8).randomElement() ?? 0)
+        let result = board.set(disk: .light, at: coordinate)
+        XCTAssertEqual(result.disk(at: coordinate), .light)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 1, y: 1)), .light)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 2, y: 2)), .dark)
         XCTAssertEqual(result.count(of: .dark), 2)
         XCTAssertEqual(result.count(of: .light), 2)
     }
 
     // ディスクがある位置に置いたらBoardCellのデータが置き換わること
-    func testSetDiskAtExistsDiskPosition() {
+    func testSetDiskAtExistsDiskCoordinate() {
         let board = gameBoardWithFewDisks()
-        let position = Position(x: 2, y: 2)
-        let result = board.set(disk: .light, at: position)
-        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
-        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
-        XCTAssertEqual(result.disk(at: Position(x: 2, y: 2)), .light)
+        let coordinate = Coordinate(x: 2, y: 2)
+        let result = board.set(disk: .light, at: coordinate)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 1, y: 1)), .light)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 2, y: 2)), .light)
         XCTAssertEqual(result.count(of: .dark), 1)
         XCTAssertEqual(result.count(of: .light), 2)
     }
@@ -144,24 +144,24 @@ final class GameBoardTests: XCTestCase {
     // MARK: - test for removeDisk(at:)
 
     // ディスクがある位置を指定したらそのデータが削除されること
-    func testRemoveDiskAtExistsDiskPosition() {
+    func testRemoveDiskAtExistsDiskCoordinate() {
         let board = gameBoardWithFewDisks()
-        let position = Position(x: 2, y: 2)
-        let result = board.removeDisk(at: position)
-        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
-        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
+        let coordinate = Coordinate(x: 2, y: 2)
+        let result = board.removeDisk(at: coordinate)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 1, y: 1)), .light)
         XCTAssertEqual(result.count(of: .dark), 1)
         XCTAssertEqual(result.count(of: .light), 1)
     }
 
     // 何もない位置を指定したら何も変更されないこと
-    func testRemoveDiskAtEmptyPosition() {
+    func testRemoveDiskAtEmptyCoordinate() {
         let board = gameBoardWithFewDisks()
-        let position = Position(x: (3..<8).randomElement() ?? 0, y: (3..<8).randomElement() ?? 0)
-        let result = board.removeDisk(at: position)
-        XCTAssertEqual(result.disk(at: Position(x: 0, y: 0)), .dark)
-        XCTAssertEqual(result.disk(at: Position(x: 1, y: 1)), .light)
-        XCTAssertEqual(result.disk(at: Position(x: 2, y: 2)), .dark)
+        let coordinate = Coordinate(x: (3..<8).randomElement() ?? 0, y: (3..<8).randomElement() ?? 0)
+        let result = board.removeDisk(at: coordinate)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 0, y: 0)), .dark)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 1, y: 1)), .light)
+        XCTAssertEqual(result.disk(at: Coordinate(x: 2, y: 2)), .dark)
         XCTAssertEqual(result.count(of: .dark), 2)
         XCTAssertEqual(result.count(of: .light), 1)
     }

@@ -91,16 +91,16 @@ extension GameState {
     /// 指定した位置にディスクを置いたインスタンスを返す
     /// - Parameters:
     ///   - disk: 置くディスク
-    ///   - position: 置く位置
-    func place(disk: Disk, at position: Position) -> GameState {
-        let newBoard = board.set(disk: disk, at: position)
+    ///   - coordinate: 置く位置
+    func place(disk: Disk, at coordinate: Coordinate) -> GameState {
+        let newBoard = board.set(disk: disk, at: coordinate)
         return GameState(turn: turn, players: players, board: newBoard)
     }
 
     /// 指定した位置からディスクを取り除いたインスタンスを返す
-    /// - Parameter position: 取り除く位置
-    func removeDisk(at position: Position) -> GameState {
-        let newBoard = board.removeDisk(at: position)
+    /// - Parameter coordinate: 取り除く位置
+    func removeDisk(at coordinate: Coordinate) -> GameState {
+        let newBoard = board.removeDisk(at: coordinate)
         return GameState(turn: turn, players: players, board: newBoard)
     }
 }

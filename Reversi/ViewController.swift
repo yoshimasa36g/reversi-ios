@@ -38,8 +38,8 @@ class ViewController: UIViewController {
         boardView.reset()
         gameState.board.forEach { cell in
             boardView.setDisk(cell.disk,
-                              atX: cell.position.x,
-                              y: cell.position.y,
+                              atX: cell.coordinate.x,
+                              y: cell.coordinate.y,
                               animated: false)
         }
         updateMessageViews()
@@ -82,7 +82,7 @@ extension ViewController {
     /// - Throws: もし `disk` を `x`, `y` で指定されるセルに置けない場合、 `DiskPlacementError` を `throw` します。
     func placeDisk(_ disk: Disk, atX x: Int, y: Int, animated isAnimated: Bool, completion: ((Bool) -> Void)? = nil) throws {
         let diskCoordinates = gameState.board
-            .positionsOfDisksToBeAcquired(by: disk, at: Position(x: x, y: y))
+            .coordinatesOfDisksToBeAcquired(by: disk, at: Coordinate(x: x, y: y))
             .map { ($0.x, $0.y) }
         if diskCoordinates.isEmpty {
             throw DiskPlacementError(disk: disk, x: x, y: y)
@@ -147,12 +147,12 @@ extension ViewController {
 
     private func place(disk: Disk?, atX x: Int, y: Int, animated: Bool, completion: ((Bool) -> Void)? = nil) {
         boardView.setDisk(disk, atX: x, y: y, animated: animated, completion: completion)
-        let position = Position(x: x, y: y)
+        let coordinate = Coordinate(x: x, y: y)
         if let disk = disk {
-            gameState = gameState.place(disk: disk, at: position)
+            gameState = gameState.place(disk: disk, at: coordinate)
             return
         }
-        gameState = gameState.removeDisk(at: position)
+        gameState = gameState.removeDisk(at: coordinate)
     }
 }
 
@@ -192,8 +192,8 @@ extension ViewController {
         turn.flip()
 
         let state = gameState
-        if state.board.settablePositions(disk: turn).isEmpty {
-            if state.board.settablePositions(disk: turn.flipped).isEmpty {
+        if state.board.settableCoordinates(disk: turn).isEmpty {
+            if state.board.settableCoordinates(disk: turn.flipped).isEmpty {
                 gameState = gameState.changeTurn(to: nil)
                 updateMessageViews()
             } else {
@@ -252,11 +252,11 @@ extension ViewController {
     ///   - side: 適用するプレイヤー
     private func apply(_ operationResult: OperationResult, for side: Disk) {
         switch operationResult {
-        case .position(let position):
-            try? placeDisk(side, atX: position.x, y: position.y, animated: true) { [weak self] _ in
+        case .coordinate(let coordinate):
+            try? placeDisk(side, atX: coordinate.x, y: coordinate.y, animated: true) { [weak self] _ in
                 self?.nextTurn()
             }
-        case .noPosition:
+        case .pass:
             nextTurn()
         case .cancel:
             break

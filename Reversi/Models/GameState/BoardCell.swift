@@ -11,16 +11,16 @@ import Foundation
 /// ゲーム盤のセル情報を管理する
 struct BoardCell: Codable {
     /// 位置
-    let position: Position
+    let coordinate: Coordinate
     /// ディスク
     let disk: Disk
 
     /// 位置とディスクからインスタンスを生成する
     /// - Parameters:
-    ///   - position: 位置
+    ///   - coordinate: 位置
     ///   - disk: ディスク
-    init(position: Position, disk: Disk) {
-        self.position = position
+    init(coordinate: Coordinate, disk: Disk) {
+        self.coordinate = coordinate
         self.disk = disk
     }
 
@@ -30,7 +30,7 @@ struct BoardCell: Codable {
     ///   - y: 位置のY座標
     ///   - disk: ディスク
     init(x: Int, y: Int, disk: Disk) {
-        self.position = Position(x: x, y: y)
+        self.coordinate = Coordinate(x: x, y: y)
         self.disk = disk
     }
 }
@@ -39,6 +39,6 @@ struct BoardCell: Codable {
 
 extension BoardCell: Equatable {
     static func == (lhs: BoardCell, rhs: BoardCell) -> Bool {
-        return lhs.position == rhs.position && lhs.disk == rhs.disk
+        return lhs.coordinate == rhs.coordinate && lhs.disk == rhs.disk
     }
 }

@@ -1,5 +1,5 @@
 //
-//  RandomPositionOperationTests.swift
+//  RandomCoordinateOperationTests.swift
 //  ReversiTests
 //
 //  Created by yoshimasa36g on 2020/05/15.
@@ -9,29 +9,29 @@
 @testable import Reversi
 import XCTest
 
-final class RandomPositionOperationTests: XCTestCase {
+final class RandomCoordinateOperationTests: XCTestCase {
     // 選択できる位置がある場合は選択されること
-    func testExecutionWhenExistsAvailablePositions() {
+    func testExecutionWhenExistsAvailableCoordinates() {
         let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
         let expected = [
-            Position(x: 5, y: 1),
-            Position(x: 4, y: 2),
-            Position(x: 2, y: 5),
-            Position(x: 2, y: 6),
-            Position(x: 3, y: 6),
-            Position(x: 4, y: 6),
-            Position(x: 5, y: 6)
+            Coordinate(x: 5, y: 1),
+            Coordinate(x: 4, y: 2),
+            Coordinate(x: 2, y: 5),
+            Coordinate(x: 2, y: 6),
+            Coordinate(x: 3, y: 6),
+            Coordinate(x: 4, y: 6),
+            Coordinate(x: 5, y: 6)
         ]
 
         let operationWaiter = expectation(description: "wait")
 
         let queue = OperationQueue()
-        let operation = RandomPositionOperation(gameState: gameState, duration: 0)
+        let operation = RandomCoordinateOperation(gameState: gameState, duration: 0)
         queue.addOperation(operation)
 
         operation.completionBlock = {
             XCTAssertFalse(operation.isCancelled)
-            XCTAssertTrue(expected.contains(operation.position ?? Position(x: -1, y: -1)))
+            XCTAssertTrue(expected.contains(operation.coordinate ?? Coordinate(x: -1, y: -1)))
             operationWaiter.fulfill()
         }
 
@@ -39,7 +39,7 @@ final class RandomPositionOperationTests: XCTestCase {
     }
 
     // 選択できる位置がない場合は選択されないこと
-    func testExecutionWhenNoAvailablePositions() {
+    func testExecutionWhenNoAvailableCoordinates() {
         let gameState = GameState(turn: .dark, board: GameBoard(cells: [
             BoardCell(x: 3, y: 3, disk: .dark),
             BoardCell(x: 3, y: 4, disk: .dark),
@@ -50,12 +50,12 @@ final class RandomPositionOperationTests: XCTestCase {
         let operationWaiter = expectation(description: "wait")
 
         let queue = OperationQueue()
-        let operation = RandomPositionOperation(gameState: gameState, duration: 0)
+        let operation = RandomCoordinateOperation(gameState: gameState, duration: 0)
         queue.addOperation(operation)
 
         operation.completionBlock = {
             XCTAssertFalse(operation.isCancelled)
-            XCTAssertNil(operation.position)
+            XCTAssertNil(operation.coordinate)
             operationWaiter.fulfill()
         }
 
@@ -69,12 +69,12 @@ final class RandomPositionOperationTests: XCTestCase {
         let operationWaiter = expectation(description: "wait")
 
         let queue = OperationQueue()
-        let operation = RandomPositionOperation(gameState: gameState, duration: 0)
+        let operation = RandomCoordinateOperation(gameState: gameState, duration: 0)
         queue.addOperation(operation)
 
         operation.completionBlock = {
             XCTAssertTrue(operation.isCancelled)
-            XCTAssertNil(operation.position)
+            XCTAssertNil(operation.coordinate)
             operationWaiter.fulfill()
         }
 
@@ -90,12 +90,12 @@ final class RandomPositionOperationTests: XCTestCase {
         let operationWaiter = expectation(description: "wait")
 
         let queue = OperationQueue()
-        let operation = RandomPositionOperation(gameState: gameState, duration: 0)
+        let operation = RandomCoordinateOperation(gameState: gameState, duration: 0)
         queue.addOperation(operation)
 
         operation.completionBlock = {
             XCTAssertFalse(operation.isCancelled)
-            XCTAssertNil(operation.position)
+            XCTAssertNil(operation.coordinate)
             operationWaiter.fulfill()
         }
 

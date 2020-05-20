@@ -11,12 +11,12 @@ import XCTest
 
 final class ComputerTests: XCTestCase {
     // 選択できる位置がある場合は選択された結果が返ること
-    func testStartWhenExistsAvailablePositions() {
+    func testStartWhenExistsAvailableCoordinates() {
         let gameState = GameState(turn: .dark, board: ModelsHelper.createGameBoard(advantage: .dark))
         let computer = Computer()
         let expected = [
-            Position(x: 5, y: 1), Position(x: 4, y: 2), Position(x: 2, y: 5), Position(x: 2, y: 6),
-            Position(x: 3, y: 6), Position(x: 4, y: 6), Position(x: 5, y: 6)
+            Coordinate(x: 5, y: 1), Coordinate(x: 4, y: 2), Coordinate(x: 2, y: 5), Coordinate(x: 2, y: 6),
+            Coordinate(x: 3, y: 6), Coordinate(x: 4, y: 6), Coordinate(x: 5, y: 6)
         ]
 
         let started = expectation(description: "onStart")
@@ -27,8 +27,8 @@ final class ComputerTests: XCTestCase {
             onStart: { started.fulfill() },
             onComplete: { result in
                 switch result {
-                case .position(let position):
-                    XCTAssertTrue(expected.contains(position))
+                case .coordinate(let coordinate):
+                    XCTAssertTrue(expected.contains(coordinate))
                 default:
                     XCTFail("invalid result")
                 }
@@ -38,8 +38,8 @@ final class ComputerTests: XCTestCase {
         wait(for: [started, completed], timeout: 5)
     }
 
-    // 選択できる位置がない場合は選択されなかった結果が返ること
-    func testStartWhenNoAvailablePositions() {
+    // 選択できる位置がない場合はパスした結果が返ること
+    func testStartWhenNoAvailableCoordinates() {
         let gameState = GameState(turn: .dark, board: GameBoard(cells: []))
         let computer = Computer()
 
@@ -51,7 +51,7 @@ final class ComputerTests: XCTestCase {
             onStart: { started.fulfill() },
             onComplete: { result in
                 switch result {
-                case .noPosition:
+                case .pass:
                     break
                 default:
                     XCTFail("invalid result")
