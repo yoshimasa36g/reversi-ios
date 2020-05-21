@@ -35,6 +35,9 @@
 		8FA1B3A624760640003BAAC0 /* DiscColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */; };
 		8FA1B3A8247607CF003BAAC0 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */; };
 		8FA1B3AA24760919003BAAC0 /* CoordinateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */; };
+		8FA1B3AD24760BAF003BAAC0 /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */; };
+		8FA1B3AF24760D9F003BAAC0 /* Disc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3AE24760D9F003BAAC0 /* Disc.swift */; };
+		8FA1B3B224760F6F003BAAC0 /* DiscTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */; };
 		8FBB0D80246BBBE8001A548F /* DiskExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */; };
 		D636B39F23D35043007F370F /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D636B39E23D35043007F370F /* DiskView.swift */; };
 		D642BDB423A9FE4500396732 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642BDB323A9FE4500396732 /* AppDelegate.swift */; };
@@ -125,6 +128,9 @@
 		8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscColorTests.swift; sourceTree = "<group>"; };
 		8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateTests.swift; sourceTree = "<group>"; };
+		8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCell.swift; sourceTree = "<group>"; };
+		8FA1B3AE24760D9F003BAAC0 /* Disc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disc.swift; sourceTree = "<group>"; };
+		8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscTests.swift; sourceTree = "<group>"; };
 		8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskExtensions.swift; sourceTree = "<group>"; };
 		D636B39E23D35043007F370F /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
 		D642BDB023A9FE4500396732 /* Reversi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reversi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -264,6 +270,7 @@
 		8FA1B3842475FF13003BAAC0 /* ReversiEntity */ = {
 			isa = PBXGroup;
 			children = (
+				8FA1B3AB24760B96003BAAC0 /* Game */,
 				8FA1B3A124760323003BAAC0 /* ValueObjects */,
 				8FA1B3852475FF13003BAAC0 /* ReversiEntity.h */,
 				8FA1B3862475FF13003BAAC0 /* Info.plist */,
@@ -274,6 +281,7 @@
 		8FA1B3912475FF13003BAAC0 /* ReversiEntityTests */ = {
 			isa = PBXGroup;
 			children = (
+				8FA1B3B024760F4F003BAAC0 /* Game */,
 				8FA1B3A42476062D003BAAC0 /* ValueObjects */,
 				8FA1B3942475FF13003BAAC0 /* Info.plist */,
 			);
@@ -296,6 +304,23 @@
 				8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */,
 			);
 			path = ValueObjects;
+			sourceTree = "<group>";
+		};
+		8FA1B3AB24760B96003BAAC0 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				8FA1B3AE24760D9F003BAAC0 /* Disc.swift */,
+				8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		8FA1B3B024760F4F003BAAC0 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */,
+			);
+			path = Game;
 			sourceTree = "<group>";
 		};
 		8FBB0D7E246BB2BF001A548F /* GameState */ = {
@@ -572,7 +597,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FA1B3AF24760D9F003BAAC0 /* Disc.swift in Sources */,
 				8FA1B3A324760344003BAAC0 /* DiscColor.swift in Sources */,
+				8FA1B3AD24760BAF003BAAC0 /* BoardCell.swift in Sources */,
 				8FA1B3A8247607CF003BAAC0 /* Coordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -581,6 +608,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FA1B3B224760F6F003BAAC0 /* DiscTests.swift in Sources */,
 				8FA1B3A624760640003BAAC0 /* DiscColorTests.swift in Sources */,
 				8FA1B3AA24760919003BAAC0 /* CoordinateTests.swift in Sources */,
 			);
