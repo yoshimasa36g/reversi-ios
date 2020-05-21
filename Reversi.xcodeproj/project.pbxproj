@@ -33,6 +33,8 @@
 		8FA1B3992475FF13003BAAC0 /* ReversiEntity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA1B3832475FF13003BAAC0 /* ReversiEntity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8FA1B3A324760344003BAAC0 /* DiscColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A224760344003BAAC0 /* DiscColor.swift */; };
 		8FA1B3A624760640003BAAC0 /* DiscColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */; };
+		8FA1B3A8247607CF003BAAC0 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */; };
+		8FA1B3AA24760919003BAAC0 /* CoordinateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */; };
 		8FBB0D80246BBBE8001A548F /* DiskExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */; };
 		D636B39F23D35043007F370F /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D636B39E23D35043007F370F /* DiskView.swift */; };
 		D642BDB423A9FE4500396732 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642BDB323A9FE4500396732 /* AppDelegate.swift */; };
@@ -121,6 +123,8 @@
 		8FA1B3942475FF13003BAAC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FA1B3A224760344003BAAC0 /* DiscColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscColor.swift; sourceTree = "<group>"; };
 		8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscColorTests.swift; sourceTree = "<group>"; };
+		8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateTests.swift; sourceTree = "<group>"; };
 		8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskExtensions.swift; sourceTree = "<group>"; };
 		D636B39E23D35043007F370F /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
 		D642BDB023A9FE4500396732 /* Reversi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reversi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -280,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				8FA1B3A224760344003BAAC0 /* DiscColor.swift */,
+				8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */,
 			);
 			path = ValueObjects;
 			sourceTree = "<group>";
@@ -288,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */,
+				8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */,
 			);
 			path = ValueObjects;
 			sourceTree = "<group>";
@@ -567,6 +573,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FA1B3A324760344003BAAC0 /* DiscColor.swift in Sources */,
+				8FA1B3A8247607CF003BAAC0 /* Coordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FA1B3A624760640003BAAC0 /* DiscColorTests.swift in Sources */,
+				8FA1B3AA24760919003BAAC0 /* CoordinateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

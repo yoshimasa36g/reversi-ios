@@ -11,10 +11,7 @@ import XCTest
 
 final class DiscColorTests: XCTestCase {
     func testOtherSide() {
-        let example = { (subject: DiscColor, expected: DiscColor) in
-            XCTAssertEqual(subject.otherSide, expected)
-        }
-        example(.dark, .light)
-        example(.light, .dark)
+        XCTAssertEqual(DiscColor.dark.otherSide, .light)
+        XCTAssertEqual(DiscColor.light.otherSide, .dark)
     }
 }

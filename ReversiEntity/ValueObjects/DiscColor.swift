@@ -13,7 +13,8 @@ public enum DiscColor: Int, Codable {
     /// 白
     case light = 1
 
-    var otherSide: DiscColor {
+    /// 反対側の色
+    public var otherSide: DiscColor {
         switch self {
         case .dark: return .light
         case .light: return .dark
