@@ -39,6 +39,16 @@
                ReferencedContainer = "container:Reversi.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8FA1B38A2475FF13003BAAC0"
+               BuildableName = "ReversiEntityTests.xctest"
+               BlueprintName = "ReversiEntityTests"
+               ReferencedContainer = "container:Reversi.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
