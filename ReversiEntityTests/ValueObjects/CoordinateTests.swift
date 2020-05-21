@@ -10,14 +10,14 @@
 import XCTest
 
 final class CoordinateTests: XCTestCase {
-    func testAdd() {
-        let randomPosition = { Int.random(in: -10..<10) }
-        (0..<10).forEach { _ in
-            let subject = Coordinate(x: randomPosition(), y: randomPosition())
-            let other = Coordinate(x: randomPosition(), y: randomPosition())
-            let expected = Coordinate(x: subject.x + other.x,
-                                      y: subject.y + other.y)
-            XCTAssertEqual(subject.add(other), expected)
-        }
+    func testAdjacent() {
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .upperLeft), Coordinate(x: 3, y: 3))
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .upper), Coordinate(x: 4, y: 3))
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .upperRight), Coordinate(x: 5, y: 3))
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .right), Coordinate(x: 5, y: 4))
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .lowerRight), Coordinate(x: 5, y: 5))
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .lower), Coordinate(x: 4, y: 5))
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .lowerLeft), Coordinate(x: 3, y: 5))
+        XCTAssertEqual(Coordinate(x: 4, y: 4).adjacent(to: .left), Coordinate(x: 3, y: 4))
     }
 }

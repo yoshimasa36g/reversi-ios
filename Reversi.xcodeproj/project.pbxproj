@@ -34,10 +34,14 @@
 		8FA1B3A324760344003BAAC0 /* DiscColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A224760344003BAAC0 /* DiscColor.swift */; };
 		8FA1B3A624760640003BAAC0 /* DiscColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */; };
 		8FA1B3A8247607CF003BAAC0 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */; };
-		8FA1B3AA24760919003BAAC0 /* CoordinateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */; };
 		8FA1B3AD24760BAF003BAAC0 /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */; };
 		8FA1B3AF24760D9F003BAAC0 /* Disc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3AE24760D9F003BAAC0 /* Disc.swift */; };
 		8FA1B3B224760F6F003BAAC0 /* DiscTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */; };
+		8FA1B3B424761137003BAAC0 /* GameBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3B324761137003BAAC0 /* GameBoard.swift */; };
+		8FA1B3B624761697003BAAC0 /* GameBoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3B524761697003BAAC0 /* GameBoardTests.swift */; };
+		8FA1B3B824761759003BAAC0 /* GameBoardFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3B724761759003BAAC0 /* GameBoardFactory.swift */; };
+		8FA1B3BA2476226D003BAAC0 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3B92476226D003BAAC0 /* Direction.swift */; };
+		8FA1B3BC24765A45003BAAC0 /* CoordinateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1B3BB24765A45003BAAC0 /* CoordinateTests.swift */; };
 		8FBB0D80246BBBE8001A548F /* DiskExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */; };
 		D636B39F23D35043007F370F /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D636B39E23D35043007F370F /* DiskView.swift */; };
 		D642BDB423A9FE4500396732 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642BDB323A9FE4500396732 /* AppDelegate.swift */; };
@@ -127,10 +131,14 @@
 		8FA1B3A224760344003BAAC0 /* DiscColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscColor.swift; sourceTree = "<group>"; };
 		8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscColorTests.swift; sourceTree = "<group>"; };
 		8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
-		8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateTests.swift; sourceTree = "<group>"; };
 		8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCell.swift; sourceTree = "<group>"; };
 		8FA1B3AE24760D9F003BAAC0 /* Disc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disc.swift; sourceTree = "<group>"; };
 		8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscTests.swift; sourceTree = "<group>"; };
+		8FA1B3B324761137003BAAC0 /* GameBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoard.swift; sourceTree = "<group>"; };
+		8FA1B3B524761697003BAAC0 /* GameBoardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardTests.swift; sourceTree = "<group>"; };
+		8FA1B3B724761759003BAAC0 /* GameBoardFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardFactory.swift; sourceTree = "<group>"; };
+		8FA1B3B92476226D003BAAC0 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		8FA1B3BB24765A45003BAAC0 /* CoordinateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateTests.swift; sourceTree = "<group>"; };
 		8FBB0D7F246BBBE8001A548F /* DiskExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskExtensions.swift; sourceTree = "<group>"; };
 		D636B39E23D35043007F370F /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
 		D642BDB023A9FE4500396732 /* Reversi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reversi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -293,6 +301,7 @@
 			children = (
 				8FA1B3A224760344003BAAC0 /* DiscColor.swift */,
 				8FA1B3A7247607CF003BAAC0 /* Coordinate.swift */,
+				8FA1B3B92476226D003BAAC0 /* Direction.swift */,
 			);
 			path = ValueObjects;
 			sourceTree = "<group>";
@@ -301,7 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				8FA1B3A524760640003BAAC0 /* DiscColorTests.swift */,
-				8FA1B3A924760919003BAAC0 /* CoordinateTests.swift */,
+				8FA1B3BB24765A45003BAAC0 /* CoordinateTests.swift */,
 			);
 			path = ValueObjects;
 			sourceTree = "<group>";
@@ -311,6 +320,7 @@
 			children = (
 				8FA1B3AE24760D9F003BAAC0 /* Disc.swift */,
 				8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */,
+				8FA1B3B324761137003BAAC0 /* GameBoard.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -319,6 +329,8 @@
 			isa = PBXGroup;
 			children = (
 				8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */,
+				8FA1B3B524761697003BAAC0 /* GameBoardTests.swift */,
+				8FA1B3B724761759003BAAC0 /* GameBoardFactory.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -599,8 +611,10 @@
 			files = (
 				8FA1B3AF24760D9F003BAAC0 /* Disc.swift in Sources */,
 				8FA1B3A324760344003BAAC0 /* DiscColor.swift in Sources */,
+				8FA1B3B424761137003BAAC0 /* GameBoard.swift in Sources */,
 				8FA1B3AD24760BAF003BAAC0 /* BoardCell.swift in Sources */,
 				8FA1B3A8247607CF003BAAC0 /* Coordinate.swift in Sources */,
+				8FA1B3BA2476226D003BAAC0 /* Direction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,9 +622,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FA1B3B824761759003BAAC0 /* GameBoardFactory.swift in Sources */,
+				8FA1B3B624761697003BAAC0 /* GameBoardTests.swift in Sources */,
 				8FA1B3B224760F6F003BAAC0 /* DiscTests.swift in Sources */,
+				8FA1B3BC24765A45003BAAC0 /* CoordinateTests.swift in Sources */,
 				8FA1B3A624760640003BAAC0 /* DiscColorTests.swift in Sources */,
-				8FA1B3AA24760919003BAAC0 /* CoordinateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

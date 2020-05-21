@@ -7,16 +7,17 @@
 //
 
 /// 座標
-public struct Coordinate: Codable, Equatable {
+struct Coordinate: Codable, Equatable, Hashable {
     /// X座標
-    public let x: Int
+    let x: Int
 
     /// Y座標
-    public let y: Int
+    let y: Int
 
-    /// 別のインスタンスのX座標とY座標をそれぞれ加算した座標を返す
-    /// - Parameter other: 加算する座標
-    public func add(_ other: Coordinate) -> Coordinate {
-        Coordinate(x: x + other.x, y: y + other.y)
+    /// 指定した方向に隣接する座標を返す
+    /// - Parameter direction: 方向
+    func adjacent(to direction: Direction) -> Coordinate {
+        Coordinate(x: x + direction.x,
+                   y: y + direction.y)
     }
 }

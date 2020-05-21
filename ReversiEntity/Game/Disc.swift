@@ -8,18 +8,28 @@
 
 /// ゲーム盤に置くディスク
 /// - 元のコードでは `Disk` 表記だったが、Wikipedia等で確認すると `Disc` が正しそう
-public struct Disc: Codable, Equatable {
-    public let color: DiscColor
+struct Disc: Codable, Equatable {
+    /// 表の色
+    private let color: DiscColor
 
-    public var flipped: Disc {
+    /// 面の色を指定してインスタンスを生成する
+    /// - Parameter color: 表の色
+    init(color: DiscColor) {
+        self.color = color
+    }
+
+    /// 反転したディスク
+    var flipped: Disc {
         Disc(color: color.otherSide)
     }
 
-    public static func dark() -> Disc {
+    /// 黒が表のディスクを生成する
+    static func dark() -> Disc {
         Disc(color: .dark)
     }
 
-    public static func light() -> Disc {
+    /// 白が表のディスクを生成する
+    static func light() -> Disc {
         Disc(color: .light)
     }
 }
