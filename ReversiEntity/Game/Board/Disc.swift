@@ -8,7 +8,7 @@
 
 /// ゲーム盤に置くディスク
 /// - 元のコードでは `Disk` 表記だったが、Wikipedia等で確認すると `Disc` が正しそう
-struct Disc: Codable, Equatable {
+struct Disc: Codable, Equatable, Hashable {
     /// 表の色
     private let color: DiscColor
 
