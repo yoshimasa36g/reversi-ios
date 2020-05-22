@@ -67,7 +67,7 @@ final class GameBoard: Codable {
         }
     }
 
-    /// 指定したセルにディスクを置いたら指定した方向で取得できるディスクの位置をすべて返す
+    /// 指定したセルにディスクを置いたら指定した方向で獲得できるディスクの位置をすべて返す
     /// - Parameters:
     ///   - direction: 判定する方向
     ///   - origin: 置く位置
@@ -77,17 +77,14 @@ final class GameBoard: Codable {
         origin: Coordinate,
         disc: Disc
     ) -> [Coordinate] {
-        var isGetable = true
-        let coordinates = sequence(first: origin) { [weak self] previous in
-            let next = previous.adjacent(to: direction)
-            if self?.isDiscEquals(to: disc, at: next) == true { return nil }
-            if self?.isEmpty(at: next) == true {
-                isGetable = false
-                return nil
+        // 起点を除く、指定方向の座標の無限リストを作成
+        return sequence(first: origin.adjacent(to: direction)) { $0.adjacent(to: direction) }
+            // 相手側ディスクが連続している間のみ取得する
+            .prefix { [weak self] in self?.isDiscEquals(to: disc.flipped, at: $0) == true }
+            .reduce([]) { result, coordinate in
+                if isEmpty(at: coordinate.adjacent(to: direction)) { return [] } // 次の座標が空だったら獲得できない
+                return result + [coordinate]
             }
-            return next
-        }.dropFirst().map { $0 }
-        return isGetable ? coordinates : []
     }
 
     private func exists(at coordinate: Coordinate) -> Bool {
