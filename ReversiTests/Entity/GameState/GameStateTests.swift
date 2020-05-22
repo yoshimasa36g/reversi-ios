@@ -66,7 +66,7 @@ final class GameStateTests: XCTestCase {
 
     // MARK: - test for changeTurn(to:)
 
-    // - 戻り地のGameStateのturnが変更されること
+    // - 戻り値のGameStateのturnが変更されること
     // - 元のGameStateのturnは変更されないこと
     // - playersとboardに変更がないこと
     func testChangeTurn() {
@@ -85,7 +85,7 @@ final class GameStateTests: XCTestCase {
 
     // MARK: - test for changePlayer(side:to:)
 
-    // - 戻り地のGameStateのplayersが変更されること
+    // - 戻り値のGameStateのplayersが変更されること
     // - 元のGameStateのplayersは変更されないこと
     // - turnとboardに変更がないこと
     func testChangePlayer() {
@@ -103,7 +103,7 @@ final class GameStateTests: XCTestCase {
 
     // MARK: - test for place(disk:at:)
 
-    // - 戻り地のGameStateの指定した位置にディスクが置かれていること
+    // - 戻り値のGameStateの指定した位置にディスクが置かれていること
     // - 元のGameStateのboardは変更されないこと
     // - turnとplayersに変更がないこと
     // - GameBoardのメソッドを呼び出しているだけなので細かいパターンのテストはここでは実施しない
@@ -119,7 +119,7 @@ final class GameStateTests: XCTestCase {
 
     // MARK: - test for removeDisk(at:)
 
-    // - 戻り地のGameStateの指定した位置からディスクが取り除かれていること
+    // - 戻り値のGameStateの指定した位置からディスクが取り除かれていること
     // - 元のGameStateのboardは変更されないこと
     // - turnとplayersに変更がないこと
     // - GameBoardのメソッドを呼び出しているだけなので細かいパターンのテストはここでは実施しない

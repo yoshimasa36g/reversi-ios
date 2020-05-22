@@ -25,14 +25,14 @@ final class GameBoard: Codable {
         cells.filter({ $0.has(disc) }).count
     }
 
-    /// 勝者のディスクの色
-    var winner: DiscColor? {
+    /// 勝者のディスク
+    var winner: Disc? {
         let darkCount = count(of: .dark())
         let lightCount = count(of: .light())
         if darkCount == lightCount {
             return nil
         }
-        return darkCount > lightCount ? .dark : .light
+        return darkCount > lightCount ? .dark() : .light()
     }
 
     /// 指定した位置にディスクを置いたインスタンスを返す
@@ -59,11 +59,11 @@ final class GameBoard: Codable {
     /// - Parameters:
     ///   - disc: 置くディスク
     ///   - coordinate: 置く位置
-    func coordinatesOfGetableDiscs(by disc: Disc, at coordinate: Coordinate) -> [Coordinate] {
+    func coordinatesOfGettableDiscs(by disc: Disc, at coordinate: Coordinate) -> [Coordinate] {
         if exists(at: coordinate) { return [] }
 
         return Direction.allCases.reduce([]) { coordinates, direction in
-            coordinates + coordinatesOfGetableDiscs(by: direction, origin: coordinate, disc: disc)
+            coordinates + coordinatesOfGettableDiscs(by: direction, origin: coordinate, disc: disc)
         }
     }
 
@@ -72,7 +72,7 @@ final class GameBoard: Codable {
     ///   - direction: 判定する方向
     ///   - origin: 置く位置
     ///   - disc: 置くディスク
-    private func coordinatesOfGetableDiscs(
+    private func coordinatesOfGettableDiscs(
         by direction: Direction,
         origin: Coordinate,
         disc: Disc
@@ -105,7 +105,7 @@ final class GameBoard: Codable {
     ///   - coordinate: 置く位置
     /// - Returns: 置ける場合は true
     func isPlaceable(_ disc: Disc, at coordinate: Coordinate) -> Bool {
-        !coordinatesOfGetableDiscs(by: disc, at: coordinate).isEmpty
+        !coordinatesOfGettableDiscs(by: disc, at: coordinate).isEmpty
     }
 
     private var allCoordinates: [Coordinate] {
@@ -126,5 +126,13 @@ final class GameBoard: Codable {
             BoardCell(coordinate: Coordinate(x: 4, y: 3), disc: Disc.dark()),
             BoardCell(coordinate: Coordinate(x: 4, y: 4), disc: Disc.light())
         ]
+    }
+}
+
+// MARK: - Equatable
+
+extension GameBoard: Equatable {
+    static func == (lhs: GameBoard, rhs: GameBoard) -> Bool {
+        lhs.cells == rhs.cells
     }
 }

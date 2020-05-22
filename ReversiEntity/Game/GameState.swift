@@ -13,5 +13,5 @@ protocol GameState {
 
     /// 指定したディスクを置ける位置を返す
     /// - Parameter disk: 置くディスク
-    func settableCoordinates(disc: Disc) -> [Coordinate]
+    func placeableCoordinates(disc: Disc) -> [Coordinate]
 }

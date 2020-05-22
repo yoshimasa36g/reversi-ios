@@ -24,12 +24,12 @@ final class GameBoardTests: XCTestCase {
 
     func testWinnerWhenDarkWins() {
         let board = GameBoardFactory.create(advantage: .dark)
-        XCTAssertEqual(board.winner, .dark)
+        XCTAssertEqual(board.winner, .dark())
     }
 
     func testWinnerWhenLightWins() {
         let board = GameBoardFactory.create(advantage: .light)
-        XCTAssertEqual(board.winner, .light)
+        XCTAssertEqual(board.winner, .light())
     }
 
     func testWinnerWhenTieGame() {
@@ -61,22 +61,22 @@ final class GameBoardTests: XCTestCase {
         []
     ]
 
-    func testCoordinatesOfGetableDiscs() {
+    func testCoordinatesOfGettableDiscs() {
         zip(flipTestInputs, flipTestExpecteds).forEach { input, expected in
             let board = GameBoardFactory.create(advantage: .dark)
-            let result = board.coordinatesOfGetableDiscs(by: input.disc,
+            let result = board.coordinatesOfGettableDiscs(by: input.disc,
                                                               at: input.coordinate)
             XCTAssertEqual(result, expected)
         }
     }
 
-    func testIsSettableWhenSettable() {
+    func testIsPlaceableWhenPlaceable() {
         let board = GameBoardFactory.create(advantage: .dark)
         let result = board.isPlaceable(.dark(), at: Coordinate(x: 4, y: 6))
         XCTAssertTrue(result)
     }
 
-    func testIsSettableWhenUnsettable() {
+    func testIsPlaceableWhenUnplaceable() {
         let board = GameBoardFactory.create(advantage: .dark)
         let result = board.isPlaceable(.dark(), at: Coordinate(x: 1, y: 6))
         XCTAssertFalse(result)

@@ -27,7 +27,7 @@ final class RandomCoordinateOperationTests: XCTestCase {
                 XCTFail("coordinate is null")
                 return
             }
-            XCTAssertTrue(MockGameState.settableCoordinatesSample.contains(coordinate))
+            XCTAssertTrue(MockGameState.placeableCoordinatesSample.contains(coordinate))
         }
 
         wait(for: [operationWaiter], timeout: 5)
@@ -35,7 +35,7 @@ final class RandomCoordinateOperationTests: XCTestCase {
 
     // 選択できる位置がない場合は選択されないこと
     func testExecutionWhenNoAvailableCoordinates() {
-        let gameState = MockGameState(turn: .dark(), settable: [])
+        let gameState = MockGameState(turn: .dark(), placeable: [])
 
         let operationWaiter = expectation(description: "wait")
 
@@ -100,18 +100,18 @@ private class MockGameState: GameState {
 
     let board = GameBoard(cells: [])
 
-    let settable: [Coordinate]
+    let placeable: [Coordinate]
 
-    init(turn: Disc?, settable: [Coordinate] = MockGameState.settableCoordinatesSample) {
+    init(turn: Disc?, placeable: [Coordinate] = MockGameState.placeableCoordinatesSample) {
         self.turn = turn
-        self.settable = settable
+        self.placeable = placeable
     }
 
-    func settableCoordinates(disc: Disc) -> [Coordinate] {
-        return settable
+    func placeableCoordinates(disc: Disc) -> [Coordinate] {
+        return placeable
     }
 
-    static let settableCoordinatesSample = [
+    static let placeableCoordinatesSample = [
         Coordinate(x: 5, y: 1),
         Coordinate(x: 4, y: 2),
         Coordinate(x: 2, y: 5),
