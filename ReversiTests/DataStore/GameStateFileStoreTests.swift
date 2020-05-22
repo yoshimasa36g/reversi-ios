@@ -1,5 +1,5 @@
 @testable import Reversi
-import ReversiEntity
+import ReversiEntity // TODO: 後で消す
 import XCTest
 
 final class GameStateFileStoreTests: XCTestCase {

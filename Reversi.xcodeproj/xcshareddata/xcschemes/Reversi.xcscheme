@@ -49,6 +49,26 @@
                ReferencedContainer = "container:Reversi.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8F7E6CCE24779781006109D6"
+               BuildableName = "ReversiUseCaseTests.xctest"
+               BlueprintName = "ReversiUseCaseTests"
+               ReferencedContainer = "container:Reversi.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8F7E6CF624779839006109D6"
+               BuildableName = "ReversiInterfaceAdapterTests.xctest"
+               BlueprintName = "ReversiInterfaceAdapterTests"
+               ReferencedContainer = "container:Reversi.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
