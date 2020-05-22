@@ -238,6 +238,26 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
+		8F7E6C9C24775FD0006109D6 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				8FA1B3AE24760D9F003BAAC0 /* Disc.swift */,
+				8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */,
+				8FA1B3B324761137003BAAC0 /* GameBoard.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		8F7E6C9D24775FE0006109D6 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */,
+				8FA1B3B524761697003BAAC0 /* GameBoardTests.swift */,
+				8FA1B3B724761759003BAAC0 /* GameBoardFactory.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
 		8F8D627D2464E7FF007E7E0B /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,9 +338,7 @@
 		8FA1B3AB24760B96003BAAC0 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				8FA1B3AE24760D9F003BAAC0 /* Disc.swift */,
-				8FA1B3AC24760BAF003BAAC0 /* BoardCell.swift */,
-				8FA1B3B324761137003BAAC0 /* GameBoard.swift */,
+				8F7E6C9C24775FD0006109D6 /* Board */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -328,9 +346,7 @@
 		8FA1B3B024760F4F003BAAC0 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				8FA1B3B124760F6F003BAAC0 /* DiscTests.swift */,
-				8FA1B3B524761697003BAAC0 /* GameBoardTests.swift */,
-				8FA1B3B724761759003BAAC0 /* GameBoardFactory.swift */,
+				8F7E6C9D24775FE0006109D6 /* Board */,
 			);
 			path = Game;
 			sourceTree = "<group>";
