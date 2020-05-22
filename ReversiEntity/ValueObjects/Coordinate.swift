@@ -7,12 +7,17 @@
 //
 
 /// 座標
-struct Coordinate: Codable, Equatable, Hashable {
+public struct Coordinate: Codable, Equatable, Hashable {
     /// X座標
-    let x: Int
+    public let x: Int
 
     /// Y座標
-    let y: Int
+    public let y: Int
+
+    public init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
 
     /// 指定した方向に隣接する座標を返す
     /// - Parameter direction: 方向

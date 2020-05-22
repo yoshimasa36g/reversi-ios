@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ReversiEntity // TODO: 後で消す
 import UIKit
 
 final class GameStateFileStore: GameStateRepository {
@@ -23,7 +24,7 @@ final class GameStateFileStore: GameStateRepository {
         return (directory as NSString).appendingPathComponent(fileName)
     }
 
-    func save(_ state: GameState) throws {
+    func save(_ state: Game) throws {
         guard let encoded = try? JSONEncoder().encode(state),
             let output = String(data: encoded, encoding: .utf8) else {
                 throw encodeError(with: state)
@@ -36,19 +37,19 @@ final class GameStateFileStore: GameStateRepository {
         }
     }
 
-    func load() throws -> GameState {
+    func load() throws -> Game {
         do {
             let fileContents = try String(contentsOfFile: path, encoding: .utf8)
             guard let data = fileContents.data(using: .utf8) else {
                 throw FileIOError.read(path: path, cause: nil)
             }
-            return try JSONDecoder().decode(GameState.self, from: data)
+            return try JSONDecoder().decode(Game.self, from: data)
         } catch let error {
             throw FileIOError.read(path: path, cause: error)
         }
     }
 
-    private func encodeError(with state: GameState) -> Error {
+    private func encodeError(with state: Game) -> Error {
         EncodingError.invalidValue(
             state,
             .init(codingPath: [], debugDescription: "Could't encode the game state"))

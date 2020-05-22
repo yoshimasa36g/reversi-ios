@@ -7,6 +7,6 @@
 //
 
 /// Computerの思考処理プロトコル
-protocol ComputerOperation: Operation {
+public protocol ComputerOperation: Operation {
     var coordinate: Coordinate? { get }
 }

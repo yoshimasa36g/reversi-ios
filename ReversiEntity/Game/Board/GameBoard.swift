@@ -7,7 +7,7 @@
 //
 
 /// ゲーム盤
-final class GameBoard: Codable {
+public final class GameBoard: Codable {
     private static let size = 8
 
     private static let range = 0..<size
@@ -15,8 +15,12 @@ final class GameBoard: Codable {
     /// セル一覧
     private let cells: Set<BoardCell>
 
-    init(cells: Set<BoardCell>) {
+    public init(cells: Set<BoardCell>) {
         self.cells = cells
+    }
+
+    public func eachCells(_ body: (BoardCell) throws -> Void) rethrows {
+        try cells.forEach(body)
     }
 
     /// 指定したディスクの枚数を取得する
@@ -119,7 +123,7 @@ final class GameBoard: Codable {
     }
 
     /// 初期状態のセル
-    static var initialCells: [BoardCell] {
+    public static var initialCells: [BoardCell] {
         [
             BoardCell(coordinate: Coordinate(x: 3, y: 3), disc: Disc.light()),
             BoardCell(coordinate: Coordinate(x: 3, y: 4), disc: Disc.dark()),
@@ -132,7 +136,7 @@ final class GameBoard: Codable {
 // MARK: - Equatable
 
 extension GameBoard: Equatable {
-    static func == (lhs: GameBoard, rhs: GameBoard) -> Bool {
+    public static func == (lhs: GameBoard, rhs: GameBoard) -> Bool {
         lhs.cells == rhs.cells
     }
 }

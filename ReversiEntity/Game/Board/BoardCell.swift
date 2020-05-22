@@ -7,13 +7,13 @@
 //
 
 /// ゲーム盤のセル情報を管理する
-struct BoardCell: Codable {
+public struct BoardCell: Codable {
     /// 座標
-    private let coordinate: Coordinate
+    public let coordinate: Coordinate
     /// 置いてあるディスク
-    private let disc: Disc
+    public let disc: Disc
 
-    init(coordinate: Coordinate, disc: Disc) {
+    public init(coordinate: Coordinate, disc: Disc) {
         self.coordinate = coordinate
         self.disc = disc
     }
@@ -37,7 +37,7 @@ struct BoardCell: Codable {
 
 extension BoardCell: Hashable {
     // 座標が同じなら同じセルとする
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(coordinate)
     }
 }
@@ -46,7 +46,7 @@ extension BoardCell: Hashable {
 
 extension BoardCell: Equatable {
     // 座標が同じなら同じセルとする
-    static func == (lhs: BoardCell, rhs: BoardCell) -> Bool {
+    public static func == (lhs: BoardCell, rhs: BoardCell) -> Bool {
         return lhs.coordinate == rhs.coordinate
     }
 }

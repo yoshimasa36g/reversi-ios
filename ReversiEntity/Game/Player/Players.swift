@@ -9,14 +9,14 @@
 import Foundation
 
 /// プレイヤー情報
-struct Players {
+public struct Players {
     private let players: [Disc: Player]
 
     /// 黒と白それぞれのプレイヤーを指定してインスタンスを生成する
     /// - Parameters:
     ///   - darkPlayer: 黒のプレイヤー
     ///   - lightPlayer: 白のプレイヤー
-    init(darkPlayer: Player, lightPlayer: Player) {
+    public init(darkPlayer: Player, lightPlayer: Player) {
         self.players = [
             .dark(): darkPlayer,
             .light(): lightPlayer
@@ -28,7 +28,7 @@ struct Players {
     ///   - side: 変更する側
     ///   - newPlayer: 新しいプレイヤー
     /// - Returns: プレイヤー変更後のインスタンス
-    func changePlayer(of side: Disc, to newPlayer: Player) -> Players {
+    public func changePlayer(of side: Disc, to newPlayer: Player) -> Players {
         let newPlayers = [
             side: newPlayer,
             side.flipped: players[side.flipped]
@@ -44,28 +44,30 @@ struct Players {
     ///   - gameState: ゲームの状態
     ///   - onStart: 操作開始時の処理
     ///   - onComplete: 操作完了時の処理
-    func startOperation(gameState: GameState,
-                        onStart: @escaping () -> Void,
-                        onComplete: @escaping (OperationResult) -> Void) {
+    public func startOperation(
+        gameState: GameState,
+        onStart: @escaping () -> Void,
+        onComplete: @escaping (OperationResult) -> Void
+    ) {
         guard let side = gameState.turn else { return }
         players[side]?.startOperation(gameState: gameState, onStart: onStart, onComplete: onComplete)
     }
 
     /// 指定した側のプレイヤーの操作をキャンセルする
     /// - Parameter side: 操作をキャンセルする側
-    func cancelOperation(of side: Disc) {
+    public func cancelOperation(of side: Disc) {
         players[side]?.cancelOperation()
     }
 
     /// すべてのプレイヤーの操作をキャンセルする
-    func cancelAll() {
+    public func cancelAll() {
         players.values.forEach { $0.cancelOperation() }
     }
 
     /// 指定したがわのプレイヤー区分を返す
     /// - Parameter side: プレイヤーを取得したい側
     /// - Returns: プレイヤー区分
-    func type(of side: Disc) -> PlayerType {
+    public func type(of side: Disc) -> PlayerType {
         players[side]?.type ?? .manual
     }
 }
@@ -73,7 +75,7 @@ struct Players {
 // MARK: - Equatable
 
 extension Players: Equatable {
-    static func == (lhs: Players, rhs: Players) -> Bool {
+    public static func == (lhs: Players, rhs: Players) -> Bool {
         return lhs.players[.dark()]?.type == rhs.players[.dark()]?.type
             && lhs.players[.light()]?.type == rhs.players[.light()]?.type
     }

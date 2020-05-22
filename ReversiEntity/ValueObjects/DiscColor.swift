@@ -7,7 +7,7 @@
 //
 
 /// ディスクの色
-enum DiscColor: Int, Codable {
+public enum DiscColor: Int, Codable {
     /// 黒
     case dark = 0
     /// 白

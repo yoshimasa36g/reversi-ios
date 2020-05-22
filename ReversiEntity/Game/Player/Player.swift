@@ -9,7 +9,7 @@
 import Foundation
 
 /// プレイヤーのプロトコル
-protocol Player {
+public protocol Player {
     /// プレイヤー区分
     var type: PlayerType { get }
 

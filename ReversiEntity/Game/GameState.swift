@@ -6,7 +6,7 @@
 //  Copyright © 2020 yoshimasa36g. All rights reserved.
 //
 
-protocol GameState {
+public protocol GameState {
     var turn: Disc? { get }
     var players: Players { get }
     var board: GameBoard { get }

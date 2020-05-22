@@ -9,13 +9,13 @@
 import Foundation
 
 /// プレイヤーの区分
-enum PlayerType: Int, Codable {
+public enum PlayerType: Int, Codable {
     case manual = 0
     case computer = 1
 
     /// プレイヤーのインスタンスに変換する
     /// - Returns: プレイヤーのインスタンス
-    func toPlayer() -> Player {
+    public func toPlayer() -> Player {
         switch self {
         case .manual:
             return Human()

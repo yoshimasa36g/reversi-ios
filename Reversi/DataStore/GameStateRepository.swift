@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import ReversiEntity // TODO: 後で消す
 import UIKit
 
 protocol GameStateRepository {
-    func save(_ state: GameState) throws
-    func load() throws -> GameState
+    func save(_ state: Game) throws
+    func load() throws -> Game
 }

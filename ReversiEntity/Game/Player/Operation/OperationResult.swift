@@ -7,7 +7,7 @@
 //
 
 /// 操作結果
-enum OperationResult {
+public enum OperationResult {
     /// 位置を選択した
     case coordinate(Coordinate)
     /// 選択できる位置がなかったのでパスした

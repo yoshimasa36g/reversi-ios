@@ -7,20 +7,24 @@
 //
 
 /// Computerのプレイヤー
-final class Computer: Player {
+public final class Computer: Player {
     private var operation: ComputerOperation?
     private let queue = OperationQueue()
     private let operationBuilder: ((GameState) -> ComputerOperation)?
 
-    init(operationBuilder: ((GameState) -> ComputerOperation)? = nil) {
+    public init(operationBuilder: ((GameState) -> ComputerOperation)? = nil) {
         self.operationBuilder = operationBuilder
     }
 
-    var type: PlayerType {
+    public var type: PlayerType {
         .computer
     }
 
-    func startOperation(gameState: GameState, onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
+    public func startOperation(
+        gameState: GameState,
+        onStart: () -> Void,
+        onComplete: @escaping (OperationResult) -> Void
+    ) {
         guard let operation = operationBuilder?(gameState) else {
             return
         }
@@ -43,7 +47,7 @@ final class Computer: Player {
         }
     }
 
-    func cancelOperation() {
+    public func cancelOperation() {
         operation?.cancel()
     }
 }

@@ -9,16 +9,23 @@
 import Foundation
 
 /// Manualのプレイヤー
-struct Human: Player {
-    var type: PlayerType {
+public struct Human: Player {
+    public init() {}
+
+    public var type: PlayerType {
+
         return .manual
     }
 
-    func startOperation(gameState: GameState, onStart: () -> Void, onComplete: @escaping (OperationResult) -> Void) {
+    public func startOperation(
+        gameState: GameState,
+        onStart: () -> Void,
+        onComplete: @escaping (OperationResult) -> Void
+    ) {
         // 何もしない（コールバックも呼ばない）
     }
 
-    func cancelOperation() {
+    public func cancelOperation() {
         // 何もしない
     }
 }
