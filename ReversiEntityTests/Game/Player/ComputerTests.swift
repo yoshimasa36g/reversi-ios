@@ -106,6 +106,10 @@ private struct MockGameState: GameState {
 
     let board = GameBoard(cells: [])
 
+    func reset() -> GameState {
+        return MockGameState()
+    }
+
     func placeableCoordinates(disc: Disc) -> [Coordinate] {
         []
     }

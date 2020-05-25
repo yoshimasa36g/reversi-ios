@@ -20,5 +20,7 @@ public final class GameScreenPresenter {
 // MARK: - GameUseCaseOutput
 
 extension GameScreenPresenter: GameUseCaseOutput {
+    public func gameReloaded(state: OutputGameState) {
 
+    }
 }

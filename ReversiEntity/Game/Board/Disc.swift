@@ -12,6 +12,11 @@ public struct Disc: Codable, Equatable, Hashable {
     /// 表の色
     private let color: DiscColor
 
+    /// ディスクの色ID
+    public var id: Int {
+        color.rawValue
+    }
+
     /// 面の色を指定してインスタンスを生成する
     /// - Parameter color: 表の色
     public init(color: DiscColor) {

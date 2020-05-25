@@ -11,12 +11,16 @@ import ReversiUseCase
 import XCTest
 
 final class RepositoryGatewayTests: XCTestCase {
-    private let repository = MockRepository()
-    private let client = MockClient()
+    private var repository: MockRepository?
+    private var client: MockClient?
     private var subject: RepositoryGateway?
 
     override func setUp() {
         super.setUp()
+        let repository = MockRepository()
+        self.repository = repository
+        let client = MockClient()
+        self.client = client
         subject = RepositoryGateway(repository: repository, client: client)
     }
 
@@ -26,7 +30,7 @@ final class RepositoryGatewayTests: XCTestCase {
     func testSave() {
         let data = sampleData()
         subject?.save(data)
-        XCTAssertEqual(repository.savedData, data)
+        XCTAssertEqual(repository?.savedData, data)
     }
 
     // MARK: - test for load()
@@ -34,16 +38,16 @@ final class RepositoryGatewayTests: XCTestCase {
     /// GameStateRepositoryのloadメソッドでデータを取得し、
     /// GameUseCaseResponseのdataLoadedメソッドでクライアントに通知すること
     func testLoad() {
-        repository.savedData = sampleData()
+        repository?.savedData = sampleData()
         subject?.load()
-        XCTAssertEqual(client.loadedData, repository.savedData)
+        XCTAssertEqual(client?.loadedData, repository?.savedData)
     }
 
     /// ロードに失敗した場合、クライアントにエラーを通知すること
     func testLoadWhenFailed() {
-        repository.savedData = nil
+        repository?.savedData = nil
         subject?.load()
-        XCTAssertEqual(client.error, .loadFailed)
+        XCTAssertEqual(client?.error, .loadFailed)
     }
 
     // MARK: - helper methods
@@ -56,7 +60,7 @@ final class RepositoryGatewayTests: XCTestCase {
     }
 }
 
-private class MockClient: GameUseCaseResponse {
+private final class MockClient: GameUseCaseResponse {
     var loadedData: Data?
     var error: GameUseCaseResponseError?
 
@@ -70,7 +74,7 @@ private class MockClient: GameUseCaseResponse {
     }
 }
 
-private class MockRepository: GameStateRepository {
+private final class MockRepository: GameStateRepository {
     var savedData: Data?
 
     func save(_ data: Data) throws {

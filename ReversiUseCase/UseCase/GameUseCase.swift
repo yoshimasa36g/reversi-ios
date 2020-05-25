@@ -13,24 +13,44 @@ public final class GameUseCase {
     private weak var presenter: GameUseCaseOutput?
     private let gateway: GameUseCaseRequest
 
-    private var game = Game()
+    private var game: GameState = Game()
 
     public init(presenter: GameUseCaseOutput, gateway: GameUseCaseRequest) {
         self.presenter = presenter
         self.gateway = gateway
+        gateway.load()
     }
 
     private func save() {
-        guard let data = try? JSONEncoder().encode(game) else {
+        guard let game = self.game as? Game,
+            let data = try? JSONEncoder().encode(game) else {
             return
         }
         gateway.save(data)
+    }
+
+    private func outputState() -> OutputGameState {
+        let discs = game.board.map { cell in
+            OutputDisc(color: cell.disc.id, x: cell.coordinate.x, y: cell.coordinate.y)
+        }
+        return OutputGameState(turn: game.turn?.id,
+                               players: (dark: game.players.id(of: .dark()), light: game.players.id(of: .light())),
+                               discs: discs)
+    }
+
+    private func changeGameState(to state: GameState) {
+        game = state
+        save()
+        presenter?.gameReloaded(state: outputState())
     }
 }
 
 // MARK: - GameUseCaseInput
 
 extension GameUseCase: GameUseCaseInput {
+    public func resetGame() {
+        changeGameState(to: game.reset())
+    }
 }
 
 // MARK: - GameUseCaseResponse
@@ -40,13 +60,13 @@ extension GameUseCase: GameUseCaseResponse {
         do {
             switch result {
             case .success(let data):
-                game = try JSONDecoder().decode(Game.self, from: data)
+                let state: GameState = try JSONDecoder().decode(Game.self, from: data)
+                changeGameState(to: state)
             case .failure(let error):
                 throw error
             }
         } catch {
-            game = game.reset()
+            resetGame()
         }
-        save()
     }
 }

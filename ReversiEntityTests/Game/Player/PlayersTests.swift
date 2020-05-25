@@ -116,6 +116,10 @@ private class MockGameState: GameState {
         self.turn = turn
     }
 
+    func reset() -> GameState {
+        return MockGameState(turn: nil)
+    }
+
     func placeableCoordinates(disc: Disc) -> [Coordinate] {
         return []
     }

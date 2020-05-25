@@ -11,6 +11,9 @@ public protocol GameState {
     var players: Players { get }
     var board: GameBoard { get }
 
+    /// リセットしたインスタンスを返す
+    func reset() -> GameState
+
     /// 指定したディスクを置ける位置を返す
     /// - Parameter disk: 置くディスク
     func placeableCoordinates(disc: Disc) -> [Coordinate]

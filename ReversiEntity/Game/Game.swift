@@ -7,7 +7,7 @@
 //
 
 /// ゲーム
-public struct Game: GameState, Codable {
+public struct Game: Codable {
     /// ターン
     public let turn: Disc?
 
@@ -76,9 +76,9 @@ extension Game {
 
 // MARK: - Manage game
 
-extension Game {
+extension Game: GameState {
     /// リセットしたインスタンスを返す
-    public func reset() -> Game {
+    public func reset() -> GameState {
         Game(turn: .dark())
     }
 

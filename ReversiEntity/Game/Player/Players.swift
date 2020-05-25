@@ -64,11 +64,18 @@ public struct Players {
         players.values.forEach { $0.cancelOperation() }
     }
 
-    /// 指定したがわのプレイヤー区分を返す
+    /// 指定した側のプレイヤー区分を返す
     /// - Parameter side: プレイヤーを取得したい側
     /// - Returns: プレイヤー区分
     public func type(of side: Disc) -> PlayerType {
         players[side]?.type ?? .manual
+    }
+
+    /// 指定した側のプレイヤー区分IDを返す
+    /// - Parameter side: プレイヤーを取得したい側
+    /// - Returns: プレイヤー区分ID
+    public func id(of side: Disc) -> Int {
+        type(of: side).rawValue
     }
 }
 

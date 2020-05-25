@@ -8,5 +8,6 @@
 
 /// GameUseCaseへの入力プロトコル
 public protocol GameUseCaseInput {
-
+    /// ゲームをリセットする
+    func resetGame()
 }

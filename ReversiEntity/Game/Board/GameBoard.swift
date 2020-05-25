@@ -19,6 +19,14 @@ public final class GameBoard: Codable {
         self.cells = cells
     }
 
+    /// すべてのセルの情報を変換する
+    /// - Parameter transform: 変換処理
+    public func map<T>(_ transform: (BoardCell) throws -> T) rethrows -> [T] {
+        try cells.map(transform)
+    }
+
+    /// すべてのセルの情報ごとに処理を行う
+    /// - Parameter body: セルごとに行う処理
     public func eachCells(_ body: (BoardCell) throws -> Void) rethrows {
         try cells.forEach(body)
     }
