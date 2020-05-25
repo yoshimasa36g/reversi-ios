@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F77443F247B425C00019419 /* RepositoryGatewayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F77443E247B425C00019419 /* RepositoryGatewayTests.swift */; };
 		8F7E6CA02477607E006109D6 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6C9F2477607E006109D6 /* PlayerType.swift */; };
 		8F7E6CA3247760CF006109D6 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6CA2247760CF006109D6 /* Player.swift */; };
 		8F7E6CA624776126006109D6 /* OperationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6CA524776126006109D6 /* OperationResult.swift */; };
@@ -30,7 +31,6 @@
 		8F7E6CE5247797DB006109D6 /* ReversiEntity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA1B3832475FF13003BAAC0 /* ReversiEntity.framework */; };
 		8F7E6CE6247797DB006109D6 /* ReversiEntity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA1B3832475FF13003BAAC0 /* ReversiEntity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F7E6CF824779839006109D6 /* ReversiInterfaceAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7E6CEF24779839006109D6 /* ReversiInterfaceAdapter.framework */; };
-		8F7E6CFF24779839006109D6 /* ReversiInterfaceAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6CFE24779839006109D6 /* ReversiInterfaceAdapterTests.swift */; };
 		8F7E6D0124779839006109D6 /* ReversiInterfaceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F7E6CF124779839006109D6 /* ReversiInterfaceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F7E6D0424779839006109D6 /* ReversiInterfaceAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7E6CEF24779839006109D6 /* ReversiInterfaceAdapter.framework */; };
 		8F7E6D0524779839006109D6 /* ReversiInterfaceAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7E6CEF24779839006109D6 /* ReversiInterfaceAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -46,7 +46,8 @@
 		8F7E6D2424779DBC006109D6 /* GameUseCaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D2324779DBC006109D6 /* GameUseCaseRequest.swift */; };
 		8F7E6D2624779E53006109D6 /* GameUseCaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D2524779E53006109D6 /* GameUseCaseResponse.swift */; };
 		8F7E6D2824779FE1006109D6 /* RepositoryGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D2724779FE1006109D6 /* RepositoryGateway.swift */; };
-		8F8D627F2464E84A007E7E0B /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */; };
+		8F7E6D2A2477A636006109D6 /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D292477A636006109D6 /* GameStateRepository.swift */; };
+		8F7E6D2C2477A9AF006109D6 /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D2B2477A9AF006109D6 /* GameStateRepository.swift */; };
 		8F8D62812464E913007E7E0B /* GameStateFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62802464E913007E7E0B /* GameStateFileStore.swift */; };
 		8FA1B38C2475FF13003BAAC0 /* ReversiEntity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA1B3832475FF13003BAAC0 /* ReversiEntity.framework */; };
 		8FA1B3952475FF13003BAAC0 /* ReversiEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FA1B3852475FF13003BAAC0 /* ReversiEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -202,6 +203,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8F77443E247B425C00019419 /* RepositoryGatewayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryGatewayTests.swift; sourceTree = "<group>"; };
 		8F7E6C9F2477607E006109D6 /* PlayerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerType.swift; sourceTree = "<group>"; };
 		8F7E6CA2247760CF006109D6 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		8F7E6CA524776126006109D6 /* OperationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationResult.swift; sourceTree = "<group>"; };
@@ -227,7 +229,6 @@
 		8F7E6CF124779839006109D6 /* ReversiInterfaceAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReversiInterfaceAdapter.h; sourceTree = "<group>"; };
 		8F7E6CF224779839006109D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F7E6CF724779839006109D6 /* ReversiInterfaceAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReversiInterfaceAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F7E6CFE24779839006109D6 /* ReversiInterfaceAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversiInterfaceAdapterTests.swift; sourceTree = "<group>"; };
 		8F7E6D0024779839006109D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F7E6D11247798F1006109D6 /* GameUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUseCase.swift; sourceTree = "<group>"; };
 		8F7E6D1424779941006109D6 /* GameUseCaseInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUseCaseInput.swift; sourceTree = "<group>"; };
@@ -239,7 +240,8 @@
 		8F7E6D2324779DBC006109D6 /* GameUseCaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUseCaseRequest.swift; sourceTree = "<group>"; };
 		8F7E6D2524779E53006109D6 /* GameUseCaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUseCaseResponse.swift; sourceTree = "<group>"; };
 		8F7E6D2724779FE1006109D6 /* RepositoryGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryGateway.swift; sourceTree = "<group>"; };
-		8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
+		8F7E6D292477A636006109D6 /* GameStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
+		8F7E6D2B2477A9AF006109D6 /* GameStateRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
 		8F8D62802464E913007E7E0B /* GameStateFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateFileStore.swift; sourceTree = "<group>"; };
 		8FA1B3832475FF13003BAAC0 /* ReversiEntity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReversiEntity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FA1B3852475FF13003BAAC0 /* ReversiEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReversiEntity.h; sourceTree = "<group>"; };
@@ -342,6 +344,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F77443D247B422A00019419 /* Gateway */ = {
+			isa = PBXGroup;
+			children = (
+				8F77443E247B425C00019419 /* RepositoryGatewayTests.swift */,
+			);
+			path = Gateway;
+			sourceTree = "<group>";
+		};
 		8F7E6C9C24775FD0006109D6 /* Board */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,7 +455,7 @@
 		8F7E6CFD24779839006109D6 /* ReversiInterfaceAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
-				8F7E6CFE24779839006109D6 /* ReversiInterfaceAdapterTests.swift */,
+				8F77443D247B422A00019419 /* Gateway */,
 				8F7E6D0024779839006109D6 /* Info.plist */,
 			);
 			path = ReversiInterfaceAdapterTests;
@@ -484,6 +494,7 @@
 		8F7E6D1A24779AE0006109D6 /* Gateway */ = {
 			isa = PBXGroup;
 			children = (
+				8F7E6D292477A636006109D6 /* GameStateRepository.swift */,
 				8F7E6D2724779FE1006109D6 /* RepositoryGateway.swift */,
 			);
 			path = Gateway;
@@ -492,7 +503,7 @@
 		8F8D627D2464E7FF007E7E0B /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
-				8F8D627E2464E84A007E7E0B /* GameStateRepository.swift */,
+				8F7E6D2B2477A9AF006109D6 /* GameStateRepository.swift */,
 				8F8D62802464E913007E7E0B /* GameStateFileStore.swift */,
 			);
 			path = DataStore;
@@ -859,6 +870,7 @@
 					};
 					8F7E6CF624779839006109D6 = {
 						CreatedOnToolsVersion = 11.3.1;
+						LastSwiftMigration = 1130;
 						TestTargetID = D642BDAF23A9FE4500396732;
 					};
 					8FA1B3822475FF13003BAAC0 = {
@@ -1017,6 +1029,7 @@
 				8F7E6D1E24779B4C006109D6 /* GameScreenPresentable.swift in Sources */,
 				8F7E6D2024779C54006109D6 /* GameScreenControllable.swift in Sources */,
 				8F7E6D2224779C7A006109D6 /* GameScreenController.swift in Sources */,
+				8F7E6D2A2477A636006109D6 /* GameStateRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1024,7 +1037,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F7E6CFF24779839006109D6 /* ReversiInterfaceAdapterTests.swift in Sources */,
+				8F77443F247B425C00019419 /* RepositoryGatewayTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,6 +1086,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D636B39F23D35043007F370F /* DiskView.swift in Sources */,
+				8F7E6D2C2477A9AF006109D6 /* GameStateRepository.swift in Sources */,
 				D642BDD623AA0B3900396732 /* CellView.swift in Sources */,
 				D642BDD823AA0B5700396732 /* Disk.swift in Sources */,
 				D642BDB823A9FE4500396732 /* ViewController.swift in Sources */,
@@ -1080,7 +1094,6 @@
 				D642BDDC23AA137C00396732 /* BoardView.swift in Sources */,
 				D642BDB423A9FE4500396732 /* AppDelegate.swift in Sources */,
 				D642BDB623A9FE4500396732 /* SceneDelegate.swift in Sources */,
-				8F8D627F2464E84A007E7E0B /* GameStateRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,6 +1370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ReversiInterfaceAdapterTests/Info.plist;
@@ -1370,6 +1384,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Reversi.app/Reversi";
@@ -1380,6 +1395,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ReversiInterfaceAdapterTests/Info.plist;
