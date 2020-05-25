@@ -20,5 +20,7 @@ public struct GameScreenController {
 // MARK: - GameScreenControllable
 
 extension GameScreenController: GameScreenControllable {
-
+    public func reset() {
+        useCase.resetGame()
+    }
 }
