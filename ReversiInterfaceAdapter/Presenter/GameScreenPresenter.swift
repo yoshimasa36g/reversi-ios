@@ -21,6 +21,6 @@ public final class GameScreenPresenter {
 
 extension GameScreenPresenter: GameUseCaseOutput {
     public func gameReloaded(state: OutputGameState) {
-
+        screen?.redrawEntireGame(state: PresentableGameState.from(state))
     }
 }

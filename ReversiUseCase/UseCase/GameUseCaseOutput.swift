@@ -20,6 +20,12 @@ public struct OutputGameState {
     public let players: (dark: Int, light: Int)
     /// ディスクの色のIDと座標の一覧
     public let discs: [OutputDisc]
+
+    public init(turn: Int?, players: (dark: Int, light: Int), discs: [OutputDisc]) {
+        self.turn = turn
+        self.players = players
+        self.discs = discs
+    }
 }
 
 /// 出力用のディスク情報
@@ -30,4 +36,10 @@ public struct OutputDisc: Equatable {
     public let x: Int
     /// Y座標
     public let y: Int
+
+    public init(color: Int, x: Int, y: Int) {
+        self.color = color
+        self.x = x
+        self.y = y
+    }
 }

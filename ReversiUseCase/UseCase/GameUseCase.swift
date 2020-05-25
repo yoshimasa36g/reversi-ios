@@ -15,6 +15,10 @@ public final class GameUseCase {
 
     private var game: GameState = Game()
 
+    /// 出力先とデータ保存のリクエスト先を指定してインスタンスを生成する
+    /// - Parameters:
+    ///   - presenter: 処理結果の出力先
+    ///   - gateway: データ保存のリクエスト先
     public init(presenter: GameUseCaseOutput, gateway: GameUseCaseRequest) {
         self.presenter = presenter
         self.gateway = gateway
