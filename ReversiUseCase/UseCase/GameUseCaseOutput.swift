@@ -10,6 +10,18 @@
 public protocol GameUseCaseOutput: class {
     /// ゲームの状態がリセットされたか、またはロードされた時のイベント
     func gameReloaded(state: OutputGameState)
+
+    /// メッセージが変更された時のイベント
+    /// - Parameters:
+    ///   - color: ディスクの色ID
+    ///   - label: ラベル
+    func messageChanged(color: Int?, label: String)
+
+    /// ディスク枚数が変更されたときのイベント
+    /// - Parameters:
+    ///   - dark: 黒の数
+    ///   - light: 白の数
+    func discCountChanged(dark: Int, light: Int)
 }
 
 /// 出力用のゲームの状態

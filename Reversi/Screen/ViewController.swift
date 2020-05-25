@@ -78,9 +78,22 @@ extension ViewController: GameScreenPresentable {
         state.discs.forEach { disc in
             boardView.setDisk(Disk.from(index: disc.color), atX: disc.x, y: disc.y, animated: false)
         }
-        // TODO: メッセージとディスク数の更新を修正する
-        updateMessageViews()
-        updateCountLabels()
+    }
+
+    func redrawMessage(color: Int?, label: String) {
+        messageLabel.text = label
+        guard let color = color else {
+            messageDiskSizeConstraint.constant = 0
+            return
+        }
+
+        messageDiskView.disk = Disk.from(index: color)
+        messageDiskSizeConstraint.constant = messageDiskSize
+    }
+
+    func redrawDiscCount(dark: Int, light: Int) {
+        countLabels.first?.text = dark.description
+        countLabels.last?.text = light.description
     }
 }
 

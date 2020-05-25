@@ -46,6 +46,17 @@ public final class GameUseCase {
         game = state
         save()
         presenter?.gameReloaded(state: outputState())
+        notifyMessage()
+        notifyDiscCount()
+    }
+
+    private func notifyMessage() {
+        let message = game.message
+        presenter?.messageChanged(color: message.disc?.id, label: message.label)
+    }
+
+    private func notifyDiscCount() {
+        presenter?.discCountChanged(dark: game.count(of: .dark()), light: game.count(of: .light()))
     }
 }
 

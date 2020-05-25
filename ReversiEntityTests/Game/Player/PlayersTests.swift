@@ -116,6 +116,12 @@ private class MockGameState: GameState {
         self.turn = turn
     }
 
+    var message: (disc: Disc?, label: String) = (disc: nil, label: "")
+
+    func count(of disc: Disc) -> Int {
+        return 0
+    }
+
     func reset() -> GameState {
         return MockGameState(turn: nil)
     }

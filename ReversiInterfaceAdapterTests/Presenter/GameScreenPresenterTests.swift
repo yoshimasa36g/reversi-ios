@@ -39,12 +39,48 @@ final class GameScreenPresenterTests: XCTestCase {
         XCTAssertEqual(actual?.discs[1], PresentableDisc(color: 1, x: 1, y: 1))
         XCTAssertEqual(actual?.discs[2], PresentableDisc(color: 0, x: 2, y: 2))
     }
+
+    // MARK: - test for messageChanged(color:label:)
+
+    // 画面にディスクの色IDとラベル文字列を渡すこと
+    func testMessageChanged() {
+        let color = Int.random(in: 0...1)
+        let label = UUID().uuidString
+        subject?.messageChanged(color: color, label: label)
+        XCTAssertEqual(screen?.color, color)
+        XCTAssertEqual(screen?.label, label)
+    }
+
+    // MARK: - test for discCountChanged(dark:light:)
+
+    // 画面にディスクの枚数を渡すこと
+    func testDiscCountChanged() {
+        let dark = Int.random(in: 0...64)
+        let light = 64 - dark
+        subject?.discCountChanged(dark: dark, light: light)
+        XCTAssertEqual(screen?.dark, dark)
+        XCTAssertEqual(screen?.light, light)
+    }
 }
 
 private final class MockScreen: GameScreenPresentable {
     var state: PresentableGameState?
+    var color: Int?
+    var label: String?
+    var dark: Int?
+    var light: Int?
 
     func redrawEntireGame(state: PresentableGameState) {
         self.state = state
+    }
+
+    func redrawMessage(color: Int?, label: String) {
+        self.color = color
+        self.label = label
+    }
+
+    func redrawDiscCount(dark: Int, light: Int) {
+        self.dark = dark
+        self.light = light
     }
 }

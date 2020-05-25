@@ -13,6 +13,18 @@ public protocol GameScreenPresentable: class {
     /// ゲーム全体を再描画する
     /// - Parameter state: ゲームの状態
     func redrawEntireGame(state: PresentableGameState)
+
+    /// メッセージを再描画する
+    /// - Parameters:
+    ///   - color: ディスクの色ID
+    ///   - label: ラベル
+    func redrawMessage(color: Int?, label: String)
+
+    /// ディスク枚数を再描画する
+    /// - Parameters:
+    ///   - dark: 黒の数
+    ///   - light: 白の数
+    func redrawDiscCount(dark: Int, light: Int)
 }
 
 /// 出力用のゲームの状態

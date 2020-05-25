@@ -11,6 +11,13 @@ public protocol GameState {
     var players: Players { get }
     var board: GameBoard { get }
 
+    /// ターン表示や勝敗表示用のメッセージ
+    var message: (disc: Disc?, label: String) { get }
+
+    /// 指定したディスクの枚数を返す
+    /// - Parameter disc: 枚数を取得したいディスク
+    func count(of disc: Disc) -> Int
+
     /// リセットしたインスタンスを返す
     func reset() -> GameState
 

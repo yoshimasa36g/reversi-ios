@@ -23,4 +23,12 @@ extension GameScreenPresenter: GameUseCaseOutput {
     public func gameReloaded(state: OutputGameState) {
         screen?.redrawEntireGame(state: PresentableGameState.from(state))
     }
+
+    public func messageChanged(color: Int?, label: String) {
+        screen?.redrawMessage(color: color, label: label)
+    }
+
+    public func discCountChanged(dark: Int, light: Int) {
+        screen?.redrawDiscCount(dark: dark, light: light)
+    }
 }

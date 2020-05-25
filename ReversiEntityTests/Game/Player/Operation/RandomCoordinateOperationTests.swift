@@ -107,6 +107,12 @@ private class MockGameState: GameState {
         self.placeable = placeable
     }
 
+    var message: (disc: Disc?, label: String) = (disc: nil, label: "")
+
+    func count(of disc: Disc) -> Int {
+        return 0
+    }
+
     func reset() -> GameState {
         return MockGameState(turn: nil)
     }

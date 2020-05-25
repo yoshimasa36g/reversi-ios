@@ -106,6 +106,12 @@ private struct MockGameState: GameState {
 
     let board = GameBoard(cells: [])
 
+    var message: (disc: Disc?, label: String) = (disc: nil, label: "")
+
+    func count(of disc: Disc) -> Int {
+        return 0
+    }
+
     func reset() -> GameState {
         return MockGameState()
     }
