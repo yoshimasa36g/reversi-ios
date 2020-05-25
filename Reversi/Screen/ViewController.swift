@@ -1,4 +1,5 @@
 import ReversiEntity // TODO: 後で外す
+import ReversiInterfaceAdapter
 import UIKit
 
 class ViewController: UIViewController {
@@ -22,8 +23,8 @@ class ViewController: UIViewController {
     private var animationCanceller: Canceller?
     private var isAnimating: Bool { animationCanceller != nil }
 
-    /// ゲームの状態を保存するリポジトリ
-    private let repository: GameStateRepository = GameStateFileStore()
+    // 画面のコントローラ
+    private var controller: GameScreenControllable?
 
     private var game = Game() {
         didSet {
@@ -53,11 +54,7 @@ class ViewController: UIViewController {
         boardView.delegate = self
         messageDiskSize = messageDiskSizeConstraint.constant
 
-        do {
-            game = try repository.load()
-        } catch _ {
-            newGame()
-        }
+        controller = GameDependencyFactory.createGameScreenController(for: self)
     }
 
     private var viewHasAppeared: Bool = false
@@ -67,6 +64,23 @@ class ViewController: UIViewController {
         if viewHasAppeared { return }
         viewHasAppeared = true
         waitForPlayer()
+    }
+}
+
+// MARK: - GameScreenPresentable
+
+extension ViewController: GameScreenPresentable {
+    func redrawEntireGame(state: PresentableGameState) {
+        if isAnimating { return }
+        playerControls.first?.selectedSegmentIndex = state.players.dark
+        playerControls.last?.selectedSegmentIndex = state.players.light
+        boardView.reset()
+        state.discs.forEach { disc in
+            boardView.setDisk(Disk.from(index: disc.color), atX: disc.x, y: disc.y, animated: false)
+        }
+        // TODO: メッセージとディスク数の更新を修正する
+        updateMessageViews()
+        updateCountLabels()
     }
 }
 
@@ -97,7 +111,6 @@ extension ViewController {
             cleanUp()
 
             completion?(isFinished)
-            try? self.repository.save(self.game)
         }
     }
 
@@ -151,7 +164,6 @@ extension ViewController {
             return
         }
         game = newState
-        try? repository.save(game)
     }
 
     /// プレイヤーの行動を待ちます。
@@ -309,8 +321,6 @@ extension ViewController {
 
         let player = (PlayerType(rawValue: sender.selectedSegmentIndex) ?? .manual).toPlayer()
         game = game.changePlayer(of: side, to: player)
-
-        try? repository.save(game)
 
         if !isAnimating, side == game.turn {
             playTurn()

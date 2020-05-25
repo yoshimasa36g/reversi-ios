@@ -11,6 +11,7 @@
 		8F774442247B661B00019419 /* GameUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F774441247B661B00019419 /* GameUseCaseTests.swift */; };
 		8F774445247B944D00019419 /* GameScreenPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F774444247B944D00019419 /* GameScreenPresenterTests.swift */; };
 		8F774448247B9AED00019419 /* GameScreenControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F774447247B9AED00019419 /* GameScreenControllerTests.swift */; };
+		8F77444B247B9E2900019419 /* GameDependencyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F77444A247B9E2900019419 /* GameDependencyFactory.swift */; };
 		8F7E6CA02477607E006109D6 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6C9F2477607E006109D6 /* PlayerType.swift */; };
 		8F7E6CA3247760CF006109D6 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6CA2247760CF006109D6 /* Player.swift */; };
 		8F7E6CA624776126006109D6 /* OperationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6CA524776126006109D6 /* OperationResult.swift */; };
@@ -49,7 +50,6 @@
 		8F7E6D2624779E53006109D6 /* GameUseCaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D2524779E53006109D6 /* GameUseCaseResponse.swift */; };
 		8F7E6D2824779FE1006109D6 /* RepositoryGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D2724779FE1006109D6 /* RepositoryGateway.swift */; };
 		8F7E6D2A2477A636006109D6 /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D292477A636006109D6 /* GameStateRepository.swift */; };
-		8F7E6D2C2477A9AF006109D6 /* GameStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E6D2B2477A9AF006109D6 /* GameStateRepository.swift */; };
 		8F8D62812464E913007E7E0B /* GameStateFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8D62802464E913007E7E0B /* GameStateFileStore.swift */; };
 		8FA1B38C2475FF13003BAAC0 /* ReversiEntity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA1B3832475FF13003BAAC0 /* ReversiEntity.framework */; };
 		8FA1B3952475FF13003BAAC0 /* ReversiEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FA1B3852475FF13003BAAC0 /* ReversiEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -209,6 +209,7 @@
 		8F774441247B661B00019419 /* GameUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUseCaseTests.swift; sourceTree = "<group>"; };
 		8F774444247B944D00019419 /* GameScreenPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenPresenterTests.swift; sourceTree = "<group>"; };
 		8F774447247B9AED00019419 /* GameScreenControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenControllerTests.swift; sourceTree = "<group>"; };
+		8F77444A247B9E2900019419 /* GameDependencyFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDependencyFactory.swift; sourceTree = "<group>"; };
 		8F7E6C9F2477607E006109D6 /* PlayerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerType.swift; sourceTree = "<group>"; };
 		8F7E6CA2247760CF006109D6 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		8F7E6CA524776126006109D6 /* OperationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationResult.swift; sourceTree = "<group>"; };
@@ -245,7 +246,6 @@
 		8F7E6D2524779E53006109D6 /* GameUseCaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUseCaseResponse.swift; sourceTree = "<group>"; };
 		8F7E6D2724779FE1006109D6 /* RepositoryGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryGateway.swift; sourceTree = "<group>"; };
 		8F7E6D292477A636006109D6 /* GameStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
-		8F7E6D2B2477A9AF006109D6 /* GameStateRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStateRepository.swift; sourceTree = "<group>"; };
 		8F8D62802464E913007E7E0B /* GameStateFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateFileStore.swift; sourceTree = "<group>"; };
 		8FA1B3832475FF13003BAAC0 /* ReversiEntity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReversiEntity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FA1B3852475FF13003BAAC0 /* ReversiEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReversiEntity.h; sourceTree = "<group>"; };
@@ -378,6 +378,14 @@
 				8F774447247B9AED00019419 /* GameScreenControllerTests.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		8F774449247B9E0D00019419 /* DependencyFactory */ = {
+			isa = PBXGroup;
+			children = (
+				8F77444A247B9E2900019419 /* GameDependencyFactory.swift */,
+			);
+			path = DependencyFactory;
 			sourceTree = "<group>";
 		};
 		8F7E6C9C24775FD0006109D6 /* Board */ = {
@@ -533,7 +541,6 @@
 		8F8D627D2464E7FF007E7E0B /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
-				8F7E6D2B2477A9AF006109D6 /* GameStateRepository.swift */,
 				8F8D62802464E913007E7E0B /* GameStateFileStore.swift */,
 			);
 			path = DataStore;
@@ -676,6 +683,7 @@
 				D642BDBC23A9FE4700396732 /* Assets.xcassets */,
 				D642BDBE23A9FE4700396732 /* LaunchScreen.storyboard */,
 				D642BDC123A9FE4700396732 /* Info.plist */,
+				8F774449247B9E0D00019419 /* DependencyFactory */,
 				8F8D627D2464E7FF007E7E0B /* DataStore */,
 				8F9A80C62475038600F84A40 /* Screen */,
 			);
@@ -1117,8 +1125,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F77444B247B9E2900019419 /* GameDependencyFactory.swift in Sources */,
 				D636B39F23D35043007F370F /* DiskView.swift in Sources */,
-				8F7E6D2C2477A9AF006109D6 /* GameStateRepository.swift in Sources */,
 				D642BDD623AA0B3900396732 /* CellView.swift in Sources */,
 				D642BDD823AA0B5700396732 /* Disk.swift in Sources */,
 				D642BDB823A9FE4500396732 /* ViewController.swift in Sources */,

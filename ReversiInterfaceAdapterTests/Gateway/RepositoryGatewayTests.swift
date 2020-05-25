@@ -21,7 +21,8 @@ final class RepositoryGatewayTests: XCTestCase {
         self.repository = repository
         let client = MockClient()
         self.client = client
-        subject = RepositoryGateway(repository: repository, client: client)
+        subject = RepositoryGateway(repository: repository)
+        subject?.inject(client)
     }
 
     // MARK: - test for save(data:)

@@ -9,16 +9,20 @@
 import ReversiUseCase
 
 /// リポジトリのGateway
-public struct RepositoryGateway {
+public final class RepositoryGateway {
     private let repository: GameStateRepository
     private weak var client: GameUseCaseResponse?
 
     /// リポジトリとクライアントを指定してインスタンスを生成する
     /// - Parameters:
     ///   - repository: ゲームの状態を保管するリポジトリ
-    ///   - client: 処理結果を受け取るクライアント
-    init(repository: GameStateRepository, client: GameUseCaseResponse) {
+    public init(repository: GameStateRepository) {
         self.repository = repository
+    }
+
+    /// クライアントの依存を注入する
+    /// - Parameter client: 処理結果を受け取るクライアント
+    public func inject(_ client: GameUseCaseResponse) {
         self.client = client
     }
 }
