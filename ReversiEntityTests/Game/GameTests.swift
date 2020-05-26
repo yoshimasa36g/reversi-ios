@@ -108,28 +108,28 @@ final class GameTests: XCTestCase {
     // - turnとplayersに変更がないこと
     // - GameBoardのメソッドを呼び出しているだけなので細かいパターンのテストはここでは実施しない
     func testPlaceDisk() {
-        let origin = Game(turn: .dark())
+        let origin = Game(turn: .dark(), board: GameBoard(cells: []))
         let coordinate = Coordinate(x: 1, y: 6)
         let expectedCells = Set(GameBoard.initialCells + [BoardCell(coordinate: coordinate, disc: .dark())])
         let expected = Game(turn: origin.turn, players: origin.players, board: GameBoard(cells: expectedCells))
-        let actual = origin.place(disc: .dark(), at: coordinate)
-        XCTAssertEqual(actual, expected)
-        XCTAssertEqual(origin.board, GameBoard(cells: Set(GameBoard.initialCells)))
+        let actual = origin.place(disc: .dark(), at: expectedCells.map { $0.coordinate })
+        XCTAssertEqual(actual as? Game, expected)
+        XCTAssertEqual(origin.board, GameBoard(cells: []))
     }
 
-    // MARK: - test for removeDisk(at:)
+    // MARK: - test for isPlaceable(disc:)
 
-    // - 戻り値のGameの指定した位置からディスクが取り除かれていること
-    // - 元のGameのboardは変更されないこと
-    // - turnとplayersに変更がないこと
-    // - GameBoardのメソッドを呼び出しているだけなので細かいパターンのテストはここでは実施しない
-    func testRemoveDisk() {
-        let origin = Game(turn: .dark())
-        let coordinate = Coordinate(x: 4, y: 3)
-        let expectedCells = Set(GameBoard.initialCells.filter { !$0.isIn(coordinate) })
-        let expected = Game(turn: origin.turn, players: origin.players, board: GameBoard(cells: expectedCells))
-        let actual = origin.removeDisc(at: coordinate)
-        XCTAssertEqual(actual, expected)
-        XCTAssertEqual(origin.board, GameBoard(cells: Set(GameBoard.initialCells)))
+    // 置ける場所がある場合はtrueが返ること
+    func testIsPlaceableWhenPlaceable() {
+        let game = Game(turn: .dark())
+        let result = game.isPlaceable(disc: .dark())
+        XCTAssertTrue(result)
+    }
+
+    // 置ける場所がない場合はfalseが返ること
+    func testIsPlaceableWhenNotPlaceable() {
+        let game = Game(turn: .dark(), board: GameBoard(cells: []))
+        let result = game.isPlaceable(disc: .dark())
+        XCTAssertFalse(result)
     }
 }

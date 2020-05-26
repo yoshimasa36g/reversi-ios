@@ -25,12 +25,6 @@ public final class GameBoard: Codable {
         try cells.map(transform)
     }
 
-    /// すべてのセルの情報ごとに処理を行う
-    /// - Parameter body: セルごとに行う処理
-    public func eachCells(_ body: (BoardCell) throws -> Void) rethrows {
-        try cells.forEach(body)
-    }
-
     /// 指定したディスクの枚数を取得する
     /// - Parameter disc: 枚数を取得したいディスク
     func count(of disc: Disc) -> Int {
@@ -57,26 +51,6 @@ public final class GameBoard: Codable {
         coordinates.forEach { coordinate in
             newCells.update(with: BoardCell(coordinate: coordinate, disc: disc))
         }
-        return GameBoard(cells: newCells)
-    }
-
-    /// 指定した位置にディスクを置いたインスタンスを返す
-    /// 既に置いてある場合は上書きする。
-    /// - Parameters:
-    ///   - disc: 置くディスク
-    ///   - coordinate: 置く位置
-    func place(_ disc: Disc, at coordinate: Coordinate) -> GameBoard {
-        var newCells = cells
-        newCells.update(with: BoardCell(coordinate: coordinate, disc: disc))
-        return GameBoard(cells: newCells)
-    }
-
-    /// 指定した位置のディスクを取り除いたインスタンスを返す
-    /// - Parameters:
-    ///   - coordinate: 取り除く位置
-    func removeDisc(at coordinate: Coordinate) -> GameBoard {
-        var newCells = cells
-        newCells.remove(BoardCell(coordinate: coordinate, disc: .dark()))
         return GameBoard(cells: newCells)
     }
 

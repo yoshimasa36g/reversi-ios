@@ -114,26 +114,6 @@ extension Game: GameState {
     }
 }
 
-// MARK: - Manage GameBoard
-
-extension Game {
-    /// 指定した位置にディスクを置いたインスタンスを返す
-    /// - Parameters:
-    ///   - disc: 置くディスク
-    ///   - coordinate: 置く位置
-    public func place(disc: Disc, at coordinate: Coordinate) -> Game {
-        let newBoard = board.place(disc, at: coordinate)
-        return Game(turn: turn, players: players, board: newBoard)
-    }
-
-    /// 指定した位置からディスクを取り除いたインスタンスを返す
-    /// - Parameter coordinate: 取り除く位置
-    public func removeDisc(at coordinate: Coordinate) -> Game {
-        let newBoard = board.removeDisc(at: coordinate)
-        return Game(turn: turn, players: players, board: newBoard)
-    }
-}
-
 // MARK: - Equatable
 
 extension Game: Equatable {
