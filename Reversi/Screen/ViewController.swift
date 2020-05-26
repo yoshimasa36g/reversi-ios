@@ -55,6 +55,7 @@ class ViewController: UIViewController {
         messageDiskSize = messageDiskSizeConstraint.constant
 
         controller = GameDependencyFactory.createGameScreenController(for: self)
+        controller?.start()
     }
 
     private var viewHasAppeared: Bool = false
@@ -78,6 +79,21 @@ extension ViewController: GameScreenPresentable {
         state.discs.forEach { disc in
             boardView.setDisk(Disk.from(index: disc.color), atX: disc.x, y: disc.y, animated: false)
         }
+
+        // TODO: リファクタリング中の動作確認用。後で必ず消すこと
+        var disc: Disc?
+        if let turn = state.turn {
+            disc = Disc(color: DiscColor(rawValue: turn) ?? .dark)
+        }
+        game = Game(
+            turn: disc,
+            players: Players(darkPlayer: PlayerType(rawValue: state.players.dark)?.toPlayer() ?? Human(),
+                             lightPlayer: PlayerType(rawValue: state.players.dark)?.toPlayer() ?? Human()),
+            board: GameBoard(cells: Set(state.discs.map { disc in
+                BoardCell(
+                    coordinate: Coordinate(x: disc.x, y: disc.y),
+                    disc: Disc(color: DiscColor(rawValue: disc.color) ?? .dark))
+            })))
     }
 
     func redrawMessage(color: Int?, label: String) {

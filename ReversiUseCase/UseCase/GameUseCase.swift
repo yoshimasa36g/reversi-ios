@@ -10,7 +10,7 @@ import ReversiEntity
 
 /// ゲームを進行するUseCase
 public final class GameUseCase {
-    private weak var presenter: GameUseCaseOutput?
+    private let presenter: GameUseCaseOutput?
     private let gateway: GameUseCaseRequest
 
     private var game: GameState = Game()
@@ -22,7 +22,6 @@ public final class GameUseCase {
     public init(presenter: GameUseCaseOutput, gateway: GameUseCaseRequest) {
         self.presenter = presenter
         self.gateway = gateway
-        gateway.load()
     }
 
     private func save() {
@@ -63,6 +62,10 @@ public final class GameUseCase {
 // MARK: - GameUseCaseInput
 
 extension GameUseCase: GameUseCaseInput {
+    public func startGame() {
+        gateway.load()
+    }
+
     public func resetGame() {
         changeGameState(to: game.reset())
     }

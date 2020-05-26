@@ -21,6 +21,14 @@ final class GameScreenControllerTests: XCTestCase {
         subject = GameScreenController(useCase: useCase)
     }
 
+    // MARK: - test for start
+
+    // useCaseのstartGameを呼び出すこと
+    func testStart() {
+        subject?.start()
+        XCTAssertEqual(useCase?.isStartGameCalled, true)
+    }
+
     // MARK: - test for reset
 
     // useCaseのresetGameを呼び出すこと
@@ -31,7 +39,12 @@ final class GameScreenControllerTests: XCTestCase {
 }
 
 private final class MockUseCase: GameUseCaseInput {
+    var isStartGameCalled = false
     var isResetGameCalled = false
+
+    func startGame() {
+        isStartGameCalled = true
+    }
 
     func resetGame() {
         isResetGameCalled = true

@@ -24,10 +24,11 @@ final class GameUseCaseTests: XCTestCase {
         subject = GameUseCase(presenter: presenter, gateway: gateway)
     }
 
-    // MARK: - test for init
+    // MARK: - test for startGame
 
-    // インスタンス生成時にgatewayのloadが呼ばれること
-    func testInit() {
+    // gatewayのloadが呼ばれること
+    func testStartGame() {
+        subject?.startGame()
         XCTAssertEqual(gateway?.isLoadCalled, true)
     }
 

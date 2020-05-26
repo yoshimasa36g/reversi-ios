@@ -8,6 +8,9 @@
 
 /// GameScreenControllerに入力するプロトコル
 public protocol GameScreenControllable {
+    /// ゲームを開始する
+    func start()
+
     /// ゲームをリセットする
     func reset()
 }
