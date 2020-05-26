@@ -25,6 +25,23 @@ public protocol GameScreenPresentable: class {
     ///   - dark: 黒の数
     ///   - light: 白の数
     func redrawDiscCount(dark: Int, light: Int)
+
+    /// 指定した座標のディスク指定した色に変える
+    /// - Parameters:
+    ///   - color: ディスクの色ID
+    ///   - coordinates: ディスクの座標一覧
+    func changeDiscs(to color: Int, at coordinates: [(x: Int, y: Int)])
+
+    /// パスしたメッセージを表示する
+    func showPassedMessage()
+
+    /// インジケータを表示する
+    /// - Parameter color: ディスクの色ID
+    func showIndicator(for color: Int)
+
+    /// インジケータを隠す
+    /// - Parameter color: ディスクの色ID
+    func hideIndicator(for color: Int)
 }
 
 /// 出力用のゲームの状態

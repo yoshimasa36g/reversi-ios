@@ -100,6 +100,10 @@ private final class MockOperation: Operation, ComputerOperation {
 }
 
 private struct MockGameState: GameState {
+    var isGameOver: Bool = false
+
+    var currentPlayerType: PlayerType?
+
     let turn: Disc? = nil
 
     let players = Players(darkPlayer: Human(), lightPlayer: Human())
@@ -116,7 +120,27 @@ private struct MockGameState: GameState {
         return MockGameState()
     }
 
+    func coordinatesOfGettableDiscs(by disc: Disc, at coordinate: Coordinate) -> [Coordinate] {
+        return []
+    }
+
     func placeableCoordinates(disc: Disc) -> [Coordinate] {
         []
+    }
+
+    func place(disc: Disc, at coordinates: [Coordinate]) -> GameState {
+        return MockGameState()
+    }
+
+    func changeTurn(to newTurn: Disc?) -> GameState {
+        return MockGameState()
+    }
+
+    func changePlayer(of side: Disc, to newPlayer: Player) -> GameState {
+        return MockGameState()
+    }
+
+    func isPlaceable(disc: Disc) -> Bool {
+        return false
     }
 }

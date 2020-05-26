@@ -27,4 +27,20 @@ extension GameScreenController: GameScreenControllable {
     public func reset() {
         useCase.resetGame()
     }
+
+    public func specifyPlacingDiscCoordinate(x: Int, y: Int) {
+        useCase.specifyPlacingDiscCoordinate(x: x, y: y)
+    }
+
+    public func changeDiscsCompleted(color: Int, at coordinates: [(x: Int, y: Int)]) {
+        useCase.changeDiscs(to: color, at: coordinates)
+    }
+
+    public func acceptPass() {
+        useCase.continueGame()
+    }
+
+    public func changePlayerType(of color: Int, to playerType: Int) {
+        useCase.changePlayerType(of: color, to: playerType)
+    }
 }

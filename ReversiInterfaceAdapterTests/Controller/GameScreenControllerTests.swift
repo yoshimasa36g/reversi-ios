@@ -49,4 +49,19 @@ private final class MockUseCase: GameUseCaseInput {
     func resetGame() {
         isResetGameCalled = true
     }
+
+    func specifyPlacingDiscCoordinate(x: Int, y: Int) {
+    }
+
+    func tryPlacingDisc(color: Int, x: Int, y: Int) {
+    }
+
+    func changeDiscs(to color: Int, at coordinates: [(x: Int, y: Int)]) {
+    }
+
+    func continueGame() {
+    }
+
+    func changePlayerType(of color: Int, to playerType: Int) {
+    }
 }

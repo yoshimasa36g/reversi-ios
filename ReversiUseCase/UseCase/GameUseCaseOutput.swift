@@ -22,6 +22,23 @@ public protocol GameUseCaseOutput: class {
     ///   - dark: 黒の数
     ///   - light: 白の数
     func discCountChanged(dark: Int, light: Int)
+
+    /// 獲得できるディスクの座標を取得した時のイベント
+    /// - Parameters:
+    ///   - color: ディスクの色ID
+    ///   - coordinates: 獲得できるディスクの座標一覧
+    func gettableCoordinates(color: Int, coordinates: [(x: Int, y: Int)])
+
+    /// パスしたイベント
+    func passed()
+
+    /// プレイヤーの思考処理が開始された
+    /// - Parameter color: 該当プレイヤーの色ID
+    func thinkingStarted(color: Int)
+
+    /// プレイヤーの思考処理が停止した
+    /// - Parameter color: 該当プレイヤーの色ID
+    func thinkingStopped(color: Int)
 }
 
 /// 出力用のゲームの状態

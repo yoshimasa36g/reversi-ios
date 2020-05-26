@@ -76,7 +76,7 @@ final class GameTests: XCTestCase {
             let origin = Game(turn: oldTurn)
             let expected = Game(turn: newTurn, players: origin.players, board: origin.board)
             let actual = origin.changeTurn(to: newTurn)
-            XCTAssertEqual(actual, expected)
+            XCTAssertEqual(actual as? Game, expected)
             XCTAssertEqual(origin.turn, oldTurn)
         }
         example(nil, .dark())
@@ -94,7 +94,7 @@ final class GameTests: XCTestCase {
             let origin = Game()
             let expected = Game(turn: origin.turn, players: expectedPlayers, board: origin.board)
             let actual = origin.changePlayer(of: side, to: Computer())
-            XCTAssertEqual(actual, expected)
+            XCTAssertEqual(actual as? Game, expected)
             XCTAssertEqual(origin.players, Players(darkPlayer: Human(), lightPlayer: Human()))
         }
         example(.dark(), Players(darkPlayer: Computer(), lightPlayer: Human()))

@@ -83,4 +83,19 @@ private final class MockScreen: GameScreenPresentable {
         self.dark = dark
         self.light = light
     }
+
+    func flipDiscs(at coordinates: [(x: Int, y: Int)]) {
+    }
+
+    func changeDiscs(to color: Int, at coordinates: [(x: Int, y: Int)]) {
+    }
+
+    func showPassedMessage() {
+    }
+
+    func showIndicator(for color: Int) {
+    }
+
+    func hideIndicator(for color: Int) {
+    }
 }

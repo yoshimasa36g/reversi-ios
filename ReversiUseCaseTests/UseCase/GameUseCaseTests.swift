@@ -140,6 +140,21 @@ private final class MockPresenter: GameUseCaseOutput {
         self.dark = dark
         self.light = light
     }
+
+    func gettableCoordinates(coordinates: [(x: Int, y: Int)]) {
+    }
+
+    func gettableCoordinates(color: Int, coordinates: [(x: Int, y: Int)]) {
+    }
+
+    func passed() {
+    }
+
+    func thinkingStarted(color: Int) {
+    }
+
+    func thinkingStopped(color: Int) {
+    }
 }
 
 private final class MockGateway: GameUseCaseRequest {

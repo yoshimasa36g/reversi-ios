@@ -54,10 +54,9 @@ public struct Game: Codable {
     }
 }
 
-// MARK: - Properties
+// MARK: - Manage game
 
-extension Game {
-    /// ターン表示や勝敗表示用のメッセージ
+extension Game: GameState {
     public var message: (disc: Disc?, label: String) {
         if let side = turn {
             return (disc: side, label: "'s turn")
@@ -68,37 +67,50 @@ extension Game {
         return (disc: nil, label: "Tied")
     }
 
+    public var currentPlayerType: PlayerType? {
+        guard let disc = self.turn else {
+            return nil
+        }
+        return players.type(of: disc)
+    }
+
     public var isGameOver: Bool {
         board.placeableCoordinates(disc: .dark()).isEmpty
             && board.placeableCoordinates(disc: .light()).isEmpty
     }
-}
 
-// MARK: - Manage game
-
-extension Game: GameState {
-    /// リセットしたインスタンスを返す
     public func reset() -> GameState {
         Game(turn: .dark())
     }
 
-    /// ターンを変更したインスタンスを返す
-    /// - Parameter newTurn: 変更後のターン
-    public func changeTurn(to newTurn: Disc?) -> Game {
+    public func changeTurn(to newTurn: Disc?) -> GameState {
         Game(turn: newTurn, players: players, board: board)
     }
-}
 
-// MARK: - Manage Players
-
-extension Game {
-    /// 指定した側のプレイヤーを変更したインスタンスを返す
-    /// - Parameters:
-    ///   - side: 変更する側
-    ///   - newPlayer: 変更後のプレイヤー
-    public func changePlayer(of side: Disc, to newPlayer: Player) -> Game {
+    public func changePlayer(of side: Disc, to newPlayer: Player) -> GameState {
         let newPlayers = players.changePlayer(of: side, to: newPlayer)
         return Game(turn: turn, players: newPlayers, board: board)
+    }
+
+    public func count(of disc: Disc) -> Int {
+        board.count(of: disc)
+    }
+
+    public func coordinatesOfGettableDiscs(by disc: Disc, at coordinate: Coordinate) -> [Coordinate] {
+        board.coordinatesOfGettableDiscs(by: disc, at: coordinate)
+    }
+
+    public func placeableCoordinates(disc: Disc) -> [Coordinate] {
+        board.placeableCoordinates(disc: disc)
+    }
+
+    public func place(disc: Disc, at coordinates: [Coordinate]) -> GameState {
+        let newBoard = board.place(disc, at: coordinates)
+        return Game(turn: turn, players: players, board: newBoard)
+    }
+
+    public func isPlaceable(disc: Disc) -> Bool {
+        !board.placeableCoordinates(disc: disc).isEmpty
     }
 }
 
@@ -119,32 +131,6 @@ extension Game {
     public func removeDisc(at coordinate: Coordinate) -> Game {
         let newBoard = board.removeDisc(at: coordinate)
         return Game(turn: turn, players: players, board: newBoard)
-    }
-
-    public func count(of disc: Disc) -> Int {
-        board.count(of: disc)
-    }
-
-    /// 指定したセルのディスクを置いたら獲得できるディスクの位置を返す
-    /// - Parameters:
-    ///   - disc: 置くディスク
-    ///   - coordinate: 置く位置
-    /// - Returns: 獲得できるディスクの位置一覧
-    public func coordinatesOfGettableDiscs(by disc: Disc, at coordinate: Coordinate) -> [Coordinate] {
-        board.coordinatesOfGettableDiscs(by: disc, at: coordinate)
-    }
-
-    /// 指定したディスクを置ける位置を返す
-    /// - Parameter disc: 置くディスク
-    public func placeableCoordinates(disc: Disc) -> [Coordinate] {
-        board.placeableCoordinates(disc: disc)
-    }
-
-    /// 指定したディスクを置ける位置があるかどうか判定する
-    /// - Parameter disc: 置きたいディスク
-    /// - Returns: 置ける位置があるならtrue
-    public func isPlaceable(disc: Disc) -> Bool {
-        !board.placeableCoordinates(disc: disc).isEmpty
     }
 }
 

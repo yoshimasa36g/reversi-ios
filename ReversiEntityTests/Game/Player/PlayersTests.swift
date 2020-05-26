@@ -106,6 +106,10 @@ private class MockPlayer: Player {
 }
 
 private class MockGameState: GameState {
+    var isGameOver: Bool = false
+
+    var currentPlayerType: PlayerType?
+
     var turn: Disc?
 
     let players = Players(darkPlayer: Human(), lightPlayer: Human())
@@ -126,7 +130,27 @@ private class MockGameState: GameState {
         return MockGameState(turn: nil)
     }
 
+    func coordinatesOfGettableDiscs(by disc: Disc, at coordinate: Coordinate) -> [Coordinate] {
+        return []
+    }
+
     func placeableCoordinates(disc: Disc) -> [Coordinate] {
         return []
+    }
+
+    func place(disc: Disc, at coordinates: [Coordinate]) -> GameState {
+        return MockGameState(turn: nil)
+    }
+
+    func changeTurn(to newTurn: Disc?) -> GameState {
+        return MockGameState(turn: nil)
+    }
+
+    func changePlayer(of side: Disc, to newPlayer: Player) -> GameState {
+        return MockGameState(turn: nil)
+    }
+
+    func isPlaceable(disc: Disc) -> Bool {
+        return false
     }
 }

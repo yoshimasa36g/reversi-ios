@@ -20,6 +20,10 @@ public final class GameScreenPresenter {
 // MARK: - GameUseCaseOutput
 
 extension GameScreenPresenter: GameUseCaseOutput {
+    public func gettableCoordinates(color: Int, coordinates: [(x: Int, y: Int)]) {
+        screen?.changeDiscs(to: color, at: coordinates)
+    }
+
     public func gameReloaded(state: OutputGameState) {
         screen?.redrawEntireGame(state: PresentableGameState.from(state))
     }
@@ -30,5 +34,17 @@ extension GameScreenPresenter: GameUseCaseOutput {
 
     public func discCountChanged(dark: Int, light: Int) {
         screen?.redrawDiscCount(dark: dark, light: light)
+    }
+
+    public func passed() {
+        screen?.showPassedMessage()
+    }
+
+    public func thinkingStarted(color: Int) {
+        screen?.showIndicator(for: color)
+    }
+
+    public func thinkingStopped(color: Int) {
+        screen?.hideIndicator(for: color)
     }
 }

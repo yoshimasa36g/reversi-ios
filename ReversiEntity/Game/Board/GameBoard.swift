@@ -51,6 +51,19 @@ public final class GameBoard: Codable {
     /// 既に置いてある場合は上書きする。
     /// - Parameters:
     ///   - disc: 置くディスク
+    ///   - coordinates: 置く座標の一覧
+    func place(_ disc: Disc, at coordinates: [Coordinate]) -> GameBoard {
+        var newCells = cells
+        coordinates.forEach { coordinate in
+            newCells.update(with: BoardCell(coordinate: coordinate, disc: disc))
+        }
+        return GameBoard(cells: newCells)
+    }
+
+    /// 指定した位置にディスクを置いたインスタンスを返す
+    /// 既に置いてある場合は上書きする。
+    /// - Parameters:
+    ///   - disc: 置くディスク
     ///   - coordinate: 置く位置
     func place(_ disc: Disc, at coordinate: Coordinate) -> GameBoard {
         var newCells = cells
