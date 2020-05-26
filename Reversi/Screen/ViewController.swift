@@ -1,4 +1,3 @@
-import ReversiEntity // TODO: 後で外す
 import ReversiInterfaceAdapter
 import UIKit
 
@@ -26,8 +25,6 @@ class ViewController: UIViewController {
     // 画面のコントローラ
     private var controller: GameScreenControllable?
 
-    private var game = Game()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,6 +40,12 @@ class ViewController: UIViewController {
 
 extension ViewController: GameScreenPresentable {
     func redrawEntireGame(state: PresentableGameState) {
+        DispatchQueue.main.async { [weak self] in
+            self?.update(with: state)
+        }
+    }
+
+    private func update(with state: PresentableGameState) {
         animationCanceller?.cancel()
         animationCanceller = nil
 
@@ -52,24 +55,15 @@ extension ViewController: GameScreenPresentable {
         state.discs.forEach { disc in
             boardView.setDisk(Disk.from(index: disc.color), atX: disc.x, y: disc.y, animated: false)
         }
-
-        // TODO: リファクタリング中の動作確認用。後で必ず消すこと
-        var disc: Disc?
-        if let turn = state.turn {
-            disc = Disc(color: DiscColor(rawValue: turn) ?? .dark)
-        }
-        game = Game(
-            turn: disc,
-            players: Players(darkPlayer: PlayerType(rawValue: state.players.dark)?.toPlayer() ?? Human(),
-                             lightPlayer: PlayerType(rawValue: state.players.dark)?.toPlayer() ?? Human()),
-            board: GameBoard(cells: Set(state.discs.map { disc in
-                BoardCell(
-                    coordinate: Coordinate(x: disc.x, y: disc.y),
-                    disc: Disc(color: DiscColor(rawValue: disc.color) ?? .dark))
-            })))
     }
 
     func redrawMessage(color: Int?, label: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.updateMessage(with: color, and: label)
+        }
+    }
+
+    private func updateMessage(with color: Int?, and label: String) {
         messageLabel.text = label
         guard let color = color else {
             messageDiskSizeConstraint.constant = 0
@@ -81,12 +75,16 @@ extension ViewController: GameScreenPresentable {
     }
 
     func redrawDiscCount(dark: Int, light: Int) {
-        countLabels.first?.text = dark.description
-        countLabels.last?.text = light.description
+        DispatchQueue.main.async { [weak self] in
+            self?.countLabels.first?.text = dark.description
+            self?.countLabels.last?.text = light.description
+        }
     }
 
     func changeDiscs(to color: Int, at coordinates: [(x: Int, y: Int)]) {
-        place(Disk.from(index: color), at: coordinates)
+        DispatchQueue.main.async { [weak self] in
+            self?.place(Disk.from(index: color), at: coordinates)
+        }
     }
 
     func showPassedMessage() {
@@ -102,11 +100,15 @@ extension ViewController: GameScreenPresentable {
     }
 
     func showIndicator(for color: Int) {
-        showIndicator(of: Disk.from(index: color))
+        DispatchQueue.main.async { [weak self] in
+            self?.playerActivityIndicators[color].startAnimating()
+        }
     }
 
     func hideIndicator(for color: Int) {
-        hideIndicator(of: Disk.from(index: color))
+        DispatchQueue.main.async { [weak self] in
+            self?.playerActivityIndicators[color].stopAnimating()
+        }
     }
 }
 
@@ -166,27 +168,6 @@ extension ViewController {
     }
 }
 
-// MARK: Game management
-
-extension ViewController {
-
-    /// インジケータを表示する
-    /// - Parameter side: 対象のプレイヤー
-    private func showIndicator(of side: Disk) {
-        DispatchQueue.main.async { [weak self] in
-            self?.playerActivityIndicators[side.index].startAnimating()
-        }
-    }
-
-    /// インジケータを隠す
-    /// - Parameter side: 対象のプレイヤー
-    private func hideIndicator(of side: Disk) {
-        DispatchQueue.main.async { [weak self] in
-            self?.playerActivityIndicators[side.index].stopAnimating()
-        }
-    }
-}
-
 // MARK: Inputs
 
 extension ViewController {
@@ -242,11 +223,6 @@ final class Canceller {
         isCancelled = true
         body?()
     }
-}
-
-struct DiskPlacementError: Error {
-    let disk: Disk
-    let coordinate: Coordinate
 }
 
 // MARK: File-private extensions

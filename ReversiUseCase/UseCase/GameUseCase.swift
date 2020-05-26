@@ -49,7 +49,6 @@ public final class GameUseCase {
         presenter?.gameReloaded(state: outputState())
         notifyMessage()
         notifyDiscCount()
-        waitForPlayer()
     }
 
     private func notifyMessage() {
@@ -63,6 +62,7 @@ public final class GameUseCase {
 
     private func changeTurn(to turn: Disc?) {
         game = game.changeTurn(to: turn)
+        save()
         notifyMessage()
     }
 
@@ -121,12 +121,22 @@ public final class GameUseCase {
     private func apply(_ operationResult: OperationResult, for side: Disc) {
         switch operationResult {
         case .coordinate(let coordinate):
-            specifyPlacingDiscCoordinate(x: coordinate.x, y: coordinate.y)
+            notifyGettableCoordinates(by: coordinate)
         case .pass:
             nextTurn()
         case .cancel:
             break
         }
+    }
+
+    private func notifyGettableCoordinates(by origin: Coordinate) {
+        guard let disc = game.turn else { return }
+
+        let gettableCoordinates = game.coordinatesOfGettableDiscs(by: disc, at: origin)
+        if gettableCoordinates.isEmpty { return }
+        let coordinates = [origin] + gettableCoordinates
+        isWaitPresenting = true
+        presenter?.gettableCoordinates(color: disc.id, coordinates: coordinates.map { (x: $0.x, y: $0.y) })
     }
 }
 
@@ -139,18 +149,13 @@ extension GameUseCase: GameUseCaseInput {
 
     public func resetGame() {
         changeGameState(to: game.reset())
+        waitForPlayer()
     }
 
     public func specifyPlacingDiscCoordinate(x: Int, y: Int) {
-        guard let disc = game.turn else { return }
         if game.currentPlayerType == .computer { return }
 
-        let origin = Coordinate(x: x, y: y)
-        let gettableCoordinates = game.coordinatesOfGettableDiscs(by: disc, at: origin)
-        if gettableCoordinates.isEmpty { return }
-        let coordinates = [origin] + gettableCoordinates
-        isWaitPresenting = true
-        presenter?.gettableCoordinates(color: disc.id, coordinates: coordinates.map { (x: $0.x, y: $0.y) })
+        notifyGettableCoordinates(by: Coordinate(x: x, y: y))
     }
 
     public func changeDiscs(to color: Int, at coordinates: [(x: Int, y: Int)]) {
@@ -175,6 +180,7 @@ extension GameUseCase: GameUseCaseInput {
 
         let player = (PlayerType(rawValue: playerType) ?? .manual).toPlayer()
         game = game.changePlayer(of: side, to: player)
+        save()
 
         if !isWaitPresenting, side == game.turn {
             playTurn()
@@ -191,6 +197,7 @@ extension GameUseCase: GameUseCaseResponse {
             case .success(let data):
                 let state: GameState = try JSONDecoder().decode(Game.self, from: data)
                 changeGameState(to: state)
+                waitForPlayer()
             case .failure(let error):
                 throw error
             }
