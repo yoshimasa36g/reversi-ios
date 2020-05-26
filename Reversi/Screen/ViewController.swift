@@ -72,7 +72,9 @@ class ViewController: UIViewController {
 
 extension ViewController: GameScreenPresentable {
     func redrawEntireGame(state: PresentableGameState) {
-        if isAnimating { return }
+        animationCanceller?.cancel()
+        animationCanceller = nil
+
         playerControls.first?.selectedSegmentIndex = state.players.dark
         playerControls.last?.selectedSegmentIndex = state.players.light
         boardView.reset()
@@ -94,6 +96,8 @@ extension ViewController: GameScreenPresentable {
                     coordinate: Coordinate(x: disc.x, y: disc.y),
                     disc: Disc(color: DiscColor(rawValue: disc.color) ?? .dark))
             })))
+
+        waitForPlayer()
     }
 
     func redrawMessage(color: Int?, label: String) {
@@ -187,13 +191,6 @@ extension ViewController {
 // MARK: Game management
 
 extension ViewController {
-    /// ゲームの状態を初期化し、新しいゲームを開始します。
-    func newGame() {
-        guard let newState = game.reset() as? Game else {
-            return
-        }
-        game = newState
-    }
 
     /// プレイヤーの行動を待ちます。
     func waitForPlayer() {
@@ -324,15 +321,7 @@ extension ViewController {
         )
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in })
         alertController.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-
-            self.animationCanceller?.cancel()
-            self.animationCanceller = nil
-
-            self.game.players.cancelAll()
-
-            self.newGame()
-            self.waitForPlayer()
+            self?.controller?.reset()
         })
         present(alertController, animated: true)
     }

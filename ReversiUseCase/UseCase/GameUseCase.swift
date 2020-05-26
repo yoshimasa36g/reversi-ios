@@ -42,6 +42,7 @@ public final class GameUseCase {
     }
 
     private func changeGameState(to state: GameState) {
+        game.players.cancelAll()
         game = state
         save()
         presenter?.gameReloaded(state: outputState())
