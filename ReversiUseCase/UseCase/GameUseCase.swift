@@ -67,7 +67,7 @@ public final class GameUseCase {
     }
 
     /// プレイヤーの行動を待ちます。
-    func waitForPlayer() {
+    private func waitForPlayer() {
         guard let turn = game.turn,
             let player = game.currentPlayerType else { return }
 
@@ -100,7 +100,7 @@ public final class GameUseCase {
     }
 
     /// プレイヤーの行動を決定します。
-    func playTurn() {
+    private func playTurn() {
         guard let side = game.turn else {
             preconditionFailure()
         }
