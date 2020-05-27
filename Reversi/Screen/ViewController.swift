@@ -96,7 +96,9 @@ extension ViewController: GameScreenPresentable {
         alertController.addAction(UIAlertAction(title: "Dismiss", style: .default) { [weak self] _ in
             self?.controller?.acceptPass()
         })
-        present(alertController, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alertController, animated: true)
+        }
     }
 
     func showIndicator(for color: Int) {
