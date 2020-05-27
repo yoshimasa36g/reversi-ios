@@ -144,10 +144,12 @@ public final class GameUseCase {
 
 extension GameUseCase: GameUseCaseInput {
     public func startGame() {
+        isWaitPresenting = false
         gateway.load()
     }
 
     public func resetGame() {
+        isWaitPresenting = false
         changeGameState(to: game.reset())
         waitForPlayer()
     }
