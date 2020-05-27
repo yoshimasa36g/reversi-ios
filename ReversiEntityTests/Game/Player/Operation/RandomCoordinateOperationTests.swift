@@ -30,7 +30,7 @@ final class RandomCoordinateOperationTests: XCTestCase {
             XCTAssertTrue(MockGameState.placeableCoordinatesSample.contains(coordinate))
         }
 
-        wait(for: [operationWaiter], timeout: 5)
+        wait(for: [operationWaiter], timeout: 10)
     }
 
     // 選択できる位置がない場合は選択されないこと
@@ -49,7 +49,7 @@ final class RandomCoordinateOperationTests: XCTestCase {
             operationWaiter.fulfill()
         }
 
-        wait(for: [operationWaiter], timeout: 5)
+        wait(for: [operationWaiter], timeout: 10)
     }
 
     // キャンセルされた場合は選択されないこと
@@ -70,7 +70,7 @@ final class RandomCoordinateOperationTests: XCTestCase {
 
         operation.cancel()
 
-        wait(for: [operationWaiter], timeout: 5)
+        wait(for: [operationWaiter], timeout: 10)
     }
 
     // 既にゲーム終了している場合は選択されないこと
@@ -89,7 +89,7 @@ final class RandomCoordinateOperationTests: XCTestCase {
             operationWaiter.fulfill()
         }
 
-        wait(for: [operationWaiter], timeout: 5)
+        wait(for: [operationWaiter], timeout: 10)
     }
 }
 

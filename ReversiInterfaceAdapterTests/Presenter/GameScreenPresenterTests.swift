@@ -23,7 +23,7 @@ final class GameScreenPresenterTests: XCTestCase {
 
     // MARK: - test for gameReloaded(state:)
 
-    // 画面にゲームの状態を渡すこと
+    // screenにゲームの状態を渡すこと
     func testGameReloaded() {
         let output = OutputGameState(turn: 1, players: (dark: 0, light: 1), discs: [
             OutputDisc(color: 0, x: 0, y: 0),
@@ -42,7 +42,7 @@ final class GameScreenPresenterTests: XCTestCase {
 
     // MARK: - test for messageChanged(color:label:)
 
-    // 画面にディスクの色IDとラベル文字列を渡すこと
+    // screenにディスクの色IDとラベル文字列を渡すこと
     func testMessageChanged() {
         let color = Int.random(in: 0...1)
         let label = UUID().uuidString
@@ -53,13 +53,52 @@ final class GameScreenPresenterTests: XCTestCase {
 
     // MARK: - test for discCountChanged(dark:light:)
 
-    // 画面にディスクの枚数を渡すこと
+    // screenにディスクの枚数を渡すこと
     func testDiscCountChanged() {
         let dark = Int.random(in: 0...64)
         let light = 64 - dark
         subject?.discCountChanged(dark: dark, light: light)
         XCTAssertEqual(screen?.dark, dark)
         XCTAssertEqual(screen?.light, light)
+    }
+
+    // MARK: - test for gettableCoordinates(color:coordinates:)
+
+    // screenにディスクの色IDと座標の一覧を渡すこと
+    func testGettableCoordintes() {
+        let color = Int.random(in: 0...1)
+        let coordinates = (0..<64).map { _ in (x: Int.random(in: 0..<8), y: Int.random(in: 0..<8)) }
+        subject?.gettableCoordinates(color: color, coordinates: coordinates)
+        XCTAssertEqual(screen?.color, color)
+        XCTAssertEqual(screen?.coordinates.elementsEqual(coordinates, by: { actual, expected in
+            actual.x == expected.x && actual.y == expected.y
+        }), true)
+    }
+
+    // MARK: - test for passed
+
+    // screenのshowPassedMessageが呼ばれること
+    func testPassed() {
+        subject?.passed()
+        XCTAssertEqual(screen?.isShowPassedMessageCalled, true)
+    }
+
+    // MARK: - test for thinkingStarted(color:)
+
+    // screenのshowIndicatorにディスクの色IDを渡すこと
+    func testThinkingStarted() {
+        let color = Int.random(in: 0...1)
+        subject?.thinkingStarted(color: color)
+        XCTAssertEqual(screen?.color, color)
+    }
+
+    // MARK: - test for thinkingStopped(color:)
+
+    // screenのhideIndicatorにディスクの色IDを渡すこと
+    func testThinkingStopped() {
+        let color = Int.random(in: 0...1)
+        subject?.thinkingStopped(color: color)
+        XCTAssertEqual(screen?.color, color)
     }
 }
 
@@ -87,15 +126,22 @@ private final class MockScreen: GameScreenPresentable {
     func flipDiscs(at coordinates: [(x: Int, y: Int)]) {
     }
 
+    var coordinates = [(x: Int, y: Int)]()
     func changeDiscs(to color: Int, at coordinates: [(x: Int, y: Int)]) {
+        self.color = color
+        self.coordinates = coordinates
     }
 
+    var isShowPassedMessageCalled = false
     func showPassedMessage() {
+        isShowPassedMessageCalled = true
     }
 
     func showIndicator(for color: Int) {
+        self.color = color
     }
 
     func hideIndicator(for color: Int) {
+        self.color = color
     }
 }
