@@ -19,8 +19,8 @@ class ViewController: UIViewController {
     @IBOutlet private var countLabels: [UILabel]!
     @IBOutlet private var playerActivityIndicators: [UIActivityIndicatorView]!
 
-    private var animationCanceller: Canceller?
-    private var isAnimating: Bool { animationCanceller != nil }
+    private var isAnimating: Bool { animation != nil }
+    private var animation: Operation?
 
     // 画面のコントローラ
     private var controller: GameScreenControllable?
@@ -46,8 +46,8 @@ extension ViewController: GameScreenPresentable {
     }
 
     private func update(with state: PresentableGameState) {
-        animationCanceller?.cancel()
-        animationCanceller = nil
+        animation?.cancel()
+        animation = nil
 
         playerControls.first?.selectedSegmentIndex = state.players.dark
         playerControls.last?.selectedSegmentIndex = state.players.light
@@ -122,18 +122,17 @@ extension ViewController {
     func place(_ disk: Disk, at coordinates: [(x: Int, y: Int)]) {
         if coordinates.isEmpty { return }
 
-        let cleanUp: () -> Void = { [weak self] in
-            self?.animationCanceller = nil
-        }
-        animationCanceller = Canceller(cleanUp)
-        animateSettingDisks(at: coordinates, to: disk) { [weak self] _ in
-            guard let self = self else { return }
-            guard let canceller = self.animationCanceller else { return }
-            if canceller.isCancelled { return }
-            cleanUp()
+        let animation = BlockOperation { [weak self] in
+            self?.animateSettingDisks(at: coordinates, to: disk) { [weak self] _ in
+                defer { self?.animation = nil }
+                guard let animation = self?.animation else { return }
+                if animation.isCancelled { return }
 
-            self.controller?.changeDiscsCompleted(color: disk.index, at: coordinates)
+                self?.controller?.changeDiscsCompleted(color: disk.index, at: coordinates)
+            }
         }
+        self.animation = animation
+        OperationQueue.main.addOperation(animation)
     }
 
     /// `coordinates` で指定されたセルに、アニメーションしながら順番に `disk` を置く。
@@ -150,20 +149,19 @@ extension ViewController {
             return
         }
 
-        guard let animationCanceller = self.animationCanceller else {
+        guard let animation = self.animation else {
             return
         }
         boardView.setDisk(disk, atX: coordinate.x, y: coordinate.y, animated: true) { [weak self] isFinished in
             guard let self = self else { return }
-            if animationCanceller.isCancelled { return }
+            if animation.isCancelled { return }
             if isFinished {
                 self.animateSettingDisks(at: coordinates.dropFirst(), to: disk, completion: completion)
-            } else {
-                for coordinate in coordinates {
-                    self.boardView.setDisk(disk, atX: coordinate.x, y: coordinate.y, animated: false)
-                }
-                completion(false)
+                return
             }
+
+            coordinates.forEach { self.boardView.setDisk(disk, atX: $0.x, y: $0.y, animated: false) }
+            completion(false)
         }
     }
 }
@@ -174,7 +172,7 @@ extension ViewController {
     /// リセットボタンが押された場合に呼ばれるハンドラーです。
     /// アラートを表示して、ゲームを初期化して良いか確認し、
     /// "OK" が選択された場合ゲームを初期化します。
-    @IBAction func pressResetButton(_ sender: UIButton) {
+    @IBAction private func pressResetButton(_ sender: UIButton) {
         let alertController = UIAlertController(
             title: "Confirmation",
             message: "Do you really want to reset the game?",
@@ -188,7 +186,7 @@ extension ViewController {
     }
 
     /// プレイヤーのモードが変更された場合に呼ばれるハンドラーです。
-    @IBAction func changePlayerControlSegment(_ sender: UISegmentedControl) {
+    @IBAction private func changePlayerControlSegment(_ sender: UISegmentedControl) {
         guard let color = playerControls.firstIndex(of: sender) else {
             return
         }
@@ -205,23 +203,6 @@ extension ViewController: BoardViewDelegate {
     func boardView(_ boardView: BoardView, didSelectCellAtX x: Int, y: Int) {
         if isAnimating { return }
         controller?.specifyPlacingDiscCoordinate(x: x, y: y)
-    }
-}
-
-// MARK: Additional types
-
-final class Canceller {
-    private(set) var isCancelled: Bool = false
-    private let body: (() -> Void)?
-
-    init(_ body: (() -> Void)?) {
-        self.body = body
-    }
-
-    func cancel() {
-        if isCancelled { return }
-        isCancelled = true
-        body?()
     }
 }
 
