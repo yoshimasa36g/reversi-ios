@@ -40,10 +40,10 @@ final class GameScreenControllerTests: XCTestCase {
     // MARK: - test for specifyPlacingDiscCoordinate(x:y:)
 
     // useCaseのspecifyPlacingDiscCoordinateに座標を渡すこと
-    func testSpecifyPlacingDiscCoordinate() {
+    func testCellTapped() {
         let x = Int.random(in: 0..<8)
         let y = Int.random(in: 0..<8)
-        subject?.specifyPlacingDiscCoordinate(x: x, y: y)
+        subject?.cellTapped(at: (x, y))
         XCTAssertEqual(useCase?.x, x)
         XCTAssertEqual(useCase?.y, y)
     }

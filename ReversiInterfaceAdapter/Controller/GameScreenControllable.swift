@@ -14,11 +14,9 @@ public protocol GameScreenControllable {
     /// ゲームをリセットする
     func reset()
 
-    /// ディスクを置きたい座標を指定する
-    /// - Parameters:
-    ///   - x: X座標
-    ///   - y: Y座標
-    func specifyPlacingDiscCoordinate(x: Int, y: Int)
+    /// ゲーム盤のセルがタップされた
+    /// - Parameter coordinate: 座標
+    func cellTapped(at coordinate: (x: Int, y: Int))
 
     /// ディスクの変更描画が完了した
     /// - Parameters:

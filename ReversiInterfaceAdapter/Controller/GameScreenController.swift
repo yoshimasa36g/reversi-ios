@@ -28,8 +28,8 @@ extension GameScreenController: GameScreenControllable {
         useCase.resetGame()
     }
 
-    public func specifyPlacingDiscCoordinate(x: Int, y: Int) {
-        useCase.specifyPlacingDiscCoordinate(x: x, y: y)
+    public func cellTapped(at coordinate: (x: Int, y: Int)) {
+        useCase.specifyPlacingDiscCoordinate(x: coordinate.x, y: coordinate.y)
     }
 
     public func changeDiscsCompleted(color: Int, at coordinates: [(x: Int, y: Int)]) {

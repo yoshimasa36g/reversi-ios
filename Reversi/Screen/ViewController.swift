@@ -204,7 +204,7 @@ extension ViewController: BoardViewDelegate {
     /// - Parameter y: セルの行です。
     func boardView(_ boardView: BoardView, didSelectCellAtX x: Int, y: Int) {
         if isAnimating { return }
-        controller?.specifyPlacingDiscCoordinate(x: x, y: y)
+        controller?.cellTapped(at: (x, y))
     }
 }
 
